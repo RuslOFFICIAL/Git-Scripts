@@ -1,2 +1,6 @@
 # Ignore real "*.conf" due to privacy reasons.
 *.conf
+
+# Ignore folders.
+Releases/
+TempRelease/
