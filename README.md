@@ -6,3 +6,7 @@ Scripts:
 - Git-Push is a script to push your changes to a GitHub repository.
 - Git-Link-Repo is a script to link your local repository files to a GitHub repository.
 - Git-Release is a script to make the files of Git-Script to a .zip file without .conf files.
+
+Git-Scripts update order:
+1. Pushing the changes to GitHub, update of .bat file in repository with changing the version number of script in "Variables.conf".
+2. Pushing the changes to GitHub, release the .zip file with changing the version number of Git-Scripts in "Variables.conf".
