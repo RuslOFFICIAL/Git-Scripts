@@ -2,11 +2,11 @@
 setlocal enabledelayedexpansion
 
 REM .conf files.
-if exist "Variables.conf" (
-    for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("Variables.conf") do set "%%A=%%~B"
+if exist "..\.conf\Variables.conf" (
+    for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf\Variables.conf") do set "%%A=%%~B"
 )
 
-if not exist "Git-Push_Info.conf" (
+if not exist "..\.conf\Git-Push_Info.conf" (
     echo Error: Git-Push_Info.conf not found!
     pause
     exit /b
@@ -17,7 +17,7 @@ echo Git-Push %Git-Push_Version%&echo.
 REM Choices.
 set "ChoiceOptions="
 set "DisplayOptions="
-for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("Git-Push_Info.conf") do (
+for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf\Git-Push_Info.conf") do (
     set "Key=%%A"
     set "Rest=%%B"
     
