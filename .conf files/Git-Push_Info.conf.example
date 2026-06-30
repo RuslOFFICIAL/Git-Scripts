@@ -1,3 +1,7 @@
 # Format: Number=ProjectName|ProjectPath
 # Example: 1=MyProject|C:\Path\To\Project
-# Create or rename this file with the name "Git-Push_Info.conf" and add there options following the format and example written up there.
+
+# To make it work you need:
+# 1. Create or rename this file with the name "Git-Push_Info.conf"
+# 2. Add there options following the format and example written up there.
+# 3. Run "Git-Push.bat".

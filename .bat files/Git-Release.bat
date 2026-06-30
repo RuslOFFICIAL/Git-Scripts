@@ -17,6 +17,9 @@ set "ZipFile=%ZipFolder%\Git-Scripts_%Git-Scripts_Version%.zip"
 echo Preparing release folder (excluding all .conf files)...
 robocopy "%SourceDir%" "%StagingDir%" /E /XF *.conf /XD TempRelease Releases .git
 
+echo Including 'Variables.conf' in release...
+copy "..\.conf files\Variables.conf" "%StagingDir%\.conf files\"
+
 echo.
 echo Compressing into .zip file...
 REM Create the output directory if it doesn't exist.
