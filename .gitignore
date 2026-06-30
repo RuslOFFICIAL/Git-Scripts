@@ -1,0 +1,2 @@
+# Ignore real "*.conf" due to privacy reasons.
+*.conf
