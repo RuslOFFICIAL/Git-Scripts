@@ -24,7 +24,7 @@ for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf-files\Git-Push_Inf
     set "Rest=%%B"
     
     REM Separate the parameters.
-    for /f "tokens=1,2 delims=|" %%I in ("!Rest!") do (
+    for /f "tokens=1,2,3 delims=|" %%I in ("!Rest!") do (
         echo [!Key!] %%I
         set "ChoiceOptions=!ChoiceOptions!!Key!"
         set "ProjectPath_!Key!=%%J"
