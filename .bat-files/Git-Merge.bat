@@ -15,7 +15,7 @@ cd /d "!DirPath!"
 
 REM Check if it is Git folder.
 git rev-parse --is-inside-work-tree >nul 2>&1
-if %errorlevel% neq 0 (
+if !errorlevel! neq 0 (
     echo.&echo Fatal: This directory is not a Git repository.
     goto end
 )
@@ -24,6 +24,9 @@ REM Show current status and branches.
 echo Current location:
 cd
 echo.
+echo Available branches (Local and Remote):
+git branch -a
+echo.
 
 REM Switch branch.
 set /p SwitchBranch="Enter a branch to switch to (or press ENTER to stay on current): "
@@ -31,20 +34,18 @@ if not "!SwitchBranch!"=="" (
     echo.
     echo Switching branch...
     git checkout !SwitchBranch!
-    if %errorlevel% neq 0 (
-	echo.
+    if !errorlevel! neq 0 (
+        echo.
         echo Error: Git checkout failed. Script stopped to prevent breaking things.
         goto end
     )
 )
 
-REM Print active branch name out.
+echo =======================================
+
+REM Print active branch name out properly.
 for /f "delims=" %%i in ('git branch --show-current') do set "CurrentBranch=%%i"
 echo You are currently on branch: [ !CurrentBranch! ]
-echo.
-
-echo Available branches (Local and Remote):
-git branch -a
 echo.
 
 REM Get input for the target branch.
@@ -61,33 +62,31 @@ REM Merge.
 echo.
 echo Running Git merge...
 
-REM Fetch.
 echo Fetching latest branches from GitHub...
 git fetch origin
 
 if /i "!AllowUnrelated!"=="y" (
     git merge origin/!SourceBranch! --allow-unrelated-histories -m "Force merge !SourceBranch! history"
 ) else (
-    git fetch origin
     git merge origin/!SourceBranch!
 )
 
-REM Conflicts and Error handling.
-if %errorlevel% neq 0 (
+REM Conflicts and Error handling using exclamation format.
+if !errorlevel! neq 0 (
     echo.
-    echo [!] Merge conflicts detected. Please open your files, resolve the conflicts, commit the changes by Git-Push, and then use Git-Merge.
+    echo Merge stopped or failed. 
+    echo Hint: If Git says "unmerged files", run 'git merge --abort' in your terminal to reset.
+    echo Hint: If it is an actual conflict, resolve the file markers (usually be removing part between <<HEAD and ==) and use Git-Push.
 ) else (
     echo.
-    echo [!] Merge stopped or failed. 
-    echo Hint: If Git says "unmerged files", run 'git merge --abort' in your Git terminal to reset.
-    echo Hint: If it is an actual conflict, resolve the file markers and use Git-Push. 
+    echo Merge completed successfully! 
     
     set /p PushNow="Would you like to push the merged changes to GitHub right now? (Y/n) [Default: y]: "
     if /i "!PushNow!" neq "n" (
         echo Pushing to GitHub...
         git push
     ) else (
-	echo Operation cancelled by user.
+        echo Operation cancelled by user.
     )
 )
 
