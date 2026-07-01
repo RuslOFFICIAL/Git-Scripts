@@ -1,7 +1,7 @@
-# Ignore real "*.conf" due to privacy reasons.
-*.conf
-!Variables.conf
-
 # Ignore folders.
 Releases/
 TempRelease/
+
+# Ignore real "*.conf" due to privacy reasons.
+*.conf
+!Variables.conf
