@@ -23,11 +23,13 @@ for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf-files\Git-Push_Inf
     set "Key=%%A"
     set "Rest=%%B"
     
-    REM Separate the name and path.
+    REM Separate the parameters.
     for /f "tokens=1,2 delims=|" %%I in ("!Rest!") do (
         echo [!Key!] %%I
         set "ChoiceOptions=!ChoiceOptions!!Key!"
         set "ProjectPath_!Key!=%%J"
+	set "Branch_!Key!=%%K"
+	if "!Branch_!Key!!"=="" set "Branch_!Key!=main"
 	
 	REM Comma.
         if not defined DisplayOptions (
@@ -80,7 +82,7 @@ git commit -m "%CommitMessage%"
 echo Pulling any changes...
 git pull --rebase
 echo Pushing your changes...
-git push
+git push origin !Branch_%SelectedKey%!
 
 :End
 endlocal
