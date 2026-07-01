@@ -14,10 +14,12 @@ echo What script would you like to run?
 echo [1] Git-Push
 echo [2] Git-Link-Repo
 echo [3] Git-Release
+echo [4] Git-Merge
 echo.
 
-choice /c 123 /n /m "Enter your choice (1, 2, 3): "
+choice /c 1234 /n /m "Enter your choice (1, 2, 3, 4): "
 
+if %errorlevel%==4 goto Merge
 if %errorlevel%==3 goto Release
 if %errorlevel%==2 goto LinkRepo
 if %errorlevel%==1 goto Push
@@ -35,6 +37,13 @@ goto End
 set "ScriptName=Git-Release.bat"
 goto End
 
+<<<<<<< HEAD
+=======
+:Merge
+set "ScriptName=Git-Merge.bat"
+goto End
+
+>>>>>>> origin/rolling-release
 REM End.
 :End
 echo Running %ScriptName%...&echo.
