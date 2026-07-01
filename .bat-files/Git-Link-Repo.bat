@@ -15,6 +15,8 @@ REM User insert information.
 set /p RepoDir="Enter your local repository directory (e.g. C:\Path\To\Project): "
 set /p CommitMessage="Enter your commit message: "
 set /p RepoLink="Enter your GitHub repository link (e.g. https://github.com/Username/Repository): "
+set /p TargetBranch="Enter your target branch (e.g. main, beta) [Default: main]: "
+if "!TargetBranch!"=="" set "TargetBranch=main"
 goto NewRepo
 
 REM Linking local files to GitHub repository.
@@ -30,12 +32,12 @@ echo Adding all your files...
 git add .
 echo Adding commit...
 git commit -m "%CommitMessage%"
-echo Renaming the default branch to 'main'...
-git branch -M main
+echo Renaming the default branch to '!TargetBranch!'...
+git branch -M !TargetBranch!
 echo Linking your local files to your GitHub repository...
 git remote add origin "%RepoLink%"
 echo Pushing it to GitHub...
-git push -u origin main
+git push -u origin !TargetBranch!
 goto End
 
 REM End.
