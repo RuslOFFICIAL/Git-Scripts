@@ -66,6 +66,8 @@ goto Push
 
 REM Push.
 :Push
+git switch !Branch_%SelectedKey%!
+
 REM Check if there are any changes to commit.
 set "CHANGES="
 for /f "tokens=*" %%i in ('git status --porcelain') do set CHANGES=yes
