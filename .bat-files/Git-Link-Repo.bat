@@ -1,9 +1,10 @@
 @echo off
+cd /d "%~dp0"
 setlocal enabledelayedexpansion
 
 REM .conf files.
-if exist "..\.conf files\Variables.conf" (
-    for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf files\Variables.conf") do set "%%A=%%~B"
+if exist "..\.conf-files\Variables.conf" (
+    for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf-files\Variables.conf") do set "%%A=%%~B"
 )
 
 echo Git-Link-Repo %Git-Link-Repo_Version%&echo.

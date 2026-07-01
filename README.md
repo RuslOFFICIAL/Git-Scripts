@@ -1,5 +1,5 @@
 Git-Scripts is a project which includes useful scripts for Git.
-To use Git-Push you need to create "Git-Push_Info.conf" in ".conf files" folder following the instruction in "Git-Push_Info.conf".
+To use Git-Push you need to create "Git-Push_Info.conf" in ".conf-files" folder following the instruction in "Git-Push_Info.conf".
 I hope someone are gonna use it. :3
 
 Scripts:

@@ -1,13 +1,17 @@
 @echo off
+cd /d "%~dp0"
 setlocal enabledelayedexpansion
 
 REM .conf files.
-if exist "..\.conf files\Variables.conf" (
-    for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf files\Variables.conf") do set "%%A=%%~B"
+if exist "..\.conf-files\Variables.conf" (
+    for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf-files\Variables.conf") do set "%%A=%%~B"
 )
 
 echo Git-Release %Git-Release_Version%&echo.
+goto CompressingProc
 
+REM Compressing process.
+:CompressingProc
 REM Define paths relative to the script location.
 set "SourceDir=.."
 set "StagingDir=..\TempRelease"
@@ -18,7 +22,8 @@ echo Preparing release folder (excluding all .conf files)...
 robocopy "%SourceDir%" "%StagingDir%" /E /XF *.conf /XD TempRelease Releases .git
 
 echo Including 'Variables.conf' in release...
-copy "..\.conf files\Variables.conf" "%StagingDir%\.conf files\"
+if not exist "%StagingDir%\.conf-files" mkdir "%StagingDir%\.conf-files"
+copy "..\.conf-files\Variables.conf" "%StagingDir%\.conf-files\"
 
 echo.
 echo Compressing into .zip file...
@@ -31,7 +36,10 @@ powershell -Command "Compress-Archive -Path '%StagingDir%\*' -DestinationPath '%
 echo.
 echo Cleaning up temporary folders...
 rmdir /s /q "%StagingDir%"
+goto End
 
+REM End.
+:End
 endlocal
 echo.&echo Done!&echo Your release is ready inside the "Releases" folder.
 pause
