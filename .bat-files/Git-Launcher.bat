@@ -37,13 +37,10 @@ goto End
 set "ScriptName=Git-Release.bat"
 goto End
 
-<<<<<<< HEAD
-=======
 :Merge
 set "ScriptName=Git-Merge.bat"
 goto End
 
->>>>>>> origin/rolling-release
 REM End.
 :End
 echo Running %ScriptName%...&echo.
