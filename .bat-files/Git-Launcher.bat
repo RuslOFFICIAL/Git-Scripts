@@ -17,7 +17,7 @@ echo [3] Git-Release
 echo [4] Git-Merge
 echo.
 
-choice /c 1234 /n /m "Enter your choice (1, 2, 3): "
+choice /c 1234 /n /m "Enter your choice (1, 2, 3, 4): "
 
 if %errorlevel%==4 goto Merge
 if %errorlevel%==3 goto Release

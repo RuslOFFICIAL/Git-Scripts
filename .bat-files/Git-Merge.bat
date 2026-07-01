@@ -30,8 +30,8 @@ for /f "delims=" %%i in ('git branch --show-current') do set "CurrentBranch=%%i"
 echo You are currently on branch: [ !CurrentBranch! ]
 echo.
 
-echo Available local branches:
-git branch
+echo Available branches (Local and Remote):
+git branch -a
 echo.
 
 REM Switch branch.
@@ -49,7 +49,7 @@ if not "!SwitchBranch!"=="" (
 
 REM Get input for the target branch.
 echo You are about to merge changes INTO [ !CurrentBranch! ]
-set /p SourceBranch="Enter the branch you want to merge FROM (e.g., beta): "
+set /p SourceBranch="Enter the branch you want to merge FROM (e.g., rolling-release): "
 if "!SourceBranch!"=="" (
     echo Error: You must specify a source branch.
     goto end
@@ -93,4 +93,3 @@ if %errorlevel% neq 0 (
 endlocal
 echo.&echo Done!
 pause
-
