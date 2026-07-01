@@ -3,6 +3,7 @@ To use Git-Push you need to create "Git-Push_Info.conf" in ".conf files" folder 
 I hope someone are gonna use it. :3
 
 Scripts:
+- Git-Launcher is a script to launch the scripts in the folder ".bat files". Made to run the scripts without the need to search for the right script.
 - Git-Push is a script to push your changes to a GitHub repository.
 - Git-Link-Repo is a script to link your local repository files to a GitHub repository.
 - Git-Release is a script to make the files of Git-Script to a .zip file without .conf files.

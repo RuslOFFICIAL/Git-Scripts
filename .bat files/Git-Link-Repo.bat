@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 
 REM .conf files.
 if exist "..\.conf files\Variables.conf" (

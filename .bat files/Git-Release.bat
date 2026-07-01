@@ -33,6 +33,5 @@ echo Cleaning up temporary folders...
 rmdir /s /q "%StagingDir%"
 
 endlocal
-echo.
-echo Done! Your release is ready inside the "Releases" folder.
+echo.&echo Done!&echo Your release is ready inside the "Releases" folder.
 pause
