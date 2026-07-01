@@ -25,15 +25,6 @@ echo Current location:
 cd
 echo.
 
-REM Print active branch name out.
-for /f "delims=" %%i in ('git branch --show-current') do set "CurrentBranch=%%i"
-echo You are currently on branch: [ !CurrentBranch! ]
-echo.
-
-echo Available branches (Local and Remote):
-git branch -a
-echo.
-
 REM Switch branch.
 set /p SwitchBranch="Enter a branch to switch to (or press ENTER to stay on current): "
 if not "!SwitchBranch!"=="" (
@@ -46,6 +37,15 @@ if not "!SwitchBranch!"=="" (
         goto end
     )
 )
+
+REM Print active branch name out.
+for /f "delims=" %%i in ('git branch --show-current') do set "CurrentBranch=%%i"
+echo You are currently on branch: [ !CurrentBranch! ]
+echo.
+
+echo Available branches (Local and Remote):
+git branch -a
+echo.
 
 REM Get input for the target branch.
 echo You are about to merge changes INTO [ !CurrentBranch! ]
@@ -72,13 +72,15 @@ if /i "!AllowUnrelated!"=="y" (
     git merge origin/!SourceBranch!
 )
 
-REM Conflicts.
+REM Conflicts and Error handling.
 if %errorlevel% neq 0 (
     echo.
     echo [!] Merge conflicts detected. Please open your files, resolve the conflicts, commit the changes by Git-Push, and then use Git-Merge.
 ) else (
     echo.
-    echo Merge completed successfully! 
+    echo [!] Merge stopped or failed. 
+    echo Hint: If Git says "unmerged files", run 'git merge --abort' in your Git terminal to reset.
+    echo Hint: If it is an actual conflict, resolve the file markers and use Git-Push. 
     
     set /p PushNow="Would you like to push the merged changes to GitHub right now? (Y/n) [Default: y]: "
     if /i "!PushNow!" neq "n" (
