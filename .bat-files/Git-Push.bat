@@ -66,9 +66,11 @@ goto Push
 
 REM Push.
 :Push
+echo Switching to the branch '!Branch_%SelectedKey%!'...
 git switch !Branch_%SelectedKey%!
 
 REM Check if there are any changes to commit.
+echo Checking if there are any changes to commit...
 set "CHANGES="
 for /f "tokens=*" %%i in ('git status --porcelain') do set CHANGES=yes
 
@@ -76,6 +78,10 @@ if "%CHANGES%"=="" (
 	echo No local changes detected. Just checking for online updates...
 	git pull --rebase
 	goto End
+) else (
+	if "%CHANGES%"=="yes" (
+		echo Changes has been found.
+	)
 )
 
 set /p CommitMessage="Enter your commit message: "
