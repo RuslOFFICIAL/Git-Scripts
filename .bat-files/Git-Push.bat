@@ -111,6 +111,8 @@ if errorlevel 1 (
 	goto ErrorEnd
 )
 
+goto End
+
 :ErrorEnd
 endlocal
 echo.&echo Script stopped due to an error.
