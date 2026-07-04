@@ -4,14 +4,14 @@ setlocal enabledelayedexpansion
 
 REM .conf files.
 if exist "..\.conf-files\Variables.conf" (
-    for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf-files\Variables.conf") do set "%%A=%%~B"
+	for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf-files\Variables.conf") do set "%%A=%%~B"
 )
 
 if not exist "..\.conf-files\Git-Push_Info.conf" (
-    echo Error: Git-Push_Info.conf not found!
-    echo Check if you have that file or follow the instruction in Git-Push_Info.conf.example!
-    pause
-    exit /b
+	echo Error: Git-Push_Info.conf not found!
+	echo Check if you have that file or follow the instruction in Git-Push_Info.conf.example!
+	pause
+	exit /b
 )
 
 echo Git-Push %Git-Push_Version%&echo.
@@ -20,24 +20,24 @@ REM Choices.
 set "ChoiceOptions="
 set "DisplayOptions="
 for /f "usebackq eol=# tokens=1,2 delims==" %%A in ("..\.conf-files\Git-Push_Info.conf") do (
-    set "Key=%%A"
-    set "Rest=%%B"
-    
-    REM Separate the parameters.
-    for /f "tokens=1,2,3 delims=|" %%I in ("!Rest!") do (
-        echo [!Key!] %%I
-        set "ChoiceOptions=!ChoiceOptions!!Key!"
-        set "ProjectPath_!Key!=%%J"
-	set "Branch_!Key!=%%K"
-	if "!Branch_!Key!!"=="" set "Branch_!Key!=main"
+	set "Key=%%A"
+	set "Rest=%%B"
 	
-	REM Comma.
-        if not defined DisplayOptions (
-            set "DisplayOptions=!Key!"
-        ) else (
-            set "DisplayOptions=!DisplayOptions!, !Key!"
-        )
-    )
+	REM Separate the parameters.
+	for /f "tokens=1,2,3 delims=|" %%I in ("!Rest!") do (
+		echo [!Key!] %%I
+		set "ChoiceOptions=!ChoiceOptions!!Key!"
+		set "ProjectPath_!Key!=%%J"
+		set "Branch_!Key!=%%K"
+		if "!Branch_!Key!!"=="" set "Branch_!Key!=main"
+		
+		REM Comma.
+		if not defined DisplayOptions (
+			set "DisplayOptions=!Key!"
+		) else (
+			set "DisplayOptions=!DisplayOptions!, !Key!"
+		)
+	)
 )
 echo.
 
@@ -56,9 +56,9 @@ REM Removing any "" if there any of it.
 set "TargetDir=%TargetDir:"=%"
 
 if not defined TargetDir (
-    echo Invalid selection. Exiting.
-    pause
-    exit /b
+	echo Invalid selection. Exiting.
+	pause
+	exit /b
 )
 
 cd /d "%TargetDir%"
@@ -73,9 +73,9 @@ set "CHANGES="
 for /f "tokens=*" %%i in ('git status --porcelain') do set CHANGES=yes
 
 if "%CHANGES%"=="" (
-    echo No local changes detected. Just checking for online updates...
-    git pull --rebase
-    goto End
+	echo No local changes detected. Just checking for online updates...
+	git pull --rebase
+	goto End
 )
 
 set /p CommitMessage="Enter your commit message: "
