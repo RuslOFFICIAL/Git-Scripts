@@ -2,7 +2,7 @@
 # alias [COMMAND]=[ACTION]
 
 # Example:
-# alias git-whoami='echo "Git User: $(git config user.name)" && echo "Git Email: $(git config user.email)"'
+# alias git-hello='echo "Hello, World!"'
 
 # To make it work you need:
 # 1. Create or rename this file with the name "Git-Aliases_Info.conf" in ".conf-files folder.
