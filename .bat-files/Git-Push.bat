@@ -66,8 +66,13 @@ goto Push
 
 REM Push.
 :Push
+
 echo Switching to the branch '!Branch_%SelectedKey%!'...
 git switch !Branch_%SelectedKey%!
+if errorlevel 1 (
+	echo.&echo [ERROR] Failed to switch branch!
+	goto ErrorEnd
+)
 
 REM Check if there are any changes to commit.
 echo Checking if there are any changes to commit...
@@ -77,6 +82,10 @@ for /f "tokens=*" %%i in ('git status --porcelain') do set CHANGES=yes
 if "%CHANGES%"=="" (
 	echo No local changes detected. Just checking for online updates...
 	git pull --rebase
+if errorlevel 1 (
+		echo.&echo [ERROR] Pull failed due to merge conflicts or network issues!
+	goto ErrorEnd
+	)
 	goto End
 ) else (
 	if "%CHANGES%"=="yes" (
@@ -87,10 +96,26 @@ if "%CHANGES%"=="" (
 set /p CommitMessage="Enter your commit message: "
 git add .
 git commit -m "%CommitMessage%"
+
 echo Pulling any changes...
 git pull --rebase
+if errorlevel 1 (
+	echo.&echo [ERROR] Pull failed due to merge conflicts or network issues! &echo Aborting the push process so you can fix it.
+	goto ErrorEnd
+)
+
 echo Pushing your changes...
 git push origin !Branch_%SelectedKey%!
+if errorlevel 1 (
+	echo.&echo [ERROR] Push failed!
+	goto ErrorEnd
+)
+
+:ErrorEnd
+endlocal
+echo.&echo Script stopped due to an error.
+pause
+exit /b
 
 :End
 endlocal
