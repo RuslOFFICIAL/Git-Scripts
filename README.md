@@ -1,7 +1,4 @@
 Git-Scripts is a project which includes useful scripts for Git.
-To use Git-Push you need to create "Git-Push_Info.conf" in ".conf-files" folder following the instruction in "Git-Push_Info.conf.example".
-To use Git-Login you need to create "Git-Login_Info.conf" in ".conf-files" folder following the instruction in "Git-Login_Info.conf.example".
-To use Git-Aliases you need to create "Git-Aliases_Info.conf" in ".conf-files" folder following the instruction in "Git-Aliases_Info.conf.example".
 I hope someone are gonna use it. :3
 
 Scripts:
@@ -12,6 +9,10 @@ Scripts:
 - Git-Merge is a script to merge two branches.
 - Git-Login is a script to set username and email for Git.
 - Git-Aliases is a script to set aliases in ".bashrc" in user directory.
+
+To use Git-Push you need to create "Git-Push_Info.conf" in ".conf-files" folder following the instruction in "Git-Push_Info.conf.example".
+To use Git-Login you need to create "Git-Login_Info.conf" in ".conf-files" folder following the instruction in "Git-Login_Info.conf.example".
+To use Git-Aliases you need to create "Git-Aliases_Info.conf" in ".conf-files" folder following the instruction in "Git-Aliases_Info.conf.example".
 
 Git-Scripts update order:
 1. Pushing the changes to GitHub, update of .bat file in repository with changing the version number of script in "Variables.conf".
