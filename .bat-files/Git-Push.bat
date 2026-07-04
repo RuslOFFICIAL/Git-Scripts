@@ -8,8 +8,8 @@ if exist "..\.conf-files\Variables.conf" (
 )
 
 if not exist "..\.conf-files\Git-Push_Info.conf" (
-	echo Error: Git-Push_Info.conf not found!
-	echo Check if you have that file or follow the instruction in Git-Push_Info.conf.example!
+	endlocal
+	echo Error: Git-Push_Info.conf not found!&echo Check if you have that file or follow the instruction in Git-Push_Info.conf.example!
 	pause
 	exit /b
 )

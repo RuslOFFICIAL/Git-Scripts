@@ -8,8 +8,7 @@ if exist "..\.conf-files\Variables.conf" (
 )
 
 if not exist "..\.conf-files\Git-Login_Info.conf" (
-	echo Error: Git-Login_Info.conf not found!
-	echo Please follow the instructions in Git-Login_Info.conf.example.
+	echo Error: Git-Login_Info.conf not found!&echo Check if you have that file or follow the instruction in Git-Login_Info.conf.example!
 	pause
 	exit /b
 )
