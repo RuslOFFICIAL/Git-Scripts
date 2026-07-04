@@ -1,5 +1,6 @@
 Git-Scripts is a project which includes useful scripts for Git.
 To use Git-Push you need to create "Git-Push_Info.conf" in ".conf-files" folder following the instruction in "Git-Push_Info.conf".
+To use Git-Login you need to create "Git-Login_Info.conf" in ".conf-files" folder following the instruction in "Git-Login_Info.conf".
 I hope someone are gonna use it. :3
 
 Scripts:
@@ -8,6 +9,7 @@ Scripts:
 - Git-Link-Repo is a script to link your local repository files to a GitHub repository.
 - Git-Release is a script to make the files of Git-Script to a .zip file without .conf files.
 - Git-Merge is a script to merge two branches.
+- Git-Login is a script to set username and email for Git.
 
 Git-Scripts update order:
 1. Pushing the changes to GitHub, update of .bat file in repository with changing the version number of script in "Variables.conf".

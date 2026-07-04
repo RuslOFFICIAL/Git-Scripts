@@ -1,0 +1,12 @@
+# Format:
+# GitName="Username"
+# GitEmail="Email"
+
+# Example:
+# GitName="User1234"
+# GitEmail="user.email@email.com
+
+# To make it work you need:
+# 1. Create or rename this file with the name "Git-Login_Info.conf" in ".conf-files folder.
+# 2. Add there options following the format and example written up there.
+# 3. Run "Git-Login.bat".

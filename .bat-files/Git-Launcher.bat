@@ -11,14 +11,12 @@ echo Git-Launcher %Git-Launcher_Version%&echo.
 
 REM Choices.
 echo What script would you like to run?
-echo [1] Git-Push
-echo [2] Git-Link-Repo
-echo [3] Git-Release
-echo [4] Git-Merge
+echo [1] Git-Push&echo [2] Git-Link-Repo&echo [3] Git-Release&echo [4] Git-Merge& echo [5] Git-Login
 echo.
 
-choice /c 1234 /n /m "Enter your choice (1, 2, 3, 4): "
+choice /c 12345 /n /m "Enter your choice (1, 2, 3, 4, 5): "
 
+if %errorlevel%==5 goto Login
 if %errorlevel%==4 goto Merge
 if %errorlevel%==3 goto Release
 if %errorlevel%==2 goto LinkRepo
@@ -39,6 +37,10 @@ goto End
 
 :Merge
 set "ScriptName=Git-Merge.bat"
+goto End
+
+:Login
+set "ScriptName=Git-Login.bat"
 goto End
 
 REM End.
