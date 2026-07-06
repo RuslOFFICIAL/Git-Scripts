@@ -47,7 +47,7 @@ for /f "usebackq eol=# delims=" %%L in ("%CommandsFile%") do (
 		if !errorlevel! neq 0 (
 			echo Updating "!ALIAS_CHECK!"...
 			
-			REM Filter out the old line and create a new temp file
+			REM Filter out the old line and create a new temp file.
 			findstr /v /C:"!ALIAS_CHECK!" "%Bashrc%" > "%Bashrc%.tmp"
 			endlocal & echo %%L>> "%Bashrc%.tmp"
 			setlocal enabledelayedexpansion & move /y "%Bashrc%.tmp" "%Bashrc%" >nul
@@ -55,7 +55,7 @@ for /f "usebackq eol=# delims=" %%L in ("%CommandsFile%") do (
 			echo Alias "!ALIAS_CHECK!" is already up to date.
 		)
 	) else (
-		REM Append new alias if it does not exist
+		REM Append new alias if it does not exist.
 		echo.>> "%Bashrc%"
 		endlocal & echo %%L>> "%Bashrc%"
 		setlocal enabledelayedexpansion & echo Added: "!ALIAS_CHECK!"
