@@ -50,7 +50,7 @@ goto End
 
 REM End.
 :End
-echo Running %ScriptName%...&echo.
+echo Running "%ScriptName%"...&echo.
 endlocal & set "ScriptPath=%~dp0%ScriptName%"
 call "%ScriptPath%"
 echo.&echo Done!
