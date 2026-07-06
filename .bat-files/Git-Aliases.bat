@@ -33,26 +33,32 @@ echo Checking and updating aliases in .bashrc...
 
 REM Read the commands file line by line.
 for /f "usebackq eol=# delims=" %%L in ("%CommandsFile%") do (
-	set "LINE=%%L"
-	
-	REM Extract the part before the '=' sign (e.g., "alias git-whoami") to check for duplicates.
+	REM Extract the alias name.
 	for /f "tokens=1 delims==" %%A in ("%%L") do (
 		set "ALIAS_CHECK=%%A="
-
-		REM Search for this exact alias identifier in .bashrc.
-		findstr /C:"!ALIAS_CHECK!" "%Bashrc%" >nul
-		if !errorlevel! equ 0 (
-			echo Alias "!ALIAS_CHECK!" already exists. Skipping...
-		) else (
-			REM Safely append the raw loop variable to avoid delayed expansion issues with special characters.
-			echo.>> "%Bashrc%"
-			echo %%L>> "%Bashrc%"
+	)
+	
+	REM Check if the alias definition exists in the file.
+	findstr /C:"!ALIAS_CHECK!" "%Bashrc%" >nul 2>&1
+	
+	if !errorlevel! equ 0 (
+		REM Alias found, now check if the exact line matches.
+		findstr /x /C:"%%L" "%Bashrc%" >nul 2>&1
+		if !errorlevel! neq 0 (
+			echo Updating "!ALIAS_CHECK!"...
 			
-			REM Display what was added without breaking the terminal output if special characters exist.
-			setlocal disabledelayedexpansion
-			echo Added: %%L
-			endlocal
+			REM Filter out the old line and create a new temp file
+			findstr /v /C:"!ALIAS_CHECK!" "%Bashrc%" > "%Bashrc%.tmp"
+			endlocal & echo %%L>> "%Bashrc%.tmp"
+			setlocal enabledelayedexpansion & move /y "%Bashrc%.tmp" "%Bashrc%" >nul
+		) else (
+			echo Alias "!ALIAS_CHECK!" is already up to date.
 		)
+	) else (
+		REM Append new alias if it does not exist
+		echo.>> "%Bashrc%"
+		endlocal & echo %%L>> "%Bashrc%"
+		setlocal enabledelayedexpansion & echo Added: "!ALIAS_CHECK!"
 	)
 )
 
