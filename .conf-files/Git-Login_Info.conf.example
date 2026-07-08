@@ -1,10 +1,21 @@
 # Format:
 # GitName="Username"
 # GitEmail="Email"
+# KeyIs="[0\1\2]"
+# GitGPGKeyId="SomeGPGKeyLongID"
 
 # Example:
 # GitName="User1234"
-# GitEmail="user.email@email.com
+# GitEmail="user.email@example.email"
+# KeyIs="1"
+# GitGPGKeyID="Text1234567890Text"
+
+# Information.
+# KeyIs variable should be either 0, 1, or 2.
+# 0 does nothing to Git GPG key.
+# 1 sets Git GPG key to which is in "Git-Login_Info".
+# 2 disables Git GPG key.
+
 
 # To make it work you need:
 # 1. Create or rename this file with the name "Git-Login_Info.conf" in ".conf-files folder.
