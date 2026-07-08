@@ -11,7 +11,7 @@
 # GitGPGKeyID="Text1234567890Text"
 
 # Information.
-# KeyIs variable should be either 0, 1, or 2.
+# Value of the variable KeyIs should be either 0, 1, or 2.
 # 0 does nothing to Git GPG key.
 # 1 sets Git GPG key to which is in "Git-Login_Info".
 # 2 disables Git GPG key.
