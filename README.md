@@ -15,6 +15,8 @@ To use Git-Aliases you need to create "Git-Aliases_Info.conf" in ".conf-files" f
 To use Git-Login you need to create "Git-Login_Info.conf" in ".conf-files" folder following the instruction in "Git-Login_Info.conf.example".
 To use Git-Push you need to create "Git-Push_Info.conf" in ".conf-files" folder following the instruction in "Git-Push_Info.conf.example".
 
+First two numbers in version means some actual change.
+Third number means a little change.
 Git-Scripts update order:
 1. Pushing the changes to GitHub, update of .bat file in repository with changing the version number of script in "Variables.conf".
 2. Pushing the changes to GitHub, release the .zip file with changing the version number of Git-Scripts in "Variables.conf".
