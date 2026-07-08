@@ -94,8 +94,11 @@ if errorlevel 1 (
 )
 
 set /p CommitMessage="Enter your commit message: "
+echo 1
 git add .
+echo 2
 git commit -m "%CommitMessage%"
+echo 3
 
 echo Pulling any changes...
 git pull --rebase
