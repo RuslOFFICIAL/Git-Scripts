@@ -35,16 +35,18 @@ echo Success!
 
 REM GPG key.
 if "%Check%"=="1" (
-	<nul set /p = "Setting GPG signing key... "
+	<nul set /p ="Setting GPG signing key... "
 	git config --global user.signingkey %GPGID%
 	git config --global commit.gpgsign true
 	echo Success!
 ) else if "%Check%"=="2" (
-	<nul set /p "Disabling GPG signing key... "
+	<nul set /p ="Disabling GPG signing key... "
 	git config --global --unset user.signingkey
 	git config --global commit.gpgsign false
+	set "GPGID=Disabled"
 	echo Success!
 ) else (
+	set "GPGID=Skipped"
 	echo GPG signing skipped.
 )
 
