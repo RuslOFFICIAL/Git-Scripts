@@ -98,7 +98,7 @@ echo 1
 git add .
 echo 2
 git commit -m "%CommitMessage%"
-echo 32
+echo 323
 
 echo Pulling any changes...
 git pull --rebase
