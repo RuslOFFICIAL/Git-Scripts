@@ -20,7 +20,7 @@ set "ZipFile=%ZipFolder%\Git-Scripts_%Git-Scripts_Version%.zip"
 
 echo Cleaning release folder...
 for %%f in ("%ZipFolder%\Git-Scripts_*.zip") do (
-	echo Removing old ZIP: "%%~nxf"
+	echo Removing old ZIP: "%%~nxf"...
 	del "%%f" /f /q
 )
 
