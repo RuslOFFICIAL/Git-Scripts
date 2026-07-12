@@ -18,7 +18,13 @@ set "StagingDir=..\TempRelease"
 set "ZipFolder=..\Releases"
 set "ZipFile=%ZipFolder%\Git-Scripts_%Git-Scripts_Version%.zip"
 
-echo Preparing release folder (excluding all .conf files)...
+echo Cleaning release folder...
+for %%f in ("%ZipFolder%\Git-Scripts_*.zip") do (
+	echo Removing old ZIP: "%%~nxf"
+	del "%%f" /f /q
+)
+
+echo.&echo Preparing release folder (excluding all .conf files)...
 robocopy "%SourceDir%" "%StagingDir%" /E /XF *.conf /XD TempRelease Releases .git
 
 echo Including 'Variables.conf' in release...
