@@ -80,17 +80,19 @@ set "CHANGES="
 for /f "tokens=*" %%i in ('git status --porcelain') do set CHANGES=yes
 
 if "%CHANGES%"=="" (
-	echo No local changes detected. Just checking for online updates...
-	git pull --rebase
-if errorlevel 1 (
-		echo.&echo [ERROR] Pull failed due to merge conflicts or network issues!
-	goto ErrorEnd
+	echo No local changes detected.
+	choice /c YN /n /m "Do you still want to force a commit? (Y/N): "
+	if !errorlevel! EQU 2 (
+		echo Just checking for online updates...
+		git pull --rebase
+		if errorlevel 1 (
+			echo.&echo [ERROR] Pull failed!
+			goto ErrorEnd
+		)
+		goto End
 	)
-	goto End
 ) else (
-	if "%CHANGES%"=="yes" (
-		echo Changes has been found.
-	)
+	echo Changes has been found.	
 )
 
 set /p CommitMessage="Enter your commit message: "
