@@ -125,3 +125,4 @@ exit /b
 endlocal
 echo.&echo Done!
 pause
+exit /b
