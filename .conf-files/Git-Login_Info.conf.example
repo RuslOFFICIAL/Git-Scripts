@@ -1,14 +1,14 @@
 # Format:
-# GitName="Username"
-# GitEmail="Email"
-# KeyIs="[0\1\2]"
-# GitGPGKeyId="SomeGPGKeyLongID"
+# GitName=Username
+# GitEmail=Email
+# KeyIs=[0\1\2]
+# GitGPGKeyId=SomeGPGKeyLongID
 
 # Example:
-# GitName="User1234"
-# GitEmail="user.email@example.email"
-# KeyIs="1"
-# GitGPGKeyID="Text1234567890Text"
+# GitName=User1234
+# GitEmail=User.email@example.email
+# KeyIs=1
+# GitGPGKeyID=Text1234567890Text
 
 # Information.
 # Value of the variable KeyIs should be either 0, 1, or 2.

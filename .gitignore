@@ -4,8 +4,8 @@ TempRelease/
 
 # Ignore files.
 *.lnk
-!Git-Launcher_Info.conf
 
 # Ignore real "*.conf" due to privacy reasons.
 *.conf
 !Variables.conf
+!Git-Launcher_Info.conf

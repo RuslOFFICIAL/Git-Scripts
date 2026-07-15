@@ -1,5 +1,5 @@
 # Format: Number|ScriptName|FileName
-# Example: 1|Git-Aliases|Git-Aliases.bat
+# Example: 1|Git-Aliases|Git-Aliases.sh
 # Note: Files of the scripts included in "Git-Launcher_Info" have to be in ".bat-files" folder.
 
 # To make it work you need:
