@@ -1,0 +1,9 @@
+# Format: Number|ScriptName|FileName
+# Example: 1|Git-Aliases|Git-Aliases.bat
+# Note: Files of the scripts included in "Git-Launcher_Info" have to be in ".bat-files" folder.
+
+# To make it work you need:
+# 1. Create or rename this file with the name "Git-Launcher_Info.conf" in ".conf-files folder.
+# 2. Add there options following the format and example written up there.
+# 3. Run "Git-Launcher.bat".
+# Or download "Git-Launcher_Info.conf" from the GitHub repository "https://github.com/RuslOFFICIAL/Git-Scripts".
