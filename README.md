@@ -12,6 +12,7 @@ Scripts:
 - Git-Release is a script to make the files of Git-Script to a .zip file without .conf files.
 
 To use Git-Aliases you need to create "Git-Aliases_Info.conf" in ".conf-files" folder following the instruction in "Git-Aliases_Info.conf.example".
+To use Git-Launcher you need to create "Git-Launcher_Info.conf" in ".conf-files" folder following the instruction in "Git-Launcher_Info.conf.example".
 To use Git-Login you need to create "Git-Login_Info.conf" in ".conf-files" folder following the instruction in "Git-Login_Info.conf.example".
 To use Git-Push you need to create "Git-Push_Info.conf" in ".conf-files" folder following the instruction in "Git-Push_Info.conf.example".
 
