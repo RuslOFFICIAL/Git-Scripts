@@ -15,7 +15,7 @@ fi
 echo "Git-Link-Repo $Git_LinkRepo_Version" && echo ""
 
 # User input.
-read -p "Enter your local repository directory: " repo_dir
+read -r -p "Enter your local repository directory: " repo_dir
 read -p "Enter your commit message: " commit_message
 read -p "Enter your GitHub repository link: " repo_link
 read -p "Enter your target branch [Default: main]: " target_branch

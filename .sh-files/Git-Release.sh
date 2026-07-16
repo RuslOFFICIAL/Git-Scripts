@@ -21,13 +21,13 @@ STAGING_DIR="../TempRelease"
 ZIP_FOLDER="../Releases"
 ZIP_FILE="$ZIP_FOLDER/Git-Scripts_$Git_Scripts_Version.tar.gz"
 
-echo "Cleaning release folder..."
-rm -f "$ZIP_FOLDER"/Git-Scripts_*.zip
+echo -n "Cleaning release folder... "
+rm -f "$ZIP_FOLDER"/Git-Scripts_*.tar.gz
 
-echo "" && echo "Preparing release folder..."
+echo "Done!" && echo -n "Preparing release folder... "
 mkdir -p "$STAGING_DIR"
 
-echo "Copying files..."
+echo "Done!" && echo -n "Copying files... "
 shopt -s dotglob
 for item in ../*; do
 	name=$(basename "$item")
@@ -40,18 +40,18 @@ for item in ../*; do
 done
 shopt -u dotglob
 
-echo "Including 'Variables.conf' and 'Git-Launcher_Info.conf' in release..."
+echo "Done!" && echo -n "Including 'Variables.conf' and 'Git-Launcher_Info.conf' in release... "
 mkdir -p "$STAGING_DIR/.conf-files"
 cp "$VARIABLES_FILE" "$STAGING_DIR/.conf-files/"
 cp "../.conf-files/Git-Launcher_Info.conf" "$STAGING_DIR/.conf-files/"
 
-echo "" && echo "Compressing into .zip file..."
+echo "Done!" && echo -n "Compressing into .zip file... "
 mkdir -p "$ZIP_FOLDER"
 tar -czf "$ZIP_FILE" -C "$STAGING_DIR" .
 
-echo "" && echo "Cleaning up temporary folders..."
+echo "Done!" && echo -n "Cleaning up temporary folders... "
 rm -rf "$STAGING_DIR"
 
-echo "" && echo "Done!"
+echo "Done!" && echo "" && echo "Done!"
 echo "Your release is ready inside the 'Releases' folder."
 read -s -n 1 -p "Press any key to continue..." && exit 0

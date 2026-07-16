@@ -16,7 +16,7 @@ fi
 echo "Git-Merge $Git_Merge_Version" && echo ""
 
 # User insert directory path.
-read -p "Enter the path of the Git repository folder: " dir_path
+read -r -p "Enter the path of the Git repository folder: " dir_path
 dir_path="${dir_path//\"/}"
 
 # Convert Windows path to Unix.

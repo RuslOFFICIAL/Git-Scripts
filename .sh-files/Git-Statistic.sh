@@ -22,16 +22,17 @@ total_removed=0
 total_commits=0
 
 # Path Input.
-read -p "Enter the directory path: " target_dir
+read -r -p "Enter the directory path: " target_dir
 
 # Convert Windows path to Unix.
 target_dir="${target_dir//\"/}"
+target_dir=$(cygpath -u "$target_dir")
 
 if [[ "$target_dir" == [a-zA-Z]:\\* ]] || [[ "$target_dir" == [a-zA-Z]:/* ]]; then
 	target_dir=$(cygpath -u "$target_dir")
 fi
 
-echo "Checking path: $target_dir"
+echo "Checking path: $target_dir" && echo ""
 if [ ! -d "$target_dir" ]; then
 	echo "Directory not found!"
 	read -s -n 1 -p "Press any key to continue..." && exit 1
@@ -83,6 +84,7 @@ fi
 
 # Summary.
 # Separator.
+printf "\033[1A\r"
 cols=$(tput cols)
 printf '%*s\n' "$cols" '' | tr ' ' '-'
 
