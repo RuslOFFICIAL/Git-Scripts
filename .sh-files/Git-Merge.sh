@@ -24,12 +24,12 @@ if [[ "$dir_path" == [a-zA-Z]:\\* ]] || [[ "$dir_path" == [a-zA-Z]:/* ]]; then
 	dir_path=$(cygpath -u "$dir_path")
 fi
 
-cd "$dir_path" || { echo "Directory not found!"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+cd "$dir_path" || { echo "Directory not found!"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Check if it is Git folder.
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 	echo "" && echo "Fatal: This directory is not a Git repository."
-	read -s -n 1 -p "Press any key to continue..." && exit 1
+	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 # Show current status and branches.
@@ -43,7 +43,7 @@ if [ -n "$switch_branch" ]; then
 	echo "" && echo "Switching branch..."
 	if ! git checkout "$switch_branch"; then
 		echo "" && echo "Error: Git checkout failed. Script stopped to prevent breaking things."
-		read -s -n 1 -p "Press any key to continue..." && exit 1
+		read -s -p "Press [Enter] to continue..." && exit 1
 	fi
 fi
 
@@ -57,7 +57,7 @@ echo "You are currently on branch: [ $current_branch ]" && echo ""
 read -p "Enter the branch you want to merge FROM: " source_branch
 if [ -z "$source_branch" ]; then
 	echo "Error: You must specify a source branch."
-	read -s -n 1 -p "Press any key to continue..." && exit 1
+	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 read -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
@@ -98,4 +98,4 @@ fi
 
 # End.
 echo "" && echo "Done!"
-read -s -n 1 -p "Press any key to continue..." && exit 0
+read -s -p "Press [Enter] to continue..." && exit 0

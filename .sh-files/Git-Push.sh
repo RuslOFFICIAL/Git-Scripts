@@ -17,7 +17,7 @@ fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
 	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!"
-	read -s -n 1 -p "Press any key to continue..." && exit 1
+	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 echo "Git-Push $Git_Push_Version" && echo ""
@@ -58,20 +58,20 @@ if [[ "$target_dir" == [a-zA-Z]:\\* ]] || [[ "$target_dir" == [a-zA-Z]:/* ]]; th
 	target_dir=$(cygpath -u "$target_dir")
 fi
 
-cd "$target_dir" || { echo "Directory not found!"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+cd "$target_dir" || { echo "Directory not found!"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Push Logic.
 echo "Switching to the branch '$target_branch'..."
-git switch "$target_branch" || { echo "[ERROR] Failed to switch branch!"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+git switch "$target_branch" || { echo "[ERROR] Failed to switch branch!"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 if [ -z "$(git status --porcelain)" ]; then
 	echo "No local changes detected."
 	read -p "Do you still want to force a commit? (Y/N): " force_commit
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
-		git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+		git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -p "Press [Enter] to continue..."; exit 1; }
 		echo "Done!"
-		read -s -n 1 -p "Press any key to continue..." && exit 0
+		read -s -p "Press [Enter] to continue..." && exit 0
 	fi
 fi
 
@@ -80,10 +80,10 @@ git add .
 git commit -m "$commit_message"
 
 echo "Pulling any changes..."
-git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 echo "Pushing your changes..."
-git push origin "$target_branch" || { echo "[ERROR] Push failed!";read -s -n 1 -p "Press any key to continue..."; exit 1; }
+git push origin "$target_branch" || { echo "[ERROR] Push failed!";read -s -p "Press [Enter] to continue..."; exit 1; }
 
 echo "" && echo && echo "Done!"
-read -s -n 1 -p "Press any key to continue..." && exit 0
+read -s -p "Press [Enter] to continue..." && exit 0

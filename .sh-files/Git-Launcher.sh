@@ -17,7 +17,7 @@ fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
 	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!"
-	read -s -n 1 -p "Press any key to continue..." && exit 1
+	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 echo "Git-Launcher $Git_Launcher_Version" && echo ""
@@ -40,7 +40,7 @@ done < "$COMMANDS_FILE"
 # Prompt for selection.
 if [ ${#options[@]} -eq 0 ]; then
 	echo "Error: No options found in $COMMANDS_FILENAME."
-	read -s -n 1 -p "Press any key to continue..." && exit 1
+	read -s -p "Press [Enter]a to continue..." && exit 1
 fi
 
 echo ""
@@ -66,4 +66,4 @@ else
 fi
 
 echo "" && echo "" && echo "Done!"
-read -s -n 1 -p "Press any key to continue..." && exit 0
+read -s -p "Press [Enter] to continue..." && exit 0

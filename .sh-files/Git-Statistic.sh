@@ -35,7 +35,7 @@ fi
 echo "Checking path: $target_dir" && echo ""
 if [ ! -d "$target_dir" ]; then
 	echo "Directory not found!"
-	read -s -n 1 -p "Press any key to continue..." && exit 1
+	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 cd "$target_dir" || exit
 
@@ -79,7 +79,7 @@ done
 
 if [ "$found_any" = false ]; then
 	echo "No git repositories found."
-	read -s -n 1 -p "Press any key to continue..." && exit 1
+	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 # Summary.
@@ -94,4 +94,4 @@ echo "Grand Total Added: $total_added"
 echo "Grand Total Removed: $total_removed"
 
 echo "" && echo "Done!"
-read -s -n 1 -p "Press any key to continue..." && exit 0
+read -s -p "Press [Enter] to continue..." && exit 0

@@ -35,7 +35,7 @@ if [[ "$repo_dir" == [a-zA-Z]:\\* ]] || [[ "$repo_dir" == [a-zA-Z]:/* ]]; then
 fi
 
 # Navigate to directory.
-cd "$repo_dir" || { echo "Directory not found!"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+cd "$repo_dir" || { echo "Directory not found!"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Initialize and link.
 echo "Initializing the local Git folder..."
@@ -52,4 +52,4 @@ echo "Pushing it to GitHub..."
 git push -u origin "$target_branch"
 
 echo "" && echo "Done!"
-read -s -n 1 -p "Press any key to continue..." && exit 0
+read -s -p "Press [Enter] to continue..." && exit 0

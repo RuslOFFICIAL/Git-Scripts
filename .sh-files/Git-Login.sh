@@ -17,7 +17,7 @@ fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
 	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!"
-	read -s -n 1 -p "Press any key to continue..." && exit 1
+	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 echo "Git-Login $Git_Login_Version" && echo ""
@@ -59,4 +59,4 @@ echo "Username:		$GitName"
 echo "Email:			$GitEmail"
 echo "GPG signing key ID:	$gpg_status"
 
-read -s -n 1 -p "Press any key to continue..." && exit 0
+read -s -p "Press [Enter] to continue..." && exit 0

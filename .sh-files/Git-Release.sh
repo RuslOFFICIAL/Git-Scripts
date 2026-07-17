@@ -54,4 +54,4 @@ rm -rf "$STAGING_DIR"
 
 echo "Done!" && echo "" && echo "Done!"
 echo "Your release is ready inside the 'Releases' folder."
-read -s -n 1 -p "Press any key to continue..." && exit 0
+read -s -p "Press [Enter] to continue..." && exit 0
