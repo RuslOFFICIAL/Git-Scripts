@@ -10,6 +10,7 @@ Scripts:
 - Git-Merge is a script to merge two branches.
 - Git-Push is a script to push your changes to a GitHub repository.
 - Git-Release is a script to make the files of Git-Script to a .zip file without .conf files.
+- Git-Statistic is a script to show the amount of commits, adds, removes on repository.
 
 To use Git-Aliases you need to create "Git-Aliases_Info.conf" in ".conf-files" folder following the instruction in "Git-Aliases_Info.conf.example".
 To use Git-Launcher you need to create "Git-Launcher_Info.conf" in ".conf-files" folder following the instruction in "Git-Launcher_Info.conf.example".
