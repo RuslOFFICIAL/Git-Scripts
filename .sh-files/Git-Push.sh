@@ -70,7 +70,7 @@ if [ -z "$(git status --porcelain)" ]; then
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
 		git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -p "Press [Enter] to continue..."; exit 1; }
-		echo "Done!"
+		echo "" && echo "Done!"
 		read -s -p "Press [Enter] to continue..." && exit 0
 	fi
 fi
@@ -85,5 +85,5 @@ git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -p "Press [Enter] to
 echo "Pushing your changes..."
 git push origin "$target_branch" || { echo "[ERROR] Push failed!";read -s -p "Press [Enter] to continue..."; exit 1; }
 
-echo "" && echo && echo "Done!"
+echo "" && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0
