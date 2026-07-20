@@ -13,7 +13,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 	done < "$VARIABLES_FILE"
 fi
 
-echo "Git-Merge $Git_Merge_Version" && echo ""
+echo "Git-Merge $Git_Merge_Version" && echo
 
 # User insert directory path.
 read -r -p "Enter the path of the Git repository folder: " dir_path
@@ -28,21 +28,21 @@ cd "$dir_path" || { echo "Directory not found!"; read -s -p "Press [Enter] to co
 
 # Check if it is Git folder.
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-	echo "" && echo "Fatal: This directory is not a Git repository."
+	echo && echo "Fatal: This directory is not a Git repository."
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 # Show current status and branches.
-echo "" && echo "Current location: $(pwd)"
-echo "" && echo "Available branches (Local and Remote):"
-git branch -a && echo ""
+echo && echo "Current location: $(pwd)"
+echo && echo "Available branches (Local and Remote):"
+git branch -a && echo
 
 # Switch branch.
 read -p "Enter a branch to switch to (or press [ENTER] to stay on current): " switch_branch
 if [ -n "$switch_branch" ]; then
-	echo "" && echo "Switching branch..."
+	echo && echo "Switching branch..."
 	if ! git checkout "$switch_branch"; then
-		echo "" && echo "Error: Git checkout failed. Script stopped to prevent breaking things."
+		echo && echo "Error: Git checkout failed. Script stopped to prevent breaking things."
 		read -s -p "Press [Enter] to continue..." && exit 1
 	fi
 fi
@@ -51,7 +51,7 @@ echo "======================================="
 
 # Current branch info.
 current_branch=$(git branch --show-current)
-echo "You are currently on branch: [ $current_branch ]" && echo ""
+echo "You are currently on branch: [ $current_branch ]" && echo
 
 # Merge branch selection.
 read -p "Enter the branch you want to merge FROM: " source_branch
@@ -63,7 +63,7 @@ fi
 read -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
 
 # Merge.
-echo "" && echo "Running Git merge..."
+echo && echo "Running Git merge..."
 echo "Fetching latest branches from GitHub..."
 git fetch origin
 
@@ -75,10 +75,10 @@ fi
 
 # Conflicts and Error handling.
 if [ $? -ne 0 ]; then
-	echo "" && echo "Merge stopped or failed."
+	echo && echo "Merge stopped or failed."
 	echo "Hint: If Git says 'unmerged files', run 'git merge --abort' in your terminal to reset." && echo "Hint: If it is an actual conflict, resolve the file markers and use Git-Push."
 else
-	echo "" && echo "Merge completed successfully!"
+	echo && echo "Merge completed successfully!"
 	
 	read -p "Would you like to commit the merged changes? (Y/n) [Default: y]: " commit_now
 	if [[ ! "${commit_now,,}" == "n" ]]; then
@@ -97,5 +97,5 @@ else
 fi
 
 # End.
-echo "" && echo "Done!"
+echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0

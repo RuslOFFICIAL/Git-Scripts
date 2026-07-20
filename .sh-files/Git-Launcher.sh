@@ -16,11 +16,11 @@ if [ -f "$VARIABLES_FILE" ]; then
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!"
+	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
-echo "Git-Launcher $Git_Launcher_Version" && echo ""
+echo "Git-Launcher $Git_Launcher_Version" && echo
 
 # Display options and build selection array.
 declare -A script_map
@@ -39,11 +39,11 @@ done < "$COMMANDS_FILE"
 
 # Prompt for selection.
 if [ ${#options[@]} -eq 0 ]; then
-	echo "Error: No options found in $COMMANDS_FILENAME."
-	read -s -p "Press [Enter]a to continue..." && exit 1
+	echo "Error: No options found in $COMMANDS_FILENAME." && echo
+	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
-echo ""
+echo
 while true; do
 	read -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
 	if [[ " ${options[*]} " =~ " ${user_choice} " ]]; then
@@ -57,7 +57,7 @@ done
 # Execute the selected script.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_SCRIPT="$SCRIPT_DIR/$selected_script"
-echo "Running \"$selected_script\"..." && echo ""
+echo "Running \"$selected_script\"..." && echo
 
 if [ -f "$TARGET_SCRIPT" ]; then
 	bash "$TARGET_SCRIPT"
@@ -65,5 +65,5 @@ else
 	echo "Error: Could not find script at $TARGET_SCRIPT"
 fi
 
-echo "" && echo "" && echo "Done!"
+echo && echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0

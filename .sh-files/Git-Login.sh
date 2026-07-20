@@ -16,11 +16,11 @@ if [ -f "$VARIABLES_FILE" ]; then
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!"
+	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
-echo "Git-Login $Git_Login_Version" && echo ""
+echo "Git-Login $Git_Login_Version" && echo
 
 # Import Login details.
 while IFS='=' read -r key value; do
@@ -54,7 +54,7 @@ else
 fi
 
 # End.
-echo "" && echo "Git global configuration updated successfully!"
+echo && echo "Git global configuration updated successfully!"
 echo "Username:		$GitName" 
 echo "Email:			$GitEmail"
 echo "GPG signing key ID:	$gpg_status"

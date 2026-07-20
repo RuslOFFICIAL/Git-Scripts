@@ -14,7 +14,7 @@ if [ -f "$FILE_PATH" ]; then
 	else
 		echo "File not blocked."
 	fi
-	echo "" && "$FILE_PATH"
+	echo && "$FILE_PATH"
 else
 	echo "File not found: $FILE_PATH"
 fi

@@ -13,7 +13,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 	done < "$VARIABLES_FILE"
 fi
 
-echo "Git-Statistic $Git_Statistic_Version" && echo ""
+echo "Git-Statistic $Git_Statistic_Version" && echo
 
 # Variables.
 git_name=$(git config user.name)
@@ -32,7 +32,7 @@ if [[ "$target_dir" == [a-zA-Z]:\\* ]] || [[ "$target_dir" == [a-zA-Z]:/* ]]; th
 	target_dir=$(cygpath -u "$target_dir")
 fi
 
-echo "Checking path: $target_dir" && echo ""
+echo "Checking path: $target_dir" && echo
 if [ ! -d "$target_dir" ]; then
 	echo "Directory not found!"
 	read -s -p "Press [Enter] to continue..." && exit 1
@@ -51,7 +51,7 @@ process_repo() {
 	add=$(echo "$stats" | cut -d' ' -f1)
 	del=$(echo "$stats" | cut -d' ' -f2)
 	
-	echo "Commits: $commits | Added: $add | Removed: $del" && echo ""
+	echo "Commits: $commits | Added: $add | Removed: $del" && echo
 	
 	total_added=$((total_added + add))
 	total_removed=$((total_removed + del))
@@ -93,5 +93,5 @@ echo "Grand Total Commits: $total_commits"
 echo "Grand Total Added: $total_added"
 echo "Grand Total Removed: $total_removed"
 
-echo "" && echo "Done!"
+echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0

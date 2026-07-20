@@ -12,7 +12,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 	done < "$VARIABLES_FILE"
 fi
 
-echo "Git-Link-Repo $Git_LinkRepo_Version" && echo ""
+echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
 
 # User input.
 read -r -p "Enter your local repository directory: " repo_dir
@@ -35,7 +35,7 @@ if [[ "$repo_dir" == [a-zA-Z]:\\* ]] || [[ "$repo_dir" == [a-zA-Z]:/* ]]; then
 fi
 
 # Navigate to directory.
-cd "$repo_dir" || { echo "Directory not found!"; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$repo_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Initialize and link.
 echo "Initializing the local Git folder..."
@@ -51,5 +51,5 @@ git remote add origin "$repo_link"
 echo "Pushing it to GitHub..."
 git push -u origin "$target_branch"
 
-echo "" && echo "Done!"
+echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0

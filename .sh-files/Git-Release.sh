@@ -13,7 +13,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 	done < "$VARIABLES_FILE"
 fi
 
-echo "Git-Release $Git_Release_Version" && echo ""
+echo "Git-Release $Git_Release_Version" && echo
 
 # Paths
 SOURCE_DIR=".."
@@ -52,6 +52,6 @@ tar -czf "$ARCHIVE_FILE" -C "$STAGING_DIR" .
 echo "Done!" && echo -n "Cleaning up temporary folders... "
 rm -rf "$STAGING_DIR"
 
-echo "Done!" && echo "" && echo "Done!"
+echo "Done!" && echo && echo "Done!"
 echo "Your release is ready inside the 'Releases' folder."
 read -s -p "Press [Enter] to continue..." && exit 0

@@ -17,17 +17,17 @@ if [ -f "$VARIABLES_FILE" ]; then
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!"
+	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
-echo "Git-Aliases $Git_Aliases_Version" && echo ""
+echo "Git-Aliases $Git_Aliases_Version" && echo
 
 # Create .bashrc if it doesn't exist yet.
 if [ ! -f "$BASHRC" ]; then
 	echo ".bashrc not found. Creating a new one..."
 	cat "$COMMANDS_FILE" > "$BASHRC"
-	echo "All aliases successfully initialized in a new .bashrc file." && echo "Done!"
+	echo "All aliases successfully initialized in a new .bashrc file." && echo && echo "Done!"
 	read -s -p "Press [Enter] to continue..." && exit 0
 fi
 
@@ -66,5 +66,5 @@ while IFS= read -r line || [[ -n "$line" ]]; do
 done < "$COMMANDS_FILE"
 
 # End.
-echo "" && echo "Done!"
+echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0

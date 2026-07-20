@@ -20,7 +20,7 @@ if [ ! -f "$COMMANDS_FILE" ]; then
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
-echo "Git-Push $Git_Push_Version" && echo ""
+echo "Git-Push $Git_Push_Version" && echo
 
 # Build project map.
 declare -A project_paths
@@ -40,7 +40,7 @@ while IFS='=' read -r key rest || [[ -n "$key" ]]; do
 	project_branches["$key"]="${branch:-main}"
 done < "$COMMANDS_FILE"
 
-echo ""
+echo
 while true; do
 	read -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
 	if [[ " ${options[*]} " =~ " ${user_choice} " ]]; then
@@ -70,7 +70,7 @@ if [ -z "$(git status --porcelain)" ]; then
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
 		git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -p "Press [Enter] to continue..."; exit 1; }
-		echo "" && echo "Done!"
+		echo && echo "Done!"
 		read -s -p "Press [Enter] to continue..." && exit 0
 	fi
 fi
@@ -85,5 +85,5 @@ git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -p "Press [Enter] to
 echo "Pushing your changes..."
 git push origin "$target_branch" || { echo "[ERROR] Push failed!";read -s -p "Press [Enter] to continue..."; exit 1; }
 
-echo "" && echo "Done!"
+echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0
