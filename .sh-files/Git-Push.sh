@@ -42,7 +42,7 @@ done < "$COMMANDS_FILE"
 
 echo
 while true; do
-	read -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
+	read -r -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
 	if [[ " ${options[*]} " =~ " ${user_choice} " ]]; then
 		target_dir="${project_paths[$user_choice]}"
 		target_branch="${project_branches[$user_choice]}"
@@ -66,7 +66,7 @@ git switch "$target_branch" || { echo "[ERROR] Failed to switch branch!"; read -
 
 if [ -z "$(git status --porcelain)" ]; then
 	echo "No local changes detected."
-	read -p "Do you still want to force a commit? (Y/N): " force_commit
+	read -r -p "Do you still want to force a commit? (Y/N): " force_commit
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
 		git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -p "Press [Enter] to continue..."; exit 1; }
@@ -75,7 +75,7 @@ if [ -z "$(git status --porcelain)" ]; then
 	fi
 fi
 
-read -p "Enter your commit message: " commit_message
+read -r -p "Enter your commit message: " commit_message
 git add .
 git commit -m "$commit_message"
 

@@ -16,9 +16,9 @@ echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
 
 # User input.
 read -r -p "Enter your local repository directory: " repo_dir
-read -p "Enter your commit message: " commit_message
-read -p "Enter your GitHub repository link: " repo_link
-read -p "Enter your target branch [Default: main]: " target_branch
+read -r -p "Enter your commit message: " commit_message
+read -r -p "Enter your GitHub repository link: " repo_link
+read -r -p "Enter your target branch [Default: main]: " target_branch
 
 # Set default branch.
 if [ -z "$target_branch" ]; then
@@ -51,5 +51,6 @@ git remote add origin "$repo_link"
 echo "Pushing it to GitHub..."
 git push -u origin "$target_branch"
 
+# End.
 echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0

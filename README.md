@@ -4,6 +4,7 @@ I hope someone are gonna use it. :3
 
 Scripts:
 - Git-Aliases is a script to set aliases in ".bashrc" in user directory.
+- Git-Fork is a script to make a fork of repository.
 - Git-Launcher is a script to launch the scripts in the folder ".sh-files". Made to run the scripts without the need to search for the right script.
 - Git-LinkRepo is a script to link your local repository files to a GitHub repository.
 - Git-Login is a script to set username and email for Git.

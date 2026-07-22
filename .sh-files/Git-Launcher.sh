@@ -45,7 +45,7 @@ fi
 
 echo
 while true; do
-	read -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
+	read -r -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
 	if [[ " ${options[*]} " =~ " ${user_choice} " ]]; then
 		selected_script="${script_map[$user_choice]}"
 		break

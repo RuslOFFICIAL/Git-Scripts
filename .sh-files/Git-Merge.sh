@@ -54,13 +54,13 @@ current_branch=$(git branch --show-current)
 echo "You are currently on branch: [ $current_branch ]" && echo
 
 # Merge branch selection.
-read -p "Enter the branch you want to merge FROM: " source_branch
+read -r -p "Enter the branch you want to merge FROM: " source_branch
 if [ -z "$source_branch" ]; then
 	echo "Error: You must specify a source branch."
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
-read -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
+read -r -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
 
 # Merge.
 echo && echo "Running Git merge..."
@@ -80,14 +80,14 @@ if [ $? -ne 0 ]; then
 else
 	echo && echo "Merge completed successfully!"
 	
-	read -p "Would you like to commit the merged changes? (Y/n) [Default: y]: " commit_now
+	read -r -p "Would you like to commit the merged changes? (Y/n) [Default: y]: " commit_now
 	if [[ ! "${commit_now,,}" == "n" ]]; then
-		read -p "Enter commit message: " commit_msg
+		read -r -p "Enter commit message: " commit_msg
 		git add .
 		git commit -m "${commit_msg:-Merge $source_branch into $current_branch}"
 	fi
 	
-	read -p "Would you like to push the merged changes to GitHub right now? (Y/n) [Default: y]: " push_now
+	read -r -p "Would you like to push the merged changes to GitHub right now? (Y/n) [Default: y]: " push_now
 	if [[ ! "${push_now,,}" == "n" ]]; then
 		echo "Pushing to GitHub..."
 		git push
