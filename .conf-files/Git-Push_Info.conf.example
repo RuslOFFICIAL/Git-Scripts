@@ -1,5 +1,9 @@
-# Format: Number=ProjectName|ProjectPath|BranchName
-# Example: 1=MyProject|C:\Path\To\Project|main
+# Format:
+# Number=ProjectName|ProjectPath|BranchName
+
+# Example:
+# 1=MyProjectWin|C:\Path\To\Project|win
+# 2=MyProjectLinux|/d/Path/To/Project|linux
 
 # To make it work you need:
 # 1. Create or rename this file with the name "Git-Push_Info.conf" in ".conf-files folder.
