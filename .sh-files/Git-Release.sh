@@ -15,6 +15,16 @@ fi
 
 echo "Git-Release $Git_Release_Version" && echo
 
+# Confirmation.
+while true; do
+	read -p "Are you sure you want to run this script? (Y/n) " confirmation
+	case "$confirmation" in
+		[Yy]* ) echo; break ;;
+		[Nn]* ) echo; echo "Operation cancelled by user."; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		* ) echo "Please answer Y or n."; echo ;;
+	esac
+done
+
 # Paths
 SOURCE_DIR=".."
 STAGING_DIR="../TempRelease"

@@ -23,6 +23,16 @@ fi
 
 echo "Git-Aliases $Git_Aliases_Version" && echo
 
+# Confirmation.
+while true; do
+	read -p "Are you sure you want to run this script? (Y/n) " confirmation
+	case "$confirmation" in
+		[Yy]* ) echo; break ;;
+		[Nn]* ) echo; echo "Operation cancelled by user."; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		* ) echo "Please answer Y or n."; echo ;;
+	esac
+done
+
 # Create .bashrc if it doesn't exist yet.
 if [ ! -f "$BASHRC" ]; then
 	echo ".bashrc not found. Creating a new one..."

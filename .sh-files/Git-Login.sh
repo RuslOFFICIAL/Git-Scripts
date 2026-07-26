@@ -22,6 +22,16 @@ fi
 
 echo "Git-Login $Git_Login_Version" && echo
 
+# Confirmation.
+while true; do
+	read -p "Are you sure you want to run this script? (Y/n) " confirmation
+	case "$confirmation" in
+		[Yy]* ) echo; break ;;
+		[Nn]* ) echo; echo "Operation cancelled by user."; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		* ) echo "Please answer Y or n."; echo ;;
+	esac
+done
+
 # Import Login details.
 while IFS='=' read -r key value; do
 	[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue

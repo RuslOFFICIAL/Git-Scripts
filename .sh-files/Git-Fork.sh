@@ -16,11 +16,15 @@ fi
 echo "Git-Fork $Git_Fork_Version" && echo
 
 # User input.
-read -r -p "Enter your local directory for the fork: " repo_dir
-read -r -p "Enter original GitHub repository link (with .git at the end): " repo_link
+read -r -p "Enter your local directory for the fork directory: " repo_dir
+read -r -p "Enter original GitHub repository link: " repo_link
 read -r -p "Enter your GitHub repository link: " fork_link
 read -r -p "Enter your target branch [Default: repo-fork]: " target_branch
 echo
+
+# Ensure .git suffix is present for links if missing.
+[[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+[[ "$fork_link" != *.git ]] && fork_link="${fork_link}.git"
 
 # Set default branch.
 if [ -z "$target_branch" ]; then
@@ -53,6 +57,10 @@ echo "Initializing the local Git folder..."
 git init
 echo "Renaming the default branch to '$target_branch'..."
 git checkout -b "$target_branch"
+echo "Linking your local files to your GitHub repository..."
+git remote set-url origin "$fork_link" || git remote add origin "$fork_link"
+echo "Pushing it to GitHub..."
+git push -u origin "$target_branch"
 
 # End.
 echo && echo "Done!"
