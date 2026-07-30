@@ -3,7 +3,7 @@ cd "$(dirname "$0")" || exit
 
 # Define the file path.
 FILE_PATH="./Git-Launcher.sh"
-cd .sh-files || { echo "Directory .sh-files not found"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+cd Sh-Files || { echo "Directory Sh-Files not found"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
 
 if [ -f "$FILE_PATH" ]; then
 	echo "Processing file: $(basename "$FILE_PATH")..."

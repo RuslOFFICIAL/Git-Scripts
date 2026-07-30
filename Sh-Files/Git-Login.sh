@@ -2,8 +2,8 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../.conf-files/Variables.conf"
-COMMANDS_FILE="../.conf-files/Git-Login_Info.conf"
+VARIABLES_FILE="../Conf-Files/Variables.conf"
+COMMANDS_FILE="../Conf-Files/Git-Login_Info.conf"
 COMMANDS_FILENAME="Git-Login_Info.conf"
 
 # .conf files.

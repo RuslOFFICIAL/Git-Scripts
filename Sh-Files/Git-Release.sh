@@ -2,7 +2,7 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../.conf-files/Variables.conf"
+VARIABLES_FILE="../Conf-Files/Variables.conf"
 
 # .conf files.
 if [ -f "$VARIABLES_FILE" ]; then
@@ -42,7 +42,7 @@ shopt -s dotglob
 for item in ../*; do
 	name=$(basename "$item")
 	
-	if [[ "$name" == "TempRelease" || "$name" == "Releases" || "$name" == ".git" || "$name" == ".conf-files" ]]; then
+	if [[ "$name" == "TempRelease" || "$name" == "Releases" || "$name" == ".git" || "$name" == "Conf-Files" ]]; then
 		continue
 	fi
 
@@ -51,9 +51,9 @@ done
 shopt -u dotglob
 
 echo "Done!" && echo -n "Including 'Variables.conf' and 'Git-Launcher_Info.conf' in release... "
-mkdir -p "$STAGING_DIR/.conf-files"
-cp "$VARIABLES_FILE" "$STAGING_DIR/.conf-files/"
-cp "../.conf-files/Git-Launcher_Info.conf" "$STAGING_DIR/.conf-files/"
+mkdir -p "$STAGING_DIR/Conf-Files"
+cp "$VARIABLES_FILE" "$STAGING_DIR/Conf-Files/"
+cp "../Conf-Files/Git-Launcher_Info.conf" "$STAGING_DIR/Conf-Files/"
 
 echo "Done!" && echo -n "Compressing into .tar.gz file... "
 mkdir -p "$ARCHIVE_FOLDER"

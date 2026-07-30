@@ -2,8 +2,8 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../.conf-files/Variables.conf"
-COMMANDS_FILE="../.conf-files/Git-Aliases_Info.conf"
+VARIABLES_FILE="../Conf-Files/Variables.conf"
+COMMANDS_FILE="../Conf-Files/Git-Aliases_Info.conf"
 COMMANDS_FILENAME="Git-Aliases_Info.conf"
 BASHRC="$HOME/.bashrc"
 
@@ -57,12 +57,13 @@ while IFS= read -r line || [[ -n "$line" ]]; do
         
 		# Check if the exact line exists.
 		if ! grep -Fxq "$line" "$BASHRC"; then
-			echo "Updating \"$alias_check\"..."
+			echo -n "Updating \"$alias_check\"..."
 			
 			# Create temp file excluding the old alias, then append new one.
 			grep -v "^$alias_check" "$BASHRC" > "$BASHRC.tmp"
 			echo "$line" >> "$BASHRC.tmp"
 			mv "$BASHRC.tmp" "$BASHRC"
+			echo "Success!"
 		else
 			echo "Alias \"$alias_check\" is already up to date."
 		fi

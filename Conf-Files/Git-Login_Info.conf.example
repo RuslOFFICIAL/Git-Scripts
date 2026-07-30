@@ -13,11 +13,11 @@
 # Information:
 # Value of the variable KeyIs should be either 0, 1, or 2.
 # 0 does nothing to Git GPG key.
-# 1 sets Git GPG key to which is in "Git-Login_Info".
+# 1 sets Git GPG key to which is in "Git-Login_Info.conf".
 # 2 disables Git GPG key.
 
 
 # To make it work you need:
-# 1. Create or rename this file with the name "Git-Login_Info.conf" in ".conf-files" folder.
+# 1. Create or rename this file with the name "Git-Login_Info.conf" in "Conf-Files" folder.
 # 2. Add there options following the format and example written up there.
 # 3. Run "Git-Login.bat".
