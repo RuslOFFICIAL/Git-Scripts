@@ -3,6 +3,8 @@ cd "$(dirname "$0")" || exit
 
 # Variables.
 VARIABLES_FILE="../Configs/Variables.conf"
+COMMANDS_FILE_NAME="Git-Push_Info.conf"
+COMMANDS_FILE="../Configs/Git-Push_Info.conf"
 
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
@@ -16,11 +18,14 @@ echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
 
 # User input.
 read -r -p "Enter your local repository directory: " repo_dir
-read -r -p "Enter your commit message: " commit_message
+read -r -p "Enter your commit message [Default: Initial commit.]: " commit_message
 read -r -p "Enter your GitHub repository link: " repo_link
 read -r -p "Enter your target branch [Default: main]: " target_branch
 
-# Set default branch.
+# Set defaults.
+if [ -z "$commit_message" ]; then
+	commit_message="Initial commit."
+fi
 if [ -z "$target_branch" ]; then
 	target_branch="main"
 fi
@@ -50,6 +55,35 @@ echo "Linking your local files to your GitHub repository..."
 git remote add origin "$repo_link"
 echo "Pushing it to GitHub..."
 git push -u origin "$target_branch"
+
+# Option to add to "Git-Push_Info.conf".
+echo
+read -r -p "Do you want to add this repository to '$COMMANDS_FILE_NAME'? (Y/N): " add_to_conf
+if [[ "${add_to_conf,,}" == "y" ]]; then
+	cd "$(dirname "$0")" || exit
+	if [ ! -f "$COMMANDS_FILE" ]; then
+		echo "[ERROR] Config file not found at '$COMMANDS_FILE_NAME'."
+	else
+		read -r -p "Enter a short label/name for this project: " proj_label
+		
+		# Find next available number or let user pick with check.
+		while true; do
+			read -r -p "Enter a number ID for this project in the config: " proj_num
+			
+			# Check if number already exists in the file.
+			if grep -qE "^[[:space:]]*$proj_num=" "$COMMANDS_FILE"; then
+				echo "[WARNING] Number '$proj_num' is already taken in '$COMMANDS_FILE_NAME'. Please choose another one."
+			else
+				break
+			fi
+		done
+		
+		# Append config line.
+		echo "$proj_num=$proj_label|$repo_dir|$target_branch" >> "$COMMANDS_FILE"
+		echo "Successfully added to '$COMMANDS_FILE_NAME'!"
+	fi
+fi
+
 
 # End.
 echo && echo "Done!"
