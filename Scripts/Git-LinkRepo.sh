@@ -82,6 +82,8 @@ if [[ "${add_to_conf,,}" == "y" ]]; then
 		printf "\n%s=%s|%s|%s" "$proj_num" "$proj_label" "$repo_dir" "$target_branch" >> "$COMMANDS_FILE"
 		echo && echo "Successfully added to '$COMMANDS_FILE_NAME'!"
 	fi
+else
+	echo && echo "Operation cancelled by user."
 fi
 
 # End.
