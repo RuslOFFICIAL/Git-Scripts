@@ -2,9 +2,9 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../Conf-Files/Variables.conf"
+VARIABLES_FILE="../Configs/Variables.conf"
 
-# .conf files.
+# Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue

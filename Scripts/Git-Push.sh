@@ -2,11 +2,11 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../Conf-Files/Variables.conf"
-COMMANDS_FILE="../Conf-Files/Git-Push_Info.conf"
+VARIABLES_FILE="../Configs/Variables.conf"
+COMMANDS_FILE="../Configs/Git-Push_Info.conf"
 COMMANDS_FILENAME="Git-Push_Info.conf"
 
-# .conf files.
+# Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
@@ -16,7 +16,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!" && echo
+	echo "Error: '$COMMANDS_FILENAME' not found!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILENAME.example'!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -58,18 +58,18 @@ if [[ "$target_dir" == [a-zA-Z]:\\* ]] || [[ "$target_dir" == [a-zA-Z]:/* ]]; th
 	target_dir=$(cygpath -u "$target_dir")
 fi
 
-cd "$target_dir" || { echo "Directory not found!"; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$target_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Push Logic.
 echo "Switching to the branch '$target_branch'..."
-git switch "$target_branch" || { echo "[ERROR] Failed to switch branch!"; read -s -p "Press [Enter] to continue..."; exit 1; }
+git switch "$target_branch" || { echo "[ERROR] Failed to switch branch!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 if [ -z "$(git status --porcelain)" ]; then
 	echo "No local changes detected."
 	read -r -p "Do you still want to force a commit? (Y/N): " force_commit
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
-		git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -p "Press [Enter] to continue..."; exit 1; }
+		git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 		echo && echo "Done!"
 		read -s -p "Press [Enter] to continue..." && exit 0
 	fi
@@ -80,10 +80,10 @@ git add .
 git commit -m "$commit_message"
 
 echo "Pulling any changes..."
-git pull --rebase || { echo "[ERROR] Pull failed!"; read -s -p "Press [Enter] to continue..."; exit 1; }
+git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 echo "Pushing your changes..."
-git push origin "$target_branch" || { echo "[ERROR] Push failed!";read -s -p "Press [Enter] to continue..."; exit 1; }
+git push origin "$target_branch" || { echo "[ERROR] Push failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0

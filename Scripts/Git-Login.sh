@@ -2,11 +2,11 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../Conf-Files/Variables.conf"
-COMMANDS_FILE="../Conf-Files/Git-Login_Info.conf"
+VARIABLES_FILE="../Configs/Variables.conf"
+COMMANDS_FILE="../Configs/Git-Login_Info.conf"
 COMMANDS_FILENAME="Git-Login_Info.conf"
 
-# .conf files.
+# Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
@@ -16,7 +16,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!" && echo
+	echo "Error: '$COMMANDS_FILENAME' not found!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILENAME.example'!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -27,7 +27,7 @@ while true; do
 	read -p "Are you sure you want to run this script? (Y/n) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
-		[Nn]* ) echo; echo "Operation cancelled by user."; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		[Nn]* ) echo; echo "Operation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
 		* ) echo "Please answer Y or n."; echo ;;
 	esac
 done

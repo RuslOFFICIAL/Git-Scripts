@@ -3,8 +3,11 @@ cd "$(dirname "$0")" || exit
 
 # Define the file path.
 FILE_PATH="./Git-Launcher.sh"
-cd Sh-Files || { echo "Directory Sh-Files not found"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+DIRECTORY_NAME="Scripts"
 
+cd "$DIRECTORY_NAME" || { echo "Directory '$DIRECTORY_NAME' not found."; echo; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+
+# Unblock file.
 if [ -f "$FILE_PATH" ]; then
 	echo "Processing file: $(basename "$FILE_PATH")..."
 	if xattr -p com.apple.metadata:kMDItemWhereFroms "$FILE_PATH" >/dev/null 2>&1 || \

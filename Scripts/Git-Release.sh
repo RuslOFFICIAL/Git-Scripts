@@ -2,9 +2,9 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../Conf-Files/Variables.conf"
+VARIABLES_FILE="../Configs/Variables.conf"
 
-# .conf files.
+# Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
@@ -20,7 +20,7 @@ while true; do
 	read -p "Are you sure you want to run this script? (Y/n) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
-		[Nn]* ) echo; echo "Operation cancelled by user."; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		[Nn]* ) echo; echo "Operation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
 		* ) echo "Please answer Y or n."; echo ;;
 	esac
 done
@@ -42,7 +42,7 @@ shopt -s dotglob
 for item in ../*; do
 	name=$(basename "$item")
 	
-	if [[ "$name" == "TempRelease" || "$name" == "Releases" || "$name" == ".git" || "$name" == "Conf-Files" ]]; then
+	if [[ "$name" == "TempRelease" || "$name" == "Releases" || "$name" == ".git" || "$name" == "Configs" ]]; then
 		continue
 	fi
 
@@ -51,9 +51,9 @@ done
 shopt -u dotglob
 
 echo "Done!" && echo -n "Including 'Variables.conf' and 'Git-Launcher_Info.conf' in release... "
-mkdir -p "$STAGING_DIR/Conf-Files"
-cp "$VARIABLES_FILE" "$STAGING_DIR/Conf-Files/"
-cp "../Conf-Files/Git-Launcher_Info.conf" "$STAGING_DIR/Conf-Files/"
+mkdir -p "$STAGING_DIR/Configs"
+cp "$VARIABLES_FILE" "$STAGING_DIR/Configs/"
+cp "../Configs/Git-Launcher_Info.conf" "$STAGING_DIR/Configs/"
 
 echo "Done!" && echo -n "Compressing into .tar.gz file... "
 mkdir -p "$ARCHIVE_FOLDER"
@@ -62,6 +62,6 @@ tar -czf "$ARCHIVE_FILE" -C "$STAGING_DIR" .
 echo "Done!" && echo -n "Cleaning up temporary folders... "
 rm -rf "$STAGING_DIR"
 
-echo "Done!" && echo && echo "Done!"
-echo "Your release is ready inside the 'Releases' folder."
+echo "Done!" && echo && echo "Done!" && echo "Your release is ready inside the 'Releases' folder."
+echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0

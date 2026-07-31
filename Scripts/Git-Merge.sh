@@ -2,10 +2,10 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../Conf-Files/Variables.conf"
-COMMANDS_FILE="../Conf-Files/Git-Login_Info.conf"
+VARIABLES_FILE="../Configs/Variables.conf"
+COMMANDS_FILE="../Configs/Git-Login_Info.conf"
 
-# .conf files.
+# Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
@@ -24,7 +24,7 @@ if [[ "$dir_path" == [a-zA-Z]:\\* ]] || [[ "$dir_path" == [a-zA-Z]:/* ]]; then
 	dir_path=$(cygpath -u "$dir_path")
 fi
 
-cd "$dir_path" || { echo "Directory not found!"; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$dir_path" || { echo "Directory not found!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Check if it is Git folder.
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -42,7 +42,7 @@ read -p "Enter a branch to switch to (or press [ENTER] to stay on current): " sw
 if [ -n "$switch_branch" ]; then
 	echo && echo "Switching branch..."
 	if ! git checkout "$switch_branch"; then
-		echo && echo "Error: Git checkout failed. Script stopped to prevent breaking things."
+		echo && echo "Error: Git checkout failed. Script stopped to prevent breaking things." && echo
 		read -s -p "Press [Enter] to continue..." && exit 1
 	fi
 fi
@@ -56,15 +56,14 @@ echo "You are currently on branch: [ $current_branch ]" && echo
 # Merge branch selection.
 read -r -p "Enter the branch you want to merge FROM: " source_branch
 if [ -z "$source_branch" ]; then
-	echo "Error: You must specify a source branch."
+	echo "Error: You must specify a source branch." && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 read -r -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
 
 # Merge.
-echo && echo "Running Git merge..."
-echo "Fetching latest branches from GitHub..."
+echo && echo "Fetching latest branches from GitHub..."
 git fetch origin
 
 if [[ "${allow_unrelated,,}" == "y" ]]; then

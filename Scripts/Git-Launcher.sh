@@ -2,11 +2,11 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../Conf-Files/Variables.conf"
-COMMANDS_FILE="../Conf-Files/Git-Launcher_Info.conf"
+VARIABLES_FILE="../Configs/Variables.conf"
+COMMANDS_FILE="../Configs/Git-Launcher_Info.conf"
 COMMANDS_FILENAME="Git-Launcher_Info.conf"
 
-# .conf files.
+# Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
@@ -16,7 +16,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "Error: $COMMANDS_FILENAME not found!" && echo "Check if you have that file or follow the instruction in $COMMANDS_FILENAME.example!" && echo
+	echo "Error: '$COMMANDS_FILENAME' not found!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILENAME.example'!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -39,7 +39,7 @@ done < "$COMMANDS_FILE"
 
 # Prompt for selection.
 if [ ${#options[@]} -eq 0 ]; then
-	echo "Error: No options found in $COMMANDS_FILENAME." && echo
+	echo "Error: No options found in '$COMMANDS_FILENAME'." && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 

@@ -6,6 +6,6 @@
 
 
 # To make it work you need:
-# 1. Create or rename this file with the name "Git-Aliases_Info.conf" in "Conf-Files" folder.
+# 1. Create or rename this file with the name "Git-Aliases_Info.conf" in "Configs" folder.
 # 2. Add there options following the format and example written up there.
 # 3. Run "Git-Aliases.bat".

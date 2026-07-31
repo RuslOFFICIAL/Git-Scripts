@@ -2,9 +2,9 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../Conf-Files/Variables.conf"
+VARIABLES_FILE="../Configs/Variables.conf"
 
-# .conf files.
+# Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
@@ -34,7 +34,7 @@ fi
 
 echo "Checking path: $target_dir" && echo
 if [ ! -d "$target_dir" ]; then
-	echo "Directory not found!"
+	echo "Directory not found!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 cd "$target_dir" || exit
@@ -78,7 +78,7 @@ for d in */; do
 done
 
 if [ "$found_any" = false ]; then
-	echo "No git repositories found."
+	echo "No git repositories found." && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
