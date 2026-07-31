@@ -4,6 +4,8 @@ cd "$(dirname "$0")" || exit
 # Variables.
 VARIABLES_FILE_NAME="Variables.conf"
 VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
+INCLUDE_FILE_1_NAME="Git-Launcher_Info.conf"
+INCLUDE_FILE_1="../Configs/$INCLUDE_FILE_1_NAME"
 
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
@@ -29,6 +31,7 @@ done
 # Paths
 SOURCE_DIR=".."
 STAGING_DIR="../TempRelease"
+CONFIGS_DIR="$STAGING_DIR/Configs"
 ARCHIVE_FOLDER="../Releases"
 ARCHIVE_FILE="$ARCHIVE_FOLDER/Git-Scripts_$Git_Scripts_Version.tar.gz"
 
@@ -51,10 +54,10 @@ for item in ../*; do
 done
 shopt -u dotglob
 
-echo "Done!" && echo -n "Including '$VARIABLES_FILE_NAME' and 'Git-Launcher_Info.conf' in release... "
+echo "Done!" && echo -n "Including '$VARIABLES_FILE_NAME' and '$INCLUDE_FILE_1_NAME' in release... "
 mkdir -p "$STAGING_DIR/Configs"
-cp "$VARIABLES_FILE" "$STAGING_DIR/Configs/"
-cp "../Configs/Git-Launcher_Info.conf" "$STAGING_DIR/Configs/"
+cp "$VARIABLES_FILE" "$CONFIGS_DIR"
+cp "$INCLUDE_FILE_1" "$CONFIGS_DIR"
 
 echo "Done!" && echo -n "Compressing into .tar.gz file... "
 mkdir -p "$ARCHIVE_FOLDER"
