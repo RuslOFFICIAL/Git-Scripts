@@ -2,7 +2,8 @@
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../Configs/Variables.conf"
+VARIABLES_FILE_NAME="Variables.conf"
+VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
 
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
@@ -50,7 +51,7 @@ for item in ../*; do
 done
 shopt -u dotglob
 
-echo "Done!" && echo -n "Including 'Variables.conf' and 'Git-Launcher_Info.conf' in release... "
+echo "Done!" && echo -n "Including '$VARIABLES_FILE_NAME' and 'Git-Launcher_Info.conf' in release... "
 mkdir -p "$STAGING_DIR/Configs"
 cp "$VARIABLES_FILE" "$STAGING_DIR/Configs/"
 cp "../Configs/Git-Launcher_Info.conf" "$STAGING_DIR/Configs/"
