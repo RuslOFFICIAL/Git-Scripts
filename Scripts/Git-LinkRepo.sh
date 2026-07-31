@@ -84,7 +84,6 @@ if [[ "${add_to_conf,,}" == "y" ]]; then
 	fi
 fi
 
-
 # End.
 echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0
