@@ -79,8 +79,8 @@ if [[ "${add_to_conf,,}" == "y" ]]; then
 		done
 		
 		# Append config line.
-		echo "$proj_num=$proj_label|$repo_dir|$target_branch" >> "$COMMANDS_FILE"
-		echo "Successfully added to '$COMMANDS_FILE_NAME'!"
+		printf "\n%s=%s|%s|%s" "$proj_num" "$proj_label" "$repo_dir" "$target_branch" >> "$COMMANDS_FILE"
+		echo && echo "Successfully added to '$COMMANDS_FILE_NAME'!"
 	fi
 fi
 
