@@ -62,26 +62,25 @@ read -r -p "Do you want to add this repository to '$COMMANDS_FILE_NAME'? (Y/N): 
 if [[ "${add_to_conf,,}" == "y" ]]; then
 	cd "$(dirname "$0")" || exit
 	if [ ! -f "$COMMANDS_FILE" ]; then
-		echo "[ERROR] Config file not found at '$COMMANDS_FILE_NAME'."
-	else
-		read -r -p "Enter a short label/name for this project: " proj_label
-		
-		# Find next available number or let user pick with check.
-		while true; do
-			read -r -p "Enter a number ID for this project in the config: " proj_num
-			
-			# Check if number already exists in the file.
-			if grep -qE "^[[:space:]]*$proj_num=" "$COMMANDS_FILE"; then
-				echo "[WARNING] Number '$proj_num' is already taken in '$COMMANDS_FILE_NAME'. Please choose another one."
-			else
-				break
-			fi
-		done
-		
-		# Append config line.
-		printf "\n%s=%s|%s|%s" "$proj_num" "$proj_label" "$repo_dir" "$target_branch" >> "$COMMANDS_FILE"
-		echo && echo "Successfully added to '$COMMANDS_FILE_NAME'!"
+		touch "$COMMANDS_FILE"
 	fi
+	read -r -p "Enter a short label/name for this project: " proj_label
+	
+	# Find next available number or let user pick with check.
+	while true; do
+		read -r -p "Enter a number ID for this project in the config: " proj_num
+		
+		# Check if number already exists in the file.
+		if grep -qE "^[[:space:]]*$proj_num=" "$COMMANDS_FILE"; then
+			echo "[WARNING] Number '$proj_num' is already taken in '$COMMANDS_FILE_NAME'. Please choose another one."
+		else
+			break
+		fi
+	done
+	
+	# Append config line.
+	printf "\n%s=%s|%s|%s" "$proj_num" "$proj_label" "$repo_dir" "$target_branch" >> "$COMMANDS_FILE"
+	echo && echo "Successfully added to '$COMMANDS_FILE_NAME'!"
 else
 	echo && echo "Operation cancelled by user."
 fi
