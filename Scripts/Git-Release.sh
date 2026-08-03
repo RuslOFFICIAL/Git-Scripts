@@ -40,6 +40,7 @@ rm -f "$ARCHIVE_FOLDER"/Git-Scripts_*.tar.gz
 
 echo "Done!" && echo -n "Preparing release folder... "
 mkdir -p "$STAGING_DIR"
+mkdir -p "$CONFIGS_DIR"
 
 echo "Done!" && echo -n "Copying files... "
 shopt -s dotglob
@@ -54,8 +55,10 @@ for item in ../*; do
 done
 shopt -u dotglob
 
+echo "Done!" && echo -n "Including all '.example' files in release... "
+cp ../Configs/*.example "$CONFIGS_DIR/"
+
 echo "Done!" && echo -n "Including '$VARIABLES_FILE_NAME' and '$INCLUDE_FILE_1_NAME' in release... "
-mkdir -p "$STAGING_DIR/Configs"
 cp "$VARIABLES_FILE" "$CONFIGS_DIR"
 cp "$INCLUDE_FILE_1" "$CONFIGS_DIR"
 
