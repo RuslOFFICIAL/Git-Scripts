@@ -64,7 +64,7 @@ cp "$INCLUDE_FILE_1" "$CONFIGS_DIR"
 
 echo "Done!" && echo -n "Compressing into .tar.gz file... "
 mkdir -p "$ARCHIVE_FOLDER"
-tar -czf "$ARCHIVE_FILE" -C "$STAGING_DIR" .
+tar --owner=0 --group=0 --no-same-owner -czf "$ARCHIVE_FILE" -C "$STAGING_DIR" .
 
 echo "Done!" && echo -n "Cleaning up temporary folders... "
 rm -rf "$STAGING_DIR"
