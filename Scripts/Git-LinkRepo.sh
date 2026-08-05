@@ -17,10 +17,11 @@ fi
 echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
 
 # User input.
-read -r -p "Enter your local repository directory: " repo_dir
-read -r -p "Enter your commit message [Default: Initial commit.]: " commit_message
-read -r -p "Enter your GitHub repository link: " repo_link
-read -r -p "Enter your target branch [Default: main]: " target_branch
+read -r -e -p "Enter your local repository directory: " repo_dir
+read -r -e -p "Enter your commit message [Default: Initial commit.]: " commit_message
+read -r -e -p "Enter your commit description (Optional): " commit_description
+read -r -e -p "Enter your GitHub repository link: " repo_link
+read -r -e -p "Enter your target branch [Default: main]: " target_branch
 
 # Set defaults.
 if [ -z "$commit_message" ]; then
@@ -48,7 +49,7 @@ git init
 echo "Adding all your files..."
 git add .
 echo "Adding commit..."
-git commit -m "$commit_message"
+git commit -m "$commit_message" -m "$commit_description"
 echo "Renaming the default branch to '$target_branch'..."
 git branch -M "$target_branch"
 echo "Linking your local files to your GitHub repository..."
@@ -58,17 +59,17 @@ git push -u origin "$target_branch"
 
 # Option to add to "Git-Push_Info.conf".
 echo
-read -r -p "Do you want to add this repository to '$COMMANDS_FILE_NAME'? (Y/N): " add_to_conf
+read -r -e -p "Do you want to add this repository to '$COMMANDS_FILE_NAME'? (Y/N): " add_to_conf
 if [[ "${add_to_conf,,}" == "y" ]]; then
 	cd "$(dirname "$0")" || exit
 	if [ ! -f "$COMMANDS_FILE" ]; then
 		touch "$COMMANDS_FILE"
 	fi
-	read -r -p "Enter a short label/name for this project: " proj_label
+	read -r -e -p "Enter a short label/name for this project: " proj_label
 	
 	# Find next available number or let user pick with check.
 	while true; do
-		read -r -p "Enter a number ID for this project in the config: " proj_num
+		read -r -e -p "Enter a number ID for this project in the config: " proj_num
 		
 		# Check if number already exists in the file.
 		if grep -qE "^[[:space:]]*$proj_num=" "$COMMANDS_FILE"; then

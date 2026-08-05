@@ -22,7 +22,7 @@ total_removed=0
 total_commits=0
 
 # Path Input.
-read -r -p "Enter the directory path: " target_dir
+read -r -e -p "Enter the directory path: " target_dir
 
 # Convert Windows path to Unix.
 target_dir="${target_dir//\"/}"

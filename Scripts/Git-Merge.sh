@@ -16,7 +16,7 @@ fi
 echo "Git-Merge $Git_Merge_Version" && echo
 
 # User insert directory path.
-read -r -p "Enter the path of the Git repository folder: " dir_path
+read -r -e -p "Enter the path of the Git repository folder: " dir_path
 dir_path="${dir_path//\"/}"
 
 # Convert Windows path to Unix.
@@ -54,13 +54,13 @@ current_branch=$(git branch --show-current)
 echo "You are currently on branch: [ $current_branch ]" && echo
 
 # Merge branch selection.
-read -r -p "Enter the branch you want to merge FROM: " source_branch
+read -r -e -p "Enter the branch you want to merge FROM: " source_branch
 if [ -z "$source_branch" ]; then
 	echo "Error: You must specify a source branch." && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
-read -r -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
+read -r -e -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
 
 # Merge.
 echo && echo "Fetching latest branches from GitHub..."
@@ -79,14 +79,14 @@ if [ $? -ne 0 ]; then
 else
 	echo && echo "Merge completed successfully!"
 	
-	read -r -p "Would you like to commit the merged changes? (Y/n) [Default: y]: " commit_now
+	read -r -e -p "Would you like to commit the merged changes? (Y/n) [Default: y]: " commit_now
 	if [[ ! "${commit_now,,}" == "n" ]]; then
-		read -r -p "Enter commit message: " commit_msg
+		read -r -e -p "Enter commit message: " commit_msg
 		git add .
 		git commit -m "${commit_msg:-Merge $source_branch into $current_branch}"
 	fi
 	
-	read -r -p "Would you like to push the merged changes to GitHub right now? (Y/n) [Default: y]: " push_now
+	read -r -e -p "Would you like to push the merged changes to GitHub right now? (Y/n) [Default: y]: " push_now
 	if [[ ! "${push_now,,}" == "n" ]]; then
 		echo "Pushing to GitHub..."
 		git push

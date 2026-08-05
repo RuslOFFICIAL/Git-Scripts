@@ -16,17 +16,17 @@ fi
 echo "Git-Fork $Git_Fork_Version" && echo
 
 # User input.
-read -r -p "Enter your local directory for the fork directory: " repo_dir
-read -r -p "Enter original GitHub repository link: " repo_link
-read -r -p "Enter your GitHub repository link: " fork_link
-read -r -p "Enter your target branch [Default: repo-fork]: " target_branch
+read -r -e -p "Enter your local directory for the fork directory: " repo_dir
+read -r -e -p "Enter original GitHub repository link: " repo_link
+read -r -e -p "Enter your GitHub repository link: " fork_link
+read -r -e -p "Enter your target branch [Default: repo-fork]: " target_branch
 echo
 
 # Choose mode.
 echo "Choose repository type:"
 echo "1) Separate repository (Fresh Git history, Unlinked from original)"
 echo "2) Fork structure (Preserves history, Links original as upstream)"
-read -r -p "Enter choice (1, 2) [Default: 2]: " repo_type
+read -r -e -p "Enter choice (1, 2) [Default: 2]: " repo_type
 echo
 
 # Ensure .git suffix is present for links if missing.

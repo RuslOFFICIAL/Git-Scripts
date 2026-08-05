@@ -42,7 +42,7 @@ done < "$COMMANDS_FILE"
 
 echo
 while true; do
-	read -r -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
+	read -r -e -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
 	if [[ " ${options[*]} " =~ " ${user_choice} " ]]; then
 		target_dir="${project_paths[$user_choice]}"
 		target_branch="${project_branches[$user_choice]}"
@@ -66,7 +66,7 @@ git switch "$target_branch" || { echo "[ERROR] Failed to switch branch!"; echo; 
 
 if [ -z "$(git status --porcelain)" ]; then
 	echo "No local changes detected."
-	read -r -p "Do you still want to force a commit? (Y/N): " force_commit
+	read -r -e -p "Do you still want to force a commit? (Y/N): " force_commit
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
 		git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
@@ -75,9 +75,21 @@ if [ -z "$(git status --porcelain)" ]; then
 	fi
 fi
 
-read -r -p "Enter your commit message: " commit_message
+while true; do
+	read -r -e -p "Enter your commit message: " commit_message
+	clean_message=$(echo "$commit_message" | sed 's/\x1b\[[A-Z]//g')
+	
+	if [ -n "$clean_message" ]; then
+		commit_message="$clean_message"
+		break
+	else
+		echo "Error: Commit message (title) cannot be empty!"
+	fi
+done
+
+read -r -e -p "Enter your commit description (Optional): " commit_description
 git add .
-git commit -m "$commit_message"
+git commit -m "$commit_message" -m "$commit_description"
 
 echo "Pulling any changes..."
 git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
