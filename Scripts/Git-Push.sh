@@ -3,8 +3,8 @@ cd "$(dirname "$0")" || exit
 
 # Variables.
 VARIABLES_FILE="../Configs/Variables.conf"
-COMMANDS_FILE="../Configs/Git-Push_Info.conf"
 COMMANDS_FILENAME="Git-Push_Info.conf"
+COMMANDS_FILE="../Configs/$COMMANDS_FILENAME"
 
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then

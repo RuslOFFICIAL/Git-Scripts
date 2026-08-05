@@ -3,7 +3,6 @@ cd "$(dirname "$0")" || exit
 
 # Variables.
 VARIABLES_FILE="../Configs/Variables.conf"
-COMMANDS_FILE="../Configs/Git-Login_Info.conf"
 
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
