@@ -23,6 +23,10 @@ read -r -e -p "Enter your commit description (Optional): " commit_description
 read -r -e -p "Enter your GitHub repository link: " repo_link
 read -r -e -p "Enter your target branch [Default: main]: " target_branch
 
+# Clean escape sequences.
+commit_message=$(echo "$commit_message" | sed 's/\x1b\[[A-Z]//g')
+commit_description=$(echo "$commit_description" | sed 's/\x1b\[[A-Z]//g')
+
 # Set defaults.
 if [ -z "$commit_message" ]; then
 	commit_message="Initial commit."
