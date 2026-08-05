@@ -38,7 +38,7 @@ echo && echo "Available branches (Local and Remote):"
 git branch -a && echo
 
 # Switch branch.
-read -p "Enter a branch to switch to (or press [ENTER] to stay on current): " switch_branch
+read -r -e -p "Enter a branch to switch to (or press [ENTER] to stay on current): " switch_branch
 if [ -n "$switch_branch" ]; then
 	echo && echo "Switching branch..."
 	if ! git checkout "$switch_branch"; then
