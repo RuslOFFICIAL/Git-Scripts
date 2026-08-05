@@ -52,6 +52,7 @@ echo "Initializing the local Git folder..."
 git init
 echo "Adding all your files..."
 git add .
+echo "It may ask now for the keyphrase of your GPG key if you have one."
 echo "Adding commit..."
 git commit -m "$commit_message" -m "$commit_description"
 echo "Renaming the default branch to '$target_branch'..."

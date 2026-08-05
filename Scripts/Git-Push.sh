@@ -89,6 +89,7 @@ done
 
 read -r -e -p "Enter your commit description (Optional): " commit_description
 git add .
+echo "It may ask now for the keyphrase of your GPG key if you have one."
 git commit -m "$commit_message" -m "$commit_description"
 
 echo "Pulling any changes..."
