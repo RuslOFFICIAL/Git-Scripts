@@ -63,6 +63,12 @@ else
 	gpg_status="Skipped" && echo "GPG signing skipped."
 fi
 
+# CLI.
+echo && echo "Press 'Ctrl+C' to skip CLI logins." && echo -n "Checking platform CLI logins... "
+gh auth login
+glab auth login
+echo "Success!"
+
 # End.
 echo && echo "Git global configuration updated successfully!"
 echo "Username:		$GitName" 
