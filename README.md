@@ -28,3 +28,4 @@ Git-Scripts update order:
 
 Dependencies:
 1. Git, to run the commands of the scripts. Has to be in PATH.
+2. GitHub (gh) and GitLab (glab) CLIs, for Git-Login. Have to be in PATH.

@@ -88,8 +88,10 @@ while true; do
 done
 
 read -r -e -p "Enter your commit description (Optional): " commit_description
+echo "Adding all local files..."
 git add .
 echo "It may ask now for the keyphrase of your GPG key if you have one."
+echo "Adding commit..."
 git commit -m "$commit_message" -m "$commit_description"
 
 echo "Pulling any changes..."

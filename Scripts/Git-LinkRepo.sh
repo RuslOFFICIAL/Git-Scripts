@@ -50,7 +50,7 @@ cd "$repo_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter]
 # Initialize and link.
 echo "Initializing the local Git folder..."
 git init
-echo "Adding all your files..."
+echo "Adding all local files..."
 git add .
 echo "It may ask now for the keyphrase of your GPG key if you have one."
 echo "Adding commit..."
