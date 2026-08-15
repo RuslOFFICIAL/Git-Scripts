@@ -22,6 +22,7 @@ read -r -e -p "Enter your commit message [Default: Initial commit.]: " commit_me
 read -r -e -p "Enter your commit description (Optional): " commit_description
 read -r -e -p "Enter your GitHub repository link: " repo_link
 read -r -e -p "Enter your target branch [Default: main]: " target_branch
+echo
 
 # Clean escape sequences.
 commit_message=$(echo "$commit_message" | sed 's/\x1b\[[A-Z]//g')
@@ -46,6 +47,17 @@ fi
 
 # Navigate to directory.
 cd "$repo_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+
+# Confirmation.
+while true; do
+	echo "Repository Directory: '$repo_dir'; Repository Link: '$repo_link'; Branch: '$target_branch'; Commit Message: '$commit_message;'; Commit Description: '$commit_description'"
+	read -r -e -p "Are you sure you want to link the repository? (Y/n) " confirmation
+	case "$confirmation" in
+		[Yy]* ) echo; break ;;
+		[Nn]* ) echo; echo "Operation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		* ) echo "Please answer Y or n."; echo ;;
+	esac
+done
 
 # Initialize and link.
 echo "Initializing the local Git folder..."
