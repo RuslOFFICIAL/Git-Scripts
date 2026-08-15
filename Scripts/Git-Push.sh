@@ -95,7 +95,11 @@ echo "Adding commit..."
 git commit -m "$commit_message" -m "$commit_description"
 
 echo "Pulling any changes..."
-git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+git pull --rebase || {
+	echo "[INFO] No tracking branch found. Setting upstream and retrying..."
+	git branch --set-upstream-to="origin/$target_branch" "$target_branch" 2>/dev/null || git push -u origin "$target_branch"
+	git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+}
 
 echo "Pushing your changes..."
 git push origin "$target_branch" || { echo "[ERROR] Push failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
