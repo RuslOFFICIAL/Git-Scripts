@@ -69,7 +69,11 @@ if [ -z "$(git status --porcelain)" ]; then
 	read -r -e -p "Do you still want to force a commit? (Y/N): " force_commit
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
-		git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+		git pull --rebase || {
+			echo "[INFO] No tracking branch found. Setting upstream and retrying..."
+			git branch --set-upstream-to="origin/$target_branch" "$target_branch" 2>/dev/null || git push -u origin "$target_branch"
+			git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+		}
 		echo && echo "Done!"
 		read -s -p "Press [Enter] to continue..." && exit 0
 	fi
