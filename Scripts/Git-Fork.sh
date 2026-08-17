@@ -1,4 +1,4 @@
-#!/bin/bash
+x#!/bin/bash
 cd "$(dirname "$0")" || exit
 
 # Variables.
@@ -83,14 +83,19 @@ if [ "$repo_type" = "1" ]; then
 	git add .
 	git commit -m "Initial commit"
 	echo "Linking your local files to your GitHub repository..."
-	git remote remove origin 2>/dev/null
-	git remote add origin "$fork_link"
+	if git remote get-url origin >/dev/null 2>&1; then
+		git remote set-url origin "$fork_link"
+	else
+		git remote add origin "$fork_link"
+	fi
 else
 	# Fork workflow.
 	echo "Configuring repository remotes for fork structure..."
-	git remote rename origin upstream 2>/dev/null
-	git remote remove origin 2>/dev/null
-	git remote add origin "$fork_link"
+	if git remote get-url origin >/dev/null 2>&1; then
+		git remote set-url origin "$fork_link"
+	else
+		git remote add origin "$fork_link"
+	fi
 	echo "Creating target branch '$target_branch'..."
 	git checkout -b "$target_branch"
 fi

@@ -68,11 +68,15 @@ if [ -z "$repo_link" ]; then
 	read -r -e -p "Enter the remote repository URL to set as origin: " repo_link
 	if [ -n "$repo_link" ]; then
 		[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
-		git remote add origin "$repo_link"
-		echo "Added remote origin: $repo_link"
+		git remote set-url origin "$repo_link"
+		echo "Updated remote origin: '$repo_link'"
 	fi
 else
-	[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+	if [[ -n "$repo_link" && "$repo_link" != *.git ]]; then
+		[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+		git remote set-url origin "$repo_link"
+		echo "Updated remote origin: '$repo_link'"
+	fi
 fi
 
 # Push Logic.
