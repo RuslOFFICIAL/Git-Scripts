@@ -22,9 +22,6 @@ If you switch to new version, it's recommended to copy all ".conf" files from th
 
 First two numbers in version means some actual change.
 Third number means a little change.
-Git-Scripts update order:
-1. Pushing the changes to GitHub, update of .sh file in repository with changing the version number of script in "Variables.conf".
-2. Pushing the changes to GitHub, release the .zip file with changing the version number of Git-Scripts in "Variables.conf".
 
 Dependencies:
 1. Git, to run the commands of the scripts. Has to be in PATH.
