@@ -62,7 +62,18 @@ cd "$target_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Ente
 
 # Ensure .git suffix is present for links if missing.
 repo_link=$(git remote get-url origin 2>/dev/null || git remote -v | awk '/^origin.*\(fetch\)$/{print $2}')
-[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+
+if [ -z "$repo_link" ]; then
+	echo "[INFO] No 'origin' remote found for this repository."
+	read -r -e -p "Enter the remote repository URL to set as origin: " repo_link
+	if [ -n "$repo_link" ]; then
+		[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+		git remote add origin "$repo_link"
+		echo "Added remote origin: $repo_link"
+	fi
+else
+	[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+fi
 
 # Push Logic.
 echo "Switching to the branch '$target_branch'..."
