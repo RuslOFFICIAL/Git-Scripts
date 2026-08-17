@@ -28,6 +28,9 @@ echo
 commit_message=$(echo "$commit_message" | sed 's/\x1b\[[A-Z]//g')
 commit_description=$(echo "$commit_description" | sed 's/\x1b\[[A-Z]//g')
 
+# Ensure .git suffix is present for links if missing.
+[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+
 # Set defaults.
 if [ -z "$commit_message" ]; then
 	commit_message="Initial commit."

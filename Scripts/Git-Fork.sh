@@ -30,8 +30,8 @@ read -r -e -p "Enter choice (1, 2) [Default: 2]: " repo_type
 echo
 
 # Ensure .git suffix is present for links if missing.
-[[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
-[[ "$fork_link" != *.git ]] && fork_link="${fork_link}.git"
+[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+[ -n "$fork_link" ] && [[ "$fork_link" != *.git ]] && fork_link="${fork_link}.git"
 
 # Set default branch.
 if [ -z "$target_branch" ]; then

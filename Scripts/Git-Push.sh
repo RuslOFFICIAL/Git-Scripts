@@ -60,6 +60,10 @@ fi
 
 cd "$target_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
+# Ensure .git suffix is present for links if missing.
+repo_link=$(git remote get-url origin 2>/dev/null || git remote -v | awk '/^origin.*\(fetch\)$/{print $2}')
+[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+
 # Push Logic.
 echo "Switching to the branch '$target_branch'..."
 git switch "$target_branch" || { echo "[ERROR] Failed to switch branch!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }

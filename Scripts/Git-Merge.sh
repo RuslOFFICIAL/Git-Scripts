@@ -31,6 +31,23 @@ if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
+# Ensure .git suffix is present for links if missing.
+repo_link=$(git remote get-url origin 2>/dev/null || git remote -v | awk '/^origin.*\(fetch\)$/{print $2}')
+
+if [ -z "$repo_link" ]; then
+	echo "[INFO] No 'origin' remote found for this repository."
+	read -r -e -p "Enter the remote repository URL to set as origin: " repo_link
+	if [ -n "$repo_link" ]; then
+		# Ensure .git suffix before adding.
+		[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+		git remote add origin "$repo_link"
+		echo "Added remote origin: $repo_link"
+	fi
+else
+	# Ensure .git suffix if it already existed.
+	[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
+fi
+
 # Show current status and branches.
 echo && echo "Current location: $(pwd)"
 echo && echo "Available branches (Local and Remote):"
