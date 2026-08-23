@@ -20,4 +20,5 @@ if [ -f "$FILE_PATH" ]; then
 	echo && "$FILE_PATH"
 else
 	echo "File not found: $FILE_PATH"
+	read -s -p "Press [Enter] to continue..." && exit 1
 fi
