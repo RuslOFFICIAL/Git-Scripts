@@ -8,7 +8,7 @@ VARIABLES_FILE="../Configs/Variables.conf"
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
-		export "$key=$value"
+		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 fi
 

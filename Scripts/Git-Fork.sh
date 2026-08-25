@@ -9,7 +9,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
 		clean_value="${value%$'\r'}"
-		export "$key=$value"
+		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 fi
 

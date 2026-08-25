@@ -11,7 +11,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
 		clean_value="${value%$'\r'}"
-		export "$key=$value"
+		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 fi
 
@@ -29,7 +29,7 @@ options=()
 while IFS='|' read -r key label script || [[ -n "$key" ]]; do
 	script="${script%$'\r'}"
 	
-	# Skip comments or empty lines
+	# Skip comments or empty lines.
 	[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
 	
 	echo "[$key] $label"

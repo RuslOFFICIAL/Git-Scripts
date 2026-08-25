@@ -10,7 +10,8 @@ COMMANDS_FILE="../Configs/Git-Push_Info.conf"
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
-		export "$key=$value"
+		clean_value="${value%$'\r'}"
+		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 fi
 

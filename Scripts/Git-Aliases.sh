@@ -12,7 +12,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
 		clean_value="${value%$'\r'}"
-		export "$key=$value"
+		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 fi
 
@@ -45,7 +45,7 @@ echo "Checking and updating aliases in .bashrc..."
 
 # Read the commands file line by line.
 while IFS= read -r line || [[ -n "$line" ]]; do
-	# Skip comments or empty lines
+	# Skip comments or empty lines.
 	[[ "$line" =~ ^#.* ]] || [[ -z "$line" ]] && continue
 
 	# Extract the alias name.
