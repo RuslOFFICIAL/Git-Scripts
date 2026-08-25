@@ -1,7 +1,7 @@
 # Ignore folders.
 Releases/
 TempRelease/
-q
+
 # Ignore files.
 *.lnk
 

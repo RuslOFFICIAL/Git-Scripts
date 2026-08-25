@@ -1,7 +1,7 @@
 Git-Scripts is a project which includes useful scripts for Git.
 To easily launch Git-Scripts use "Git-Scripts", or "Git-Scripts.sh", or original "Git-Launcher.sh".
 I hope someone are gonna use it. :3
-q
+
 Scripts:
 - Git-Aliases is a script to set aliases in ".bashrc" in user directory.
 - Git-Fork is a script to make a fork of some repository.
