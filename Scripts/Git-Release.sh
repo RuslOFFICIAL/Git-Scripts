@@ -65,7 +65,6 @@ cp "$INCLUDE_FILE_1" "$CONFIGS_DIR"
 # Make files to be executable.
 if [ -n "$Executable" ]; then
 	echo "Done!" && echo -n "Applying executable permissions... "
-	
 	(cd "$STAGING_DIR" && chmod +x $Executable 2>/dev/null)
 fi
 
