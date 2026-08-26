@@ -2,7 +2,8 @@ x#!/bin/bash
 cd "$(dirname "$0")" || exit
 
 # Variables.
-VARIABLES_FILE="../Configs/Variables.conf"
+VARIABLES_FILE_NAME="Variables.conf"
+VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
 
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
