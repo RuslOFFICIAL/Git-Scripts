@@ -69,7 +69,7 @@ git init
 echo "Adding all local files..."
 git add .
 if [ -n "$Executable" ]; then
-	echo "Applying executable permissions to: $Executable"
+	echo "Applying executable permissions..."
 	git update-index --chmod=+x $Executable 2>/dev/null
 fi
 echo "It may ask now for the keyphrase of your GPG key if you have one."
