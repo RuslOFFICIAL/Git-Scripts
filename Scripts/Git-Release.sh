@@ -62,7 +62,7 @@ echo "Done!" && echo -n "Including '$VARIABLES_FILE_NAME' and '$INCLUDE_FILE_1_N
 cp "$VARIABLES_FILE" "$CONFIGS_DIR"
 cp "$INCLUDE_FILE_1" "$CONFIGS_DIR"
 
-# Make files be executable.
+# Make files to be executable.
 if [ -n "$Executable" ]; then
 	echo "Done!" && echo -n "Applying executable permissions... "
 	
