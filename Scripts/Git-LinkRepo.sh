@@ -68,6 +68,10 @@ echo "Initializing the local Git folder..."
 git init
 echo "Adding all local files..."
 git add .
+if [ -n "$Executable" ]; then
+	echo "Applying executable permissions to: $Executable"
+	git update-index --chmod=+x $Executable 2>/dev/null
+fi
 echo "It may ask now for the keyphrase of your GPG key if you have one."
 echo "Adding commit..."
 git commit -m "$commit_message" -m "$commit_description"

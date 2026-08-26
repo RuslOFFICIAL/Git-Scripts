@@ -62,6 +62,13 @@ echo "Done!" && echo -n "Including '$VARIABLES_FILE_NAME' and '$INCLUDE_FILE_1_N
 cp "$VARIABLES_FILE" "$CONFIGS_DIR"
 cp "$INCLUDE_FILE_1" "$CONFIGS_DIR"
 
+# Make files be executable.
+if [ -n "$Executable" ]; then
+	echo "Done!" && echo -n "Applying executable permissions... "
+	
+	(cd "$STAGING_DIR" && chmod +x $Executable 2>/dev/null)
+fi
+
 echo "Done!" && echo -n "Compressing into .tar.gz file... "
 mkdir -p "$ARCHIVE_FOLDER"
 tar --owner=0 --group=0 --no-same-owner -czf "$ARCHIVE_FILE" -C "$STAGING_DIR" .
