@@ -14,6 +14,8 @@ if [ -f "$VARIABLES_FILE" ]; then
 		clean_value="${value%$'\r'}"
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
+else
+	echo "Warning: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
 fi
 
 echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
@@ -71,6 +73,7 @@ echo "Adding all local files..."
 git add .
 if [ -n "$Executable" ]; then
 	echo "Applying executable permissions..."
+	chmod +x $Executable 2>/dev/null
 	git update-index --chmod=+x $Executable 2>/dev/null
 fi
 echo "It may ask now for the keyphrase of your GPG key if you have one."

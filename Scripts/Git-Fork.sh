@@ -12,6 +12,8 @@ if [ -f "$VARIABLES_FILE" ]; then
 		clean_value="${value%$'\r'}"
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
+else
+	echo "Warning: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
 fi
 
 echo "Git-Fork $Git_Fork_Version" && echo
@@ -82,6 +84,11 @@ if [ "$repo_type" = "1" ]; then
 	git checkout -b "$target_branch"
 	echo "Adding and committing files..."
 	git add .
+	if [ -n "$Executable" ]; then
+		echo "Applying executable permissions..."
+		chmod +x $Executable 2>/dev/null
+		git update-index --chmod=+x $Executable 2>/dev/null
+	fi
 	git commit -m "Initial commit"
 	echo "Linking your local files to your GitHub repository..."
 	if git remote get-url origin >/dev/null 2>&1; then

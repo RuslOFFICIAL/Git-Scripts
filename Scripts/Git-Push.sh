@@ -4,8 +4,8 @@ cd "$(dirname "$0")" || exit
 # Variables.
 VARIABLES_FILE_NAME="Variables.conf"
 VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
-COMMANDS_FILENAME="Git-Push_Info.conf"
-COMMANDS_FILE="../Configs/$COMMANDS_FILENAME"
+COMMANDS_FILE_NAME="Git-Push_Info.conf"
+COMMANDS_FILE="../Configs/$COMMANDS_FILE_NAME"
 
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
@@ -14,10 +14,12 @@ if [ -f "$VARIABLES_FILE" ]; then
 		clean_value="${value%$'\r'}"
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
+else
+	echo "Warning: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "Error: '$COMMANDS_FILENAME' not found!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILENAME.example'!" && echo
+	echo "Error: File not found at '$COMMANDS_FILE'!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -116,6 +118,7 @@ echo "Adding all local files..."
 git add .
 if [ -n "$Executable" ]; then
 	echo "Applying executable permissions..."
+	chmod +x $Executable 2>/dev/null
 	git update-index --chmod=+x $Executable 2>/dev/null
 fi
 echo "It may ask now for the keyphrase of your GPG key if you have one."

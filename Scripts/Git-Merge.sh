@@ -11,6 +11,8 @@ if [ -f "$VARIABLES_FILE" ]; then
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
+else
+	echo "Warning: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
 fi
 
 echo "Git-Merge $Git_Merge_Version" && echo
@@ -102,6 +104,11 @@ else
 	if [[ ! "${commit_now,,}" == "n" ]]; then
 		read -r -e -p "Enter commit message: " commit_msg
 		git add .
+		if [ -n "$Executable" ]; then
+			echo "Applying executable permissions..."
+			chmod +x $Executable 2>/dev/null
+			git update-index --chmod=+x $Executable 2>/dev/null
+		fi
 		git commit -m "${commit_msg:-Merge $source_branch into $current_branch}"
 	fi
 	

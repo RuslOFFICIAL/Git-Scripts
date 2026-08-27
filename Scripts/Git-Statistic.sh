@@ -12,6 +12,8 @@ if [ -f "$VARIABLES_FILE" ]; then
 		clean_value="${value%$'\r'}"
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
+else
+	echo "Warning: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
 fi
 
 echo "Git-Statistic $Git_Statistic_Version" && echo
