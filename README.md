@@ -3,7 +3,7 @@ To easily launch Git-Scripts use "Git-Scripts", or "Git-Scripts.sh", or original
 I hope someone are gonna use it. :3
 
 Scripts:
-- Git-Aliases is a script to set aliases in ".bashrc" in user directory.
+- Git-Bashrc is a script to edit ".bashrc" in user directory.
 - Git-Fork is a script to make a fork of some repository.
 - Git-Launcher is a script to launch the scripts in the directory "Scripts". Made to run the scripts without the need to search for the right script.
 - Git-LinkRepo is a script to link your local repository files to a GitHub repository.
@@ -13,7 +13,7 @@ Scripts:
 - Git-Release is a script to make the files of Git-Script to the archive file without most of .conf files.
 - Git-Statistic is a script to show the amount of commits, adds, removes on repository.
 
-To use Git-Aliases you need to create "Git-Aliases_Info.conf" in "Configs" directory following the instruction in "Git-Aliases_Info.conf.example".
+To use Git-Bashrc you need to create "Git-Bashrc_Info.conf" in "Configs" directory following the instruction in "Git-Bashrc_Info.conf.example".
 To use Git-Launcher you need to create "Git-Launcher_Info.conf" in "Configs" directory following the instruction in "Git-Launcher_Info.conf.example".
 To use Git-Login you need to create "Git-Login_Info.conf" in "Configs" directory following the instruction in "Git-Login_Info.conf.example".
 To use Git-Push you need to create "Git-Push_Info.conf" in "Configs" directory following the instruction in "Git-Push_Info.conf.example".
