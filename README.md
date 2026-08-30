@@ -3,7 +3,7 @@ To easily launch Git-Scripts use "Git-Scripts", or "Git-Scripts.sh", or original
 I hope someone are gonna use it. :3
 
 Scripts:
-- Git-Bashrc is a script to edit ".bashrc" in user directory.
+- Git-Bashrc is a script to edit the file ".bashrc" in user directory.
 - Git-Fork is a script to make a fork of some repository.
 - Git-Launcher is a script to launch the scripts in the directory "Scripts". Made to run the scripts without the need to search for the right script.
 - Git-LinkRepo is a script to link your local repository files to a GitHub repository.
