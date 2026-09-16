@@ -44,7 +44,7 @@ if [ ! -f "$BASHRC" ]; then
 	read -s -p "Press [Enter] to continue..." && exit 0
 fi
 
-echo "Checking and updating aliases in .bashrc..."
+echo -e "Checking and updating aliases in .bashrc...\n"
 
 # Read the commands file line by line.
 current_block=""
@@ -108,7 +108,7 @@ while IFS= read -r raw_line || [[ -n "$raw_line" ]]; do
 			normalized_existing=$(echo "$existing_block" | tr -d '\r')
 
 			if [[ "$normalized_existing" != "$normalized_block" ]]; then
-				echo -n "Updating function \"$func_name\"..."
+				echo -n "Updating function \"$func_name\"... "
 				
 				# Remove old function block and append the updated one.
 				awk -v fn="$func_name" '
@@ -118,7 +118,7 @@ while IFS= read -r raw_line || [[ -n "$raw_line" ]]; do
 				' "$BASHRC" > "$BASHRC.tmp"
 				echo "$current_block" >> "$BASHRC.tmp"
 				mv "$BASHRC.tmp" "$BASHRC"
-				echo " Success!"
+				echo "Success!"
 			else
 				echo "Function \"$func_name\" is already up to date."
 			fi
