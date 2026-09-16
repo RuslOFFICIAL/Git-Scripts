@@ -154,7 +154,7 @@ while IFS= read -r raw_line || [[ -n "$raw_line" ]]; do
 done < "$COMMANDS_FILE"
 echo
 
-# Reload shell.
+# Reload '.bashrc'.
 echo -n "Reloading '.bashrc' file... "
 source $BASHRC
 echo "Success!"
