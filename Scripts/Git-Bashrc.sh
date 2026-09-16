@@ -36,11 +36,11 @@ while true; do
 	esac
 done
 
-# Create .bashrc if it doesn't exist yet.
+# Create '.bashrc' if it doesn't exist yet.
 if [ ! -f "$BASHRC" ]; then
-	echo ".bashrc not found. Creating a new one..."
+	echo "'.bashrc' not found. Creating a new one..."
 	cat "$COMMANDS_FILE" > "$BASHRC"
-	echo "All aliases successfully initialized in a new .bashrc file." && echo && echo "Done!"
+	echo "All aliases successfully initialized in a new '.bashrc' file." && echo && echo "Done!"
 	read -s -p "Press [Enter] to continue..." && exit 0
 fi
 
@@ -90,14 +90,14 @@ while IFS= read -r raw_line || [[ -n "$raw_line" ]]; do
 		normalized_block=$(echo "$current_block" | tr -d '\r')
 		normalized_bashrc=$(tr -d '\r' < "$BASHRC")
 
-		# Ignore if function already exists in .bashrc (duplicate) instead of updating or removing.
+		# Ignore if function already exists in '.bashrc' (duplicate) instead of updating or removing.
 		match_count=$(echo "$normalized_bashrc" | grep -Ec "^[[:space:]]*${func_name}[[:space:]]*\(\)[[:space:]]*\{")
 		if [[ "$match_count" -gt 1 ]]; then
 			echo "Ignoring function \"$func_name\" (multiple definitions found in .bashrc)."
 			current_block=""
 			continue
 		elif [[ "$match_count" -eq 1 ]]; then
-			# Extract existing function block from .bashrc for comparison.
+			# Extract existing function block from '.bashrc' for comparison.
 			existing_block=$(awk -v fn="$func_name" '
 				($0 ~ "^[[:space:]]*" fn "[[:space:]]*\\(\\)[[:space:]]*\\{") {p=1; print; next}
 				p {print}
@@ -152,6 +152,12 @@ while IFS= read -r raw_line || [[ -n "$raw_line" ]]; do
 	fi
 
 done < "$COMMANDS_FILE"
+echo
+
+# Reload shell.
+echo -n "Reloading '.bashrc' file... "
+source $BASHRC
+echo "Success!"
 
 # End.
 echo && echo "Done!"
