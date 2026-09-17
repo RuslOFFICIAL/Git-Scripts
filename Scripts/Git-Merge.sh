@@ -44,7 +44,7 @@ if [ -z "$repo_link" ]; then
 	if [ -n "$repo_link" ]; then
 		[ -n "$repo_link" ] && [[ "$repo_link" != *.git ]] && repo_link="${repo_link}.git"
 		git remote add origin "$repo_link" 2>/dev/null || git remote set-url origin "$repo_link"
-		echo "Updated remote origin: '$repo_link'"
+		echo "Created and set remote origin: '$repo_link'"
 	fi
 else
 	if [[ -n "$repo_link" && "$repo_link" != *.git ]]; then
