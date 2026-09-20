@@ -11,5 +11,5 @@
 # To make it work you need:
 # 1. Create or rename this file with the name "Git-Launcher_Info.conf" in "Configs" directory.
 # 2. Add there options following the format and example written up there.
-# 3. Run "Git-Launcher.bat".
+# 3. Run "Git-Launcher.sh".
 # Or download "Git-Launcher_Info.conf" from the GitHub repository "https://github.com/RuslOFFICIAL/Git-Scripts".

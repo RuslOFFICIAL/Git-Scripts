@@ -9,9 +9,9 @@ Scripts:
 - Git-LinkRepo is a script to link your local repository files to a GitHub repository.
 - Git-Login is a script to set username and email for Git.
 - Git-Merge is a script to merge two branches.
-- Git-Push is a script to push your changes to a GitHub repository.
 - Git-Release is a script to make the files of Git-Script to the archive file without most of .conf files.
 - Git-Statistic is a script to show the amount of commits, adds, removes on repository.
+- Git-Sync is a script to sync a GitHub repository by pushing and pulling, adding commits.
 
 To use Git-Bashrc you need to create "Git-Bashrc_Info.conf" in "Configs" directory following the instruction in "Git-Bashrc_Info.conf.example".
 To use Git-Launcher you need to create "Git-Launcher_Info.conf" in "Configs" directory following the instruction in "Git-Launcher_Info.conf.example".

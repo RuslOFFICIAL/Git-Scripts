@@ -4,7 +4,7 @@ cd "$(dirname "$0")" || exit
 # Variables.
 VARIABLES_FILE_NAME="Variables.conf"
 VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
-COMMANDS_FILE_NAME="Git-Push_Info.conf"
+COMMANDS_FILE_NAME="Git-Sync_Info.conf"
 COMMANDS_FILE="../Configs/$COMMANDS_FILE_NAME"
 
 # Configs.
@@ -23,7 +23,7 @@ if [ ! -f "$COMMANDS_FILE" ]; then
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
-echo "Git-Push $Git_Push_Version" && echo
+echo "Git-Sync $Git_Sync_Version" && echo
 
 # Build project map.
 declare -A project_paths
@@ -82,10 +82,11 @@ else
 	fi
 fi
 
-# Push Logic.
+# Switch to the target branch.
 echo "Switching to the branch '$target_branch'..."
 git switch "$target_branch" || { echo "[ERROR] Failed to switch branch!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
+# No changes logic.
 if [ -z "$(git status --porcelain)" ]; then
 	echo "No local changes detected."
 	read -r -e -p "Do you still want to force a commit? (Y/N): " force_commit
@@ -101,6 +102,7 @@ if [ -z "$(git status --porcelain)" ]; then
 	fi
 fi
 
+# Commit logic.
 while true; do
 	read -r -e -p "Enter your commit message: " commit_message
 	clean_message=$(echo "$commit_message" | sed 's/\x1b\[[A-Z]//g')
@@ -112,8 +114,9 @@ while true; do
 		echo "Error: Commit message (title) cannot be empty!"
 	fi
 done
-
 read -r -e -p "Enter your commit description (Optional): " commit_description
+
+# Adding files and commit. Applying executable permissions.
 echo "Adding all local files..."
 git add .
 if [ -n "$Executable" ]; then
@@ -125,6 +128,7 @@ echo "It may ask now for the keyphrase of your GPG key if you have one."
 echo "Adding commit..."
 git commit -m "$commit_message" -m "$commit_description"
 
+# Pull logic.
 echo "Pulling any changes..."
 git pull --rebase || {
 	echo "[INFO] No tracking branch found. Setting upstream and retrying..."
@@ -132,6 +136,7 @@ git pull --rebase || {
 	git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 }
 
+# Push logic.
 echo "Pushing your changes..."
 git push origin "$target_branch" || { echo "[ERROR] Push failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
