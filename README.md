@@ -16,7 +16,7 @@ Scripts:
 To use Git-Bashrc you need to create "Git-Bashrc_Info.conf" in "Configs" directory following the instruction in "Git-Bashrc_Info.conf.example".
 To use Git-Launcher you need to create "Git-Launcher_Info.conf" in "Configs" directory following the instruction in "Git-Launcher_Info.conf.example".
 To use Git-Login you need to create "Git-Login_Info.conf" in "Configs" directory following the instruction in "Git-Login_Info.conf.example".
-To use Git-Push you need to create "Git-Push_Info.conf" in "Configs" directory following the instruction in "Git-Push_Info.conf.example".
+To use Git-Sync you need to create "Git-Sync_Info.conf" in "Configs" directory following the instruction in "Git-Sync_Info.conf.example".
 
 If you switch to new version, it's recommended to copy all ".conf" files from the "Configs" directory and paste them in the new version's "Configs" directory.
 

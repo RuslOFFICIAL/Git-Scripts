@@ -97,7 +97,7 @@ fi
 # Conflicts and Error handling.
 if [ $? -ne 0 ]; then
 	echo && echo "Merge stopped or failed."
-	echo "Hint: If Git says 'unmerged files', run 'git merge --abort' in your terminal to reset." && echo "Hint: If it is an actual conflict, resolve the file markers and use Git-Push."
+	echo "Hint: If Git says 'unmerged files', run 'git merge --abort' in your terminal to reset." && echo "Hint: If it is an actual conflict, resolve the file markers and use Git-Sync."
 else
 	echo && echo "Merge completed successfully!"
 	

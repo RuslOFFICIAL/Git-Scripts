@@ -4,8 +4,8 @@ cd "$(dirname "$0")" || exit
 # Variables.
 VARIABLES_FILE_NAME="Variables.conf"
 VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
-COMMANDS_FILE_NAME="Git-Push_Info.conf"
-COMMANDS_FILE="../Configs/Git-Push_Info.conf"
+COMMANDS_FILE_NAME="Git-Sync_Info.conf"
+COMMANDS_FILE="../Configs/$COMMANDS_FILE_NAME"
 
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
@@ -86,7 +86,7 @@ git remote add origin "$repo_link"
 echo "Pushing it to GitHub..."
 git push -u origin "$target_branch"
 
-# Option to add to "Git-Push_Info.conf".
+# Option to add to "$COMMANDS_FILE_NAME".
 echo
 read -r -e -p "Do you want to add this repository to '$COMMANDS_FILE_NAME'? (Y/N): " add_to_conf
 if [[ "${add_to_conf,,}" == "y" ]]; then
