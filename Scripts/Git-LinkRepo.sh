@@ -102,7 +102,7 @@ if [[ "${add_to_conf,,}" == "y" ]]; then
 		
 		# Check if number already exists in the file.
 		if grep -qE "^[[:space:]]*$proj_num=" "$COMMANDS_FILE"; then
-			echo "[WARNING]:Number '$proj_num' is already taken in '$COMMANDS_FILE_NAME'. Please choose another one."
+			echo "[WARNING]: Number '$proj_num' is already taken in '$COMMANDS_FILE_NAME'. Please choose another one."
 		else
 			break
 		fi
