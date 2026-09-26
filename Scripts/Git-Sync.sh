@@ -81,6 +81,7 @@ while IFS='=' read -r key rest || [[ -n "$key" ]]; do
 	project_paths["$key"]="$path"
 	project_branches["$key"]="${branch:-main}"
 done < "$COMMANDS_FILE"
+
 echo
 while true; do
 	read -r -e -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
