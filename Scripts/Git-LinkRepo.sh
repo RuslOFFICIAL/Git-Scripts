@@ -15,7 +15,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "Warning: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
 fi
 
 echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
@@ -102,7 +102,7 @@ if [[ "${add_to_conf,,}" == "y" ]]; then
 		
 		# Check if number already exists in the file.
 		if grep -qE "^[[:space:]]*$proj_num=" "$COMMANDS_FILE"; then
-			echo "[WARNING] Number '$proj_num' is already taken in '$COMMANDS_FILE_NAME'. Please choose another one."
+			echo "[WARNING]:Number '$proj_num' is already taken in '$COMMANDS_FILE_NAME'. Please choose another one."
 		else
 			break
 		fi

@@ -13,7 +13,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "Warning: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
 fi
 
 echo "Git-Merge $Git_Merge_Version" && echo
@@ -31,7 +31,7 @@ cd "$dir_path" || { echo "Directory not found!"; echo; read -s -p "Press [Enter]
 
 # Check if it is Git folder.
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-	echo && echo "Fatal: This directory is not a Git repository."
+	echo && echo "[FATAL]: This directory is not a Git repository."
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -64,7 +64,7 @@ read -r -e -p "Enter a branch to switch to (or press [ENTER] to stay on current)
 if [ -n "$switch_branch" ]; then
 	echo && echo "Switching branch..."
 	if ! git checkout "$switch_branch"; then
-		echo && echo "Error: Git checkout failed. Script stopped to prevent breaking things." && echo
+		echo && echo "[ERROR]: Git checkout failed. Script stopped to prevent breaking things." && echo
 		read -s -p "Press [Enter] to continue..." && exit 1
 	fi
 fi
@@ -78,7 +78,7 @@ echo "You are currently on branch: [ $current_branch ]" && echo
 # Merge branch selection.
 read -r -e -p "Enter the branch you want to merge FROM: " source_branch
 if [ -z "$source_branch" ]; then
-	echo "Error: You must specify a source branch." && echo
+	echo "[ERROR]: You must specify a source branch." && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 

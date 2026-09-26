@@ -15,11 +15,11 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "Warning: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "Error: File not found at '$COMMANDS_FILE'!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
+	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -42,7 +42,7 @@ done < "$COMMANDS_FILE"
 
 # Prompt for selection.
 if [ ${#options[@]} -eq 0 ]; then
-	echo "Error: No options found in '$COMMANDS_FILE_NAME'." && echo
+	echo "[ERROR]: No options found in '$COMMANDS_FILE_NAME'." && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -65,7 +65,7 @@ echo "Running \"$selected_script\"..." && echo
 if [ -f "$TARGET_SCRIPT" ]; then
 	bash "$TARGET_SCRIPT"
 else
-	echo "Error: Could not find script at $TARGET_SCRIPT"
+	echo "[ERROR]: Could not find script at $TARGET_SCRIPT"
 fi
 
 echo && echo && echo "Done!"

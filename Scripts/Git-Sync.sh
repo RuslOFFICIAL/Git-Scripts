@@ -15,12 +15,42 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "Warning: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "Error: File not found at '$COMMANDS_FILE'!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
+	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
+fi
+
+# Automatically convert any Windows paths in the config file to Unix paths.
+if grep -qE '[a-zA-Z]:[/\\]' "$COMMANDS_FILE"; then
+	temp_conf=$(mktemp)
+	while IFS= read -r line || [[ -n "$line" ]]; do
+		if [[ "$line" =~ ^[[:space:]]*# ]] || [[ -z "$line" ]]; then
+			echo "$line" >> "$temp_conf"
+			continue
+		fi
+		
+		key="${line%%=*}"
+		rest="${line#*=}"
+		label="${rest%%|*}"
+		remainder="${rest#*|}"
+		path="${remainder%%|*}"
+		branch="${remainder#*|}"
+		
+		clean_path="${path//\"/}"
+		clean_path="${clean_path%$'\r'}"
+		
+		if [[ "$clean_path" =~ ^[a-zA-Z]:[/\\] ]]; then
+			unix_path=$(cygpath -u "$clean_path")
+			echo "$key=$label|$unix_path|$branch" >> "$temp_conf"
+		else
+			echo "$line" >> "$temp_conf"
+		fi
+	done < "$COMMANDS_FILE"
+	mv "$temp_conf" "$COMMANDS_FILE"
+	echo -e "[INFO] Converted Windows paths to Unix paths in '$COMMANDS_FILE_NAME'.\n"
 fi
 
 echo "Git-Sync $Git_Sync_Version" && echo
@@ -37,12 +67,20 @@ while IFS='=' read -r key rest || [[ -n "$key" ]]; do
 	# Split by "|".
 	IFS='|' read -r label path branch <<< "${rest%$'\r'}"
 	
+	# Clean quotes and carriage returns
+	path="${path//\"/}"
+	path="${path%$'\r'}"
+	
+	# Convert any Windows-style path to Unix path.
+	if [[ "$path" =~ ^[a-zA-Z]:[/\\] ]]; then
+		path=$(cygpath -u "$path")
+	fi
+	
 	echo "[$key] $label"
 	options+=("$key")
 	project_paths["$key"]="$path"
 	project_branches["$key"]="${branch:-main}"
 done < "$COMMANDS_FILE"
-
 echo
 while true; do
 	read -r -e -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
@@ -84,7 +122,7 @@ fi
 
 # Switch to the target branch.
 echo "Switching to the branch '$target_branch'..."
-git switch "$target_branch" || { echo "[ERROR] Failed to switch branch!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+git switch "$target_branch" || { echo "[ERROR]:Failed to switch branch!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # No changes logic.
 if [ -z "$(git status --porcelain)" ]; then
@@ -95,7 +133,7 @@ if [ -z "$(git status --porcelain)" ]; then
 		git pull --rebase || {
 			echo "[INFO] No tracking branch found. Setting upstream and retrying..."
 			git branch --set-upstream-to="origin/$target_branch" "$target_branch" 2>/dev/null || git push -u origin "$target_branch"
-			git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+			git pull --rebase || { echo "[ERROR]:Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 		}
 		echo && echo "Done!"
 		read -s -p "Press [Enter] to continue..." && exit 0
@@ -111,7 +149,7 @@ while true; do
 		commit_message="$clean_message"
 		break
 	else
-		echo "Error: Commit message (title) cannot be empty!"
+		echo "[ERROR]: Commit message (title) cannot be empty!"
 	fi
 done
 read -r -e -p "Enter your commit description (Optional): " commit_description
@@ -133,12 +171,12 @@ echo "Pulling any changes..."
 git pull --rebase || {
 	echo "[INFO] No tracking branch found. Setting upstream and retrying..."
 	git branch --set-upstream-to="origin/$target_branch" "$target_branch" 2>/dev/null || git push -u origin "$target_branch"
-	git pull --rebase || { echo "[ERROR] Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+	git pull --rebase || { echo "[ERROR]:Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 }
 
 # Push logic.
 echo "Pushing your changes..."
-git push origin "$target_branch" || { echo "[ERROR] Push failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+git push origin "$target_branch" || { echo "[ERROR]:Push failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 echo && echo "Done!"
 read -s -p "Press [Enter] to continue..." && exit 0
