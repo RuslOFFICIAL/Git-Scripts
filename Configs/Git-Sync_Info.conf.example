@@ -2,8 +2,8 @@
 # Number=ProjectName|ProjectPath|BranchName
 
 # Example:
-# 1=MyProjectWin|C:\Path\To\Project|win
-# 2=MyProjectLinux|/d/Path/To/Project|linux
+# 1=MyProject|/home/user/projects/mycoolproject|first
+# 2=MyProjectButSecond|/d/Path/To/Project|second
 
 # To make it work you need:
 # 1. Create or rename this file with the name "Git-Sync_Info.conf" in "Configs" directory.
