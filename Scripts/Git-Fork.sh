@@ -13,16 +13,16 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
 fi
 
 echo "Git-Fork $Git_Fork_Version" && echo
 
 # User input.
-read -r -e -p "Enter your local directory for the fork directory: " repo_dir
+read -r -e -p "Enter the local directory for the fork directory: " repo_dir
 read -r -e -p "Enter original Git repository link: " repo_link
-read -r -e -p "Enter your Git repository link: " fork_link
-read -r -e -p "Enter your target branch [Default: repo-fork]: " target_branch
+read -r -e -p "Enter the Git repository link: " fork_link
+read -r -e -p "Enter the target branch [Default: repo-fork]: " target_branch
 echo
 
 # Choose mode.
@@ -90,7 +90,7 @@ if [ "$repo_type" = "1" ]; then
 		git update-index --chmod=+x $Executable 2>/dev/null
 	fi
 	git commit -m "Initial commit"
-	echo "Linking your local files to your Git repository..."
+	echo "Linking the local files to the Git repository..."
 	if git remote get-url origin >/dev/null 2>&1; then
 		git remote set-url origin "$fork_link"
 	else

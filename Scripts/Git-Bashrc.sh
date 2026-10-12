@@ -16,11 +16,11 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -28,7 +28,7 @@ echo "Git-Bashrc $Git_Bashrc_Version" && echo
 
 # Confirmation.
 while true; do
-	read -r -e -p "Are you sure you want to run this script? (Y/n) " confirmation
+	read -r -e -p "Run this script? (Y/n) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
 		[Nn]* ) echo; echo "Operation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;

@@ -13,7 +13,7 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
 fi
 
 echo "Git-Merge $Git_Merge_Version" && echo
@@ -73,12 +73,12 @@ echo "======================================="
 
 # Current branch info.
 current_branch=$(git branch --show-current)
-echo "You are currently on branch: [ $current_branch ]" && echo
+echo "Current branch: [ $current_branch ]" && echo
 
 # Merge branch selection.
-read -r -e -p "Enter the branch you want to merge FROM: " source_branch
+read -r -e -p "Enter the branch to merge FROM: " source_branch
 if [ -z "$source_branch" ]; then
-	echo "[ERROR]: You must specify a source branch." && echo
+	echo "[ERROR]: A source branch must be specifed." && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -97,11 +97,11 @@ fi
 # Conflicts and Error handling.
 if [ $? -ne 0 ]; then
 	echo && echo "Merge stopped or failed."
-	echo "Hint: If Git says 'unmerged files', run 'git merge --abort' in your terminal to reset." && echo "Hint: If it is an actual conflict, resolve the file markers and use Git-Sync."
+	echo "Hint: If Git says 'unmerged files', run 'git merge --abort' in a terminal to reset." && echo "Hint: If it is an actual conflict, resolve the file markers and use Git-Sync."
 else
 	echo && echo "Merge completed successfully!"
 	
-	read -r -e -p "Would you like to commit the merged changes? (Y/n) [Default: y]: " commit_now
+	read -r -e -p "Should the merged changes be commited? (Y/n) [Default: y]: " commit_now
 	if [[ ! "${commit_now,,}" == "n" ]]; then
 		read -r -e -p "Enter commit message: " commit_msg
 		git add .
@@ -113,7 +113,7 @@ else
 		git commit -m "${commit_msg:-Merge $source_branch into $current_branch}"
 	fi
 	
-	read -r -e -p "Would you like to push the merged changes to Git right now? (Y/n) [Default: y]: " push_now
+	read -r -e -p "Should the merged changes be pushed to Git right now? (Y/n) [Default: y]: " push_now
 	if [[ ! "${push_now,,}" == "n" ]]; then
 		echo "Pushing to Git..."
 		git push

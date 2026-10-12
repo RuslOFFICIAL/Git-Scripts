@@ -15,17 +15,17 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
 fi
 
 echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
 
 # User input.
-read -r -e -p "Enter your local repository directory: " repo_dir
-read -r -e -p "Enter your commit message [Default: Initial commit.]: " commit_message
-read -r -e -p "Enter your commit description (Optional): " commit_description
+read -r -e -p "Enter the local repository directory: " repo_dir
+read -r -e -p "Enter the commit message [Default: Initial commit.]: " commit_message
+read -r -e -p "Enter the commit description (Optional): " commit_description
 while true; do
-	read -r -e -p "Enter your Git repository link: " repo_link
+	read -r -e -p "Enter the Git repository link: " repo_link
 	if [ -z "$repo_link" ]; then
 		echo -e "[WARNING]: Git repositoy link cannot be empty. Please try again.\n"
 		continue
@@ -33,7 +33,7 @@ while true; do
 		break
 	fi
 done
-read -r -e -p "Enter your target branch [Default: main]: " target_branch
+read -r -e -p "Enter the target branch [Default: main]: " target_branch
 echo
 
 # Clean escape sequences.
@@ -66,7 +66,7 @@ cd "$repo_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter]
 # Confirmation.
 while true; do
 	echo -e "Repository Directory: '$repo_dir'\nRepository Link: '$repo_link'\nBranch: '$target_branch'\nCommit Message: '$commit_message;'\nCommit Description: '$commit_description'\n"
-	read -r -e -p "Are you sure you want to link the repository? (Y/n) " confirmation
+	read -r -e -p "Run this script? (Y/n) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
 		[Nn]* ) echo; echo "Operation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
@@ -84,19 +84,19 @@ if [ -n "$Executable" ]; then
 	chmod +x $Executable 2>/dev/null
 	git update-index --chmod=+x $Executable 2>/dev/null
 fi
-echo "It may ask now for the keyphrase of your GPG key if you have one."
+echo "It may ask now for the keyphrase of a GPG key if there is one."
 echo "Adding commit..."
 git commit -m "$commit_message" -m "$commit_description"
 echo "Renaming the default branch to '$target_branch'..."
 git branch -M "$target_branch"
-echo "Linking your local files to your Git repository..."
+echo "Linking the local files to the Git repository..."
 git remote add origin "$repo_link"
 echo "Pushing it to Git..."
 git push -u origin "$target_branch"
 
 # Option to add to "$COMMANDS_FILE_NAME".
 echo
-read -r -e -p "Do you want to add this repository to '$COMMANDS_FILE_NAME'? (Y/N): " add_to_conf
+read -r -e -p "Add this repository to '$COMMANDS_FILE_NAME'? (Y/N): " add_to_conf
 if [[ "${add_to_conf,,}" == "y" ]]; then
 	cd "$(dirname "$0")" || exit
 	if [ ! -f "$COMMANDS_FILE" ]; then

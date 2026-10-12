@@ -15,11 +15,11 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if you have that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo "Check if you have that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -84,7 +84,7 @@ done < "$COMMANDS_FILE"
 
 echo
 while true; do
-	read -r -e -p "Enter your choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
+	read -r -e -p "Enter the choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
 	if [[ " ${options[*]} " =~ " ${user_choice} " ]]; then
 		target_dir="${project_paths[$user_choice]}"
 		target_branch="${project_branches[$user_choice]}"
@@ -128,7 +128,7 @@ git switch "$target_branch" || { echo "[ERROR]:Failed to switch branch!"; echo; 
 # No changes logic.
 if [ -z "$(git status --porcelain)" ]; then
 	echo "No local changes detected."
-	read -r -e -p "Do you still want to force a commit? (Y/N): " force_commit
+	read -r -e -p "Try to force a commit? (Y/N): " force_commit
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
 		git pull --rebase || {
@@ -143,7 +143,7 @@ fi
 
 # Commit logic.
 while true; do
-	read -r -e -p "Enter your commit message: " commit_message
+	read -r -e -p "Enter the commit message: " commit_message
 	clean_message=$(echo "$commit_message" | sed 's/\x1b\[[A-Z]//g')
 	
 	if [ -n "$clean_message" ]; then
@@ -153,7 +153,7 @@ while true; do
 		echo "[ERROR]: Commit message (title) cannot be empty!"
 	fi
 done
-read -r -e -p "Enter your commit description (Optional): " commit_description
+read -r -e -p "Enter the commit description (Optional): " commit_description
 
 # Adding files and commit. Applying executable permissions.
 echo "Adding all local files..."
@@ -163,7 +163,7 @@ if [ -n "$Executable" ]; then
 	chmod +x $Executable 2>/dev/null
 	git update-index --chmod=+x $Executable 2>/dev/null
 fi
-echo "It may ask now for the keyphrase of your GPG key if you have one."
+echo "It may ask now for the keyphrase of a GPG key if there is one."
 echo "Adding commit..."
 git commit -m "$commit_message" -m "$commit_description"
 
@@ -176,7 +176,7 @@ git pull --rebase || {
 }
 
 # Push logic.
-echo "Pushing your changes..."
+echo "Pushing the changes..."
 git push origin "$target_branch" || { echo "[ERROR]: Push failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 echo && echo "Done!"
