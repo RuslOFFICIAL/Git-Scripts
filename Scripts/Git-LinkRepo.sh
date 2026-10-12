@@ -24,7 +24,15 @@ echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
 read -r -e -p "Enter your local repository directory: " repo_dir
 read -r -e -p "Enter your commit message [Default: Initial commit.]: " commit_message
 read -r -e -p "Enter your commit description (Optional): " commit_description
-read -r -e -p "Enter your GitHub repository link: " repo_link
+while true; do
+	read -r -e -p "Enter your Git repository link: " repo_link
+	if [ -z "$repo_link" ]; then
+		echo -e "[WARNING]: Git repositoy link cannot be empty. Please try again.\n"
+		continue
+	else
+		break
+	fi
+done
 read -r -e -p "Enter your target branch [Default: main]: " target_branch
 echo
 
@@ -57,7 +65,7 @@ cd "$repo_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter]
 
 # Confirmation.
 while true; do
-	echo "Repository Directory: '$repo_dir'; Repository Link: '$repo_link'; Branch: '$target_branch'; Commit Message: '$commit_message;'; Commit Description: '$commit_description'"
+	echo -e "Repository Directory: '$repo_dir'\nRepository Link: '$repo_link'\nBranch: '$target_branch'\nCommit Message: '$commit_message;'\nCommit Description: '$commit_description'\n"
 	read -r -e -p "Are you sure you want to link the repository? (Y/n) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
@@ -81,9 +89,9 @@ echo "Adding commit..."
 git commit -m "$commit_message" -m "$commit_description"
 echo "Renaming the default branch to '$target_branch'..."
 git branch -M "$target_branch"
-echo "Linking your local files to your GitHub repository..."
+echo "Linking your local files to your Git repository..."
 git remote add origin "$repo_link"
-echo "Pushing it to GitHub..."
+echo "Pushing it to Git..."
 git push -u origin "$target_branch"
 
 # Option to add to "$COMMANDS_FILE_NAME".
@@ -94,22 +102,38 @@ if [[ "${add_to_conf,,}" == "y" ]]; then
 	if [ ! -f "$COMMANDS_FILE" ]; then
 		touch "$COMMANDS_FILE"
 	fi
-	read -r -e -p "Enter a short label/name for this project: " proj_label
 	
-	# Find next available number or let user pick with check.
+	# Prompt for project label.
+	while true; do
+		read -r -e -p "Enter a short label/name for this project: " proj_label
+		if [ -z "$proj_label" ]; then
+			echo -e "[WARNING]: Project label cannot be empty. Please try again.\n"
+		else
+			break
+		fi
+	done
+	
+	# Prompt for project number.
 	while true; do
 		read -r -e -p "Enter a number ID for this project in the config: " proj_num
+		if [ -z "$proj_num" ]; then
+			echo -e "[WARNING]: Project number cannot be empty. Please try again.\n"
+			continue
+		fi
 		
 		# Check if number already exists in the file.
 		if grep -qE "^[[:space:]]*$proj_num=" "$COMMANDS_FILE"; then
-			echo "[WARNING]: Number '$proj_num' is already taken in '$COMMANDS_FILE_NAME'. Please choose another one."
+			echo -e "[WARNING]: Number '$proj_num' is already taken in '$COMMANDS_FILE_NAME'. Please choose another one.\n"
 		else
 			break
 		fi
 	done
 	
 	# Append config line.
-	printf "\n%s=%s|%s|%s" "$proj_num" "$proj_label" "$repo_dir" "$target_branch" >> "$COMMANDS_FILE"
+	printf "\n%s=%s|%s|%s\n" "$proj_num" "$proj_label" "$repo_dir" "$target_branch" >> "$COMMANDS_FILE"
+	sed -i '/^[[:space:]]*$/d' "$COMMANDS_FILE"
+	sed -i 's/\r$//' "$COMMANDS_FILE"
+	
 	echo && echo "Successfully added to '$COMMANDS_FILE_NAME'!"
 else
 	echo && echo "Operation cancelled by user."
