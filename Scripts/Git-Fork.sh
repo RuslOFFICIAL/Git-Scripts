@@ -20,8 +20,8 @@ echo "Git-Fork $Git_Fork_Version" && echo
 
 # User input.
 read -r -e -p "Enter your local directory for the fork directory: " repo_dir
-read -r -e -p "Enter original GitHub repository link: " repo_link
-read -r -e -p "Enter your GitHub repository link: " fork_link
+read -r -e -p "Enter original Git repository link: " repo_link
+read -r -e -p "Enter your Git repository link: " fork_link
 read -r -e -p "Enter your target branch [Default: repo-fork]: " target_branch
 echo
 
@@ -71,7 +71,7 @@ cd "$repo_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter]
 
 # Initialize and fork.
 cd "$repo_dir"
-echo "Cloning GitHub repository..."
+echo "Cloning Git repository..."
 git clone "$repo_link"
 cd "$repo_folder" || { echo "Failed to enter directory '$repo_folder'!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
@@ -90,7 +90,7 @@ if [ "$repo_type" = "1" ]; then
 		git update-index --chmod=+x $Executable 2>/dev/null
 	fi
 	git commit -m "Initial commit"
-	echo "Linking your local files to your GitHub repository..."
+	echo "Linking your local files to your Git repository..."
 	if git remote get-url origin >/dev/null 2>&1; then
 		git remote set-url origin "$fork_link"
 	else
@@ -108,7 +108,7 @@ else
 	git checkout -b "$target_branch"
 fi
 
-echo "Pushing it to GitHub..."
+echo "Pushing it to Git..."
 git push -u origin "$target_branch"
 
 # End.

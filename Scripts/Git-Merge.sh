@@ -85,7 +85,7 @@ fi
 read -r -e -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
 
 # Merge.
-echo && echo "Fetching latest branches from GitHub..."
+echo && echo "Fetching latest branches from Git..."
 git fetch origin
 
 if [[ "${allow_unrelated,,}" == "y" ]]; then
@@ -113,9 +113,9 @@ else
 		git commit -m "${commit_msg:-Merge $source_branch into $current_branch}"
 	fi
 	
-	read -r -e -p "Would you like to push the merged changes to GitHub right now? (Y/n) [Default: y]: " push_now
+	read -r -e -p "Would you like to push the merged changes to Git right now? (Y/n) [Default: y]: " push_now
 	if [[ ! "${push_now,,}" == "n" ]]; then
-		echo "Pushing to GitHub..."
+		echo "Pushing to Git..."
 		git push
 	else
 		echo "Operation cancelled by user."
