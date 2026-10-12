@@ -20,7 +20,7 @@ else
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
+	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo "Check if there is that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
