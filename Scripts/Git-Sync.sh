@@ -160,8 +160,12 @@ echo "Adding all local files..."
 git add .
 if [ -n "$Executable" ]; then
 	echo "Applying executable permissions..."
-	chmod +x $Executable 2>/dev/null
-	git update-index --chmod=+x $Executable 2>/dev/null
+	for pattern in $Executable; do
+		find . -type f -name "$pattern" | while read -r file; do
+			chmod +x "$file" 2>/dev/null
+			git update-index --chmod=+x "$file" 2>/dev/null
+		done
+	done
 fi
 echo "It may ask now for the keyphrase of a GPG key if there is one."
 echo "Adding commit..."

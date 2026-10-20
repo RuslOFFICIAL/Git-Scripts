@@ -86,8 +86,12 @@ if [ "$repo_type" = "1" ]; then
 	git add .
 	if [ -n "$Executable" ]; then
 		echo "Applying executable permissions..."
-		chmod +x $Executable 2>/dev/null
-		git update-index --chmod=+x $Executable 2>/dev/null
+		for pattern in $Executable; do
+			find . -type f -name "$pattern" | while read -r file; do
+				chmod +x "$file" 2>/dev/null
+				git update-index --chmod=+x "$file" 2>/dev/null
+			done
+		done
 	fi
 	git commit -m "Initial commit"
 	echo "Linking the local files to the Git repository..."
