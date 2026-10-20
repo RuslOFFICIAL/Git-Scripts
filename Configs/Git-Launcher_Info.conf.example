@@ -2,10 +2,12 @@
 # Number|ScriptName|FileName
 
 # Example:
+# 0|Exit|Exit
 # 1|Git-Aliases|Git-Aliases.sh
 
 # Note:
-# Files of the scripts included in "Git-Launcher_Info" have to be in "Scripts" directory.
+# Files of the scripts included in "Git-Launcher_Info.conf" have to be in "Scripts" directory.
+# Exit option name should be either "Exit" or "exit" to make it work without changing code.
 
 
 # To make it work you need:
