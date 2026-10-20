@@ -30,9 +30,6 @@ while true; do
 	declare -A script_map
 	options=()
 	
-	echo "[0] Exit"
-	options+=("0")
-	
 	while IFS='|' read -r key label script || [[ -n "$key" ]]; do
 		script="${script%$'\r'}"
 		
@@ -45,7 +42,7 @@ while true; do
 	done < "$COMMANDS_FILE"
 	
 	# Prompt for selection.
-	if [ ${#options[@]} -eq 1 ]; then
+	if [ ${#options[@]} -eq 0 ]; then
 		echo "[ERROR]: No options found in '$COMMANDS_FILE_NAME'." && echo
 		read -s -p "Press [Enter] to continue..." && exit 1
 	fi
@@ -54,11 +51,6 @@ while true; do
 	while true; do
 		read -r -e -p "Enter the choice ($(printf "%s, " "${options[@]}" | sed 's/, $//')): " user_choice
 		
-		if [[ "$user_choice" == "0" ]]; then
-			echo "Exiting..."
-			exit 0
-		fi
-		
 		if [[ " ${options[*]} " =~ " ${user_choice} " ]]; then
 			selected_script="${script_map[$user_choice]}"
 			break
@@ -66,6 +58,12 @@ while true; do
 			echo "Invalid choice, please try again."
 		fi
 	done
+	
+	# Exit.
+	if [[ "$selected_script" == "Exit" || "$selected_script" == "exit" ]]; then
+		echo "Exiting..."
+		exit 0
+	fi
 	
 	# Execute the selected script.
 	SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
