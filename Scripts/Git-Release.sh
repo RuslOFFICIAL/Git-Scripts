@@ -67,7 +67,19 @@ cp "$INCLUDE_FILE_1" "$CONFIGS_DIR"
 # Make files to be executable.
 if [ -n "$Executable" ]; then
 	echo "Done!" && echo -n "Applying executable permissions... "
-	(cd "$STAGING_DIR" && chmod +x $Executable 2>/dev/null)
+	(
+		cd "$STAGING_DIR"
+		for pattern in $Executable; do
+			find . -type f -name "$pattern" | while read -r file; do
+				clean_file="${file#./}"
+				if git -C "$SOURCE_DIR" check-ignore -q "$clean_file"; then
+					continue
+				fi
+				
+				chmod +x "$file" 2>/dev/null
+			done
+		done
+	)
 fi
 
 echo "Done!" && echo -n "Compressing into .tar.gz file... "

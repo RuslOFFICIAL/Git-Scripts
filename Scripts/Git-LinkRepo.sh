@@ -83,6 +83,10 @@ if [ -n "$Executable" ]; then
 	echo "Applying executable permissions..."
 	for pattern in $Executable; do
 		find . -type f -name "$pattern" | while read -r file; do
+			if git check-ignore -q "$file"; then
+				continue
+			fi
+			
 			chmod +x "$file" 2>/dev/null
 			git update-index --chmod=+x "$file" 2>/dev/null
 		done
