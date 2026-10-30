@@ -7,6 +7,33 @@ VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
 COMMANDS_FILE_NAME="Git-Sync_Info.conf"
 COMMANDS_FILE="../Configs/$COMMANDS_FILE_NAME"
 
+# Functions.
+prompt_and_create_tag() {
+	echo
+	read -r -e -p "Do you want to create a Git tag? (Y/n): " create_tag
+	if [[ "${create_tag,,}" == "y" ]]; then
+		read -r -e -p "Enter tag name (e.g., v1.0.0): " tag_name
+		if [ -n "$tag_name" ]; then
+			echo "Enter tag message (Press Ctrl+D on a new line when finished):"
+			tag_message=$(cat)
+			[[ -z "$tag_message" ]] && tag_message="$tag_name"
+			
+			# Check if GPG signing key is configured in git.
+			if [ -n "$(git config --get user.signingkey)" ]; then
+				echo "[INFO] GPG key detected. Creating signed tag ('-s')..."
+				git tag -s "$tag_name" -m "$tag_message"
+			else
+				echo "[INFO] No GPG key detected. Creating annotated tag ('-a')..."
+				git tag -a "$tag_name" -m "$tag_message"
+			fi
+			
+			git push origin "$tag_name" && echo "[INFO] Tag '$tag_name' pushed successfully." || echo "[ERROR]: Failed to push tag!"
+		fi
+	else
+		echo -e "\nOperation cancelled by user."
+	fi
+}
+
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
@@ -127,8 +154,8 @@ git switch "$target_branch" || { echo "[ERROR]:Failed to switch branch!"; echo; 
 
 # No changes logic.
 if [ -z "$(git status --porcelain)" ]; then
-	echo "No local changes detected."
-	read -r -e -p "Try to force a commit? (Y/N): " force_commit
+	echo -e "No local changes detected.\n"
+	read -r -e -p "Try to force a commit? (Y/n): " force_commit
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
 		git pull --rebase || {
@@ -136,7 +163,10 @@ if [ -z "$(git status --porcelain)" ]; then
 			git branch --set-upstream-to="origin/$target_branch" "$target_branch" 2>/dev/null || git push -u origin "$target_branch"
 			git pull --rebase || { echo "[ERROR]:Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 		}
-		echo && echo "Done!"
+		
+		prompt_and_create_tag
+		
+		echo -e "\nDone!"
 		read -s -p "Press [Enter] to continue..." && exit 0
 	fi
 fi
@@ -187,5 +217,7 @@ git pull --rebase || {
 echo "Pushing the changes..."
 git push origin "$target_branch" || { echo "[ERROR]: Push failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
 
-echo && echo "Done!"
+prompt_and_create_tag
+
+echo -e "\nDone!"
 read -s -p "Press [Enter] to continue..." && exit 0

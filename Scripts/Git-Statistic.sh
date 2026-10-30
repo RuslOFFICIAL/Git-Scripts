@@ -96,5 +96,5 @@ echo "Grand Total Commits: $total_commits"
 echo "Grand Total Added: $total_added"
 echo "Grand Total Removed: $total_removed"
 
-echo && echo "Done!"
+echo -e "\nDone!"
 read -s -p "Press [Enter] to continue..." && exit 0

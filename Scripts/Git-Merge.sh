@@ -5,6 +5,34 @@ cd "$(dirname "$0")" || exit
 VARIABLES_FILE_NAME="Variables.conf"
 VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
 
+# Functions.
+prompt_and_create_tag() {
+	echo
+	read -r -e -p "Do you want to create a Git tag? (Y/n): " create_tag
+	if [[ "${create_tag,,}" == "y" ]]; then
+		read -r -e -p "Enter tag name (e.g., v1.0.0): " tag_name
+		if [ -n "$tag_name" ]; then
+			echo "Enter tag message (Press Ctrl+D on a new line when finished):"
+			tag_message=$(cat)
+			[[ -z "$tag_message" ]] && tag_message="$tag_name"
+			
+			# Check if GPG signing key is configured in git.
+			if [ -n "$(git config --get user.signingkey)" ]; then
+				echo "It may ask now for the keyphrase of a GPG key if there is one."
+				echo "[INFO] GPG key detected. Creating signed tag ('-s')..."
+				git tag -s "$tag_name" -m "$tag_message"
+			else
+				echo "[INFO] No GPG key detected. Creating annotated tag ('-a')..."
+				git tag -a "$tag_name" -m "$tag_message"
+			fi
+			
+			git push origin "$tag_name" && echo "[INFO] Tag '$tag_name' pushed successfully." || echo "[ERROR]: Failed to push tag!"
+		fi
+	else
+		echo -e "\nOperation cancelled by user."
+	fi
+}
+
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
@@ -31,7 +59,7 @@ cd "$dir_path" || { echo "Directory not found!"; echo; read -s -p "Press [Enter]
 
 # Check if it is Git folder.
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-	echo && echo "[FATAL]: This directory is not a Git repository."
+	echo -e "\n[FATAL]: This directory is not a Git repository."
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -55,16 +83,16 @@ else
 fi
 
 # Show current status and branches.
-echo && echo "Current location: $(pwd)"
-echo && echo "Available branches (Local and Remote):"
+echo -e "\nCurrent location: $(pwd)"
+echo -e "\nAvailable branches (Local and Remote):"
 git branch -a && echo
 
 # Switch branch.
 read -r -e -p "Enter a branch to switch to (or press [ENTER] to stay on current): " switch_branch
 if [ -n "$switch_branch" ]; then
-	echo && echo "Switching branch..."
+	echo -e "\nSwitching branch..."
 	if ! git checkout "$switch_branch"; then
-		echo && echo "[ERROR]: Git checkout failed. Script stopped to prevent breaking things." && echo
+		echo -e "\n[ERROR]: Git checkout failed. Script stopped to prevent breaking things." && echo
 		read -s -p "Press [Enter] to continue..." && exit 1
 	fi
 fi
@@ -85,7 +113,7 @@ fi
 read -r -e -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
 
 # Merge.
-echo && echo "Fetching latest branches from Git..."
+echo -e "\nFetching latest branches from Git..."
 git fetch origin
 
 if [[ "${allow_unrelated,,}" == "y" ]]; then
@@ -96,10 +124,10 @@ fi
 
 # Conflicts and Error handling.
 if [ $? -ne 0 ]; then
-	echo && echo "Merge stopped or failed."
+	echo -e "\nMerge stopped or failed."
 	echo "Hint: If Git says 'unmerged files', run 'git merge --abort' in a terminal to reset." && echo "Hint: If it is an actual conflict, resolve the file markers and use Git-Sync."
 else
-	echo && echo "Merge completed successfully!"
+	echo -e "\nMerge completed successfully!"
 	
 	read -r -e -p "Should the merged changes be commited? (Y/n) [Default: y]: " commit_now
 	if [[ ! "${commit_now,,}" == "n" ]]; then
@@ -118,6 +146,7 @@ else
 				done
 			done
 		fi
+		echo "It may ask now for the keyphrase of a GPG key if there is one."
 		git commit -m "${commit_msg:-Merge $source_branch into $current_branch}"
 	fi
 	
@@ -131,5 +160,5 @@ else
 fi
 
 # End.
-echo && echo "Done!"
+echo -e "\nDone!"
 read -s -p "Press [Enter] to continue..." && exit 0

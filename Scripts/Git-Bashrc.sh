@@ -31,7 +31,7 @@ while true; do
 	read -r -e -p "Run this script? (Y/n) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
-		[Nn]* ) echo; echo "Operation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		[Nn]* ) echo -e "\nOperation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
 		* ) echo "Please answer Y or n."; echo ;;
 	esac
 done
@@ -40,7 +40,7 @@ done
 if [ ! -f "$BASHRC" ]; then
 	echo "'.bashrc' not found. Creating a new one..."
 	cat "$COMMANDS_FILE" > "$BASHRC"
-	echo "All aliases successfully initialized in a new '.bashrc' file." && echo && echo "Done!"
+	echo "All aliases successfully initialized in a new '.bashrc' file." && echo -e "\nDone!"
 	read -s -p "Press [Enter] to continue..." && exit 0
 fi
 
@@ -160,5 +160,5 @@ source $BASHRC
 echo "Success!"
 
 # End.
-echo && echo "Done!"
+echo -e "\nDone!"
 read -s -p "Press [Enter] to continue..." && exit 0

@@ -30,7 +30,7 @@ while true; do
 	read -r -e -p "Run this script? (Y/n) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
-		[Nn]* ) echo; echo "Operation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		[Nn]* ) echo -e "\nOperation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
 		* ) echo "Please answer Y or n."; echo ;;
 	esac
 done
@@ -67,13 +67,13 @@ else
 fi
 
 # CLI.
-echo && echo "Press 'Ctrl+C' to skip CLI logins." && echo -n "Checking platform CLI logins... "
+echo -e "\nPress 'Ctrl+C' to skip CLI logins." && echo -n "Checking platform CLI logins... "
 gh auth login
 glab auth login
 echo "Success!"
 
 # End.
-echo && echo "Git global configuration updated successfully!"
+echo -e "\nGit global configuration updated successfully!"
 echo "Username:		$GitName" 
 echo "Email:			$GitEmail"
 echo "GPG signing key ID:	$gpg_status"

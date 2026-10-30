@@ -76,6 +76,6 @@ while true; do
 		echo "[ERROR]: Could not find script at $TARGET_SCRIPT"
 	fi
 	
-	echo && echo && read -s -p "Press [Enter] to return to the menu..."
+	echo -e "\n" && read -s -p "Press [Enter] to return to the menu..."
 	clear
 done

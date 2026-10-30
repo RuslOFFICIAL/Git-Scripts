@@ -5,6 +5,34 @@ cd "$(dirname "$0")" || exit
 VARIABLES_FILE_NAME="Variables.conf"
 VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
 
+# Functions.
+prompt_and_create_tag() {
+	echo
+	read -r -e -p "Do you want to create a Git tag? (Y/n): " create_tag
+	if [[ "${create_tag,,}" == "y" ]]; then
+		read -r -e -p "Enter tag name (e.g., v1.0.0): " tag_name
+		if [ -n "$tag_name" ]; then
+			echo "Enter tag message (Press Ctrl+D on a new line when finished):"
+			tag_message=$(cat)
+			[[ -z "$tag_message" ]] && tag_message="$tag_name"
+			
+			# Check if GPG signing key is configured in git.
+			if [ -n "$(git config --get user.signingkey)" ]; then
+				echo "It may ask now for the keyphrase of a GPG key if there is one."
+				echo "[INFO] GPG key detected. Creating signed tag ('-s')..."
+				git tag -s "$tag_name" -m "$tag_message"
+			else
+				echo "[INFO] No GPG key detected. Creating annotated tag ('-a')..."
+				git tag -a "$tag_name" -m "$tag_message"
+			fi
+			
+			git push origin "$tag_name" && echo "[INFO] Tag '$tag_name' pushed successfully." || echo "[ERROR]: Failed to push tag!"
+		fi
+	else
+		echo -e "\nOperation cancelled by user."
+	fi
+}
+
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
@@ -97,6 +125,7 @@ if [ "$repo_type" = "1" ]; then
 			done
 		done
 	fi
+	echo "It may ask now for the keyphrase of a GPG key if there is one."
 	git commit -m "Initial commit"
 	echo "Linking the local files to the Git repository..."
 	if git remote get-url origin >/dev/null 2>&1; then
@@ -119,6 +148,8 @@ fi
 echo "Pushing it to Git..."
 git push -u origin "$target_branch"
 
+prompt_and_create_tag
+
 # End.
-echo && echo "Done!"
+echo -e "\nDone!"
 read -s -p "Press [Enter] to continue..." && exit 0

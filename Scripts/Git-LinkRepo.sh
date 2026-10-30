@@ -7,6 +7,34 @@ VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
 COMMANDS_FILE_NAME="Git-Sync_Info.conf"
 COMMANDS_FILE="../Configs/$COMMANDS_FILE_NAME"
 
+# Functions.
+prompt_and_create_tag() {
+	echo
+	read -r -e -p "Do you want to create a Git tag? (Y/n): " create_tag
+	if [[ "${create_tag,,}" == "y" ]]; then
+		read -r -e -p "Enter tag name (e.g., v1.0.0): " tag_name
+		if [ -n "$tag_name" ]; then
+			echo "Enter tag message (Press Ctrl+D on a new line when finished):"
+			tag_message=$(cat)
+			[[ -z "$tag_message" ]] && tag_message="$tag_name"
+			
+			# Check if GPG signing key is configured in git.
+			if [ -n "$(git config --get user.signingkey)" ]; then
+				echo "It may ask now for the keyphrase of a GPG key if there is one."
+				echo "[INFO] GPG key detected. Creating signed tag ('-s')..."
+				git tag -s "$tag_name" -m "$tag_message"
+			else
+				echo "[INFO] No GPG key detected. Creating annotated tag ('-a')..."
+				git tag -a "$tag_name" -m "$tag_message"
+			fi
+			
+			git push origin "$tag_name" && echo "[INFO] Tag '$tag_name' pushed successfully." || echo "[ERROR]: Failed to push tag!"
+		fi
+	else
+		echo -e "\nOperation cancelled by user."
+	fi
+}
+
 # Configs.
 if [ -f "$VARIABLES_FILE" ]; then
 	while IFS='=' read -r key value; do
@@ -69,7 +97,7 @@ while true; do
 	read -r -e -p "Run this script? (Y/n) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
-		[Nn]* ) echo; echo "Operation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		[Nn]* ) echo -e "\nOperation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
 		* ) echo "Please answer Y or n."; echo ;;
 	esac
 done
@@ -102,9 +130,11 @@ git remote add origin "$repo_link"
 echo "Pushing it to Git..."
 git push -u origin "$target_branch"
 
+prompt_and_create_tag
+
 # Option to add to "$COMMANDS_FILE_NAME".
 echo
-read -r -e -p "Add this repository to '$COMMANDS_FILE_NAME'? (Y/N): " add_to_conf
+read -r -e -p "Add this repository to '$COMMANDS_FILE_NAME'? (Y/n): " add_to_conf
 if [[ "${add_to_conf,,}" == "y" ]]; then
 	cd "$(dirname "$0")" || exit
 	if [ ! -f "$COMMANDS_FILE" ]; then
@@ -142,11 +172,11 @@ if [[ "${add_to_conf,,}" == "y" ]]; then
 	sed -i '/^[[:space:]]*$/d' "$COMMANDS_FILE"
 	sed -i 's/\r$//' "$COMMANDS_FILE"
 	
-	echo && echo "Successfully added to '$COMMANDS_FILE_NAME'!"
+	echo -e "\nSuccessfully added to '$COMMANDS_FILE_NAME'!"
 else
-	echo && echo "Operation cancelled by user."
+	echo -e "\nOperation cancelled by user."
 fi
 
 # End.
-echo && echo "Done!"
+echo -e "\nDone!"
 read -s -p "Press [Enter] to continue..." && exit 0

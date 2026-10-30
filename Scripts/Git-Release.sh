@@ -25,7 +25,7 @@ while true; do
 	read -r -e -p "Run this script? (Y/n) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
-		[Nn]* ) echo; echo "Operation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		[Nn]* ) echo -e "\nOperation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
 		* ) echo "Please answer Y or n."; echo ;;
 	esac
 done
@@ -89,6 +89,6 @@ tar --owner=0 --group=0 --no-same-owner -czf "$ARCHIVE_FILE" -C "$STAGING_DIR" .
 echo "Done!" && echo -n "Cleaning up temporary folders... "
 rm -rf "$STAGING_DIR"
 
-echo "Done!" && echo && echo "Done!" && echo "The release is ready inside the 'Releases' folder."
-echo && echo "Done!"
+echo "Done!" && echo -e "\nDone!" && echo "The release is ready inside the 'Releases' folder."
+echo -e "\nDone!"
 read -s -p "Press [Enter] to continue..." && exit 0
