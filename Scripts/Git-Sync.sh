@@ -10,12 +10,17 @@ COMMANDS_FILE="../Configs/$COMMANDS_FILE_NAME"
 # Functions.
 prompt_and_create_tag() {
 	echo
-	read -r -e -p "Do you want to create a Git tag? (Y/n): " create_tag
+	read -r -e -p "Do you want to create a Git tag? (y/N): " create_tag
 	if [[ "${create_tag,,}" == "y" ]]; then
 		read -r -e -p "Enter tag name (e.g., v1.0.0): " tag_name
 		if [ -n "$tag_name" ]; then
-			echo "Enter tag message (Press Ctrl+D on a new line when finished):"
-			tag_message=$(cat)
+			tag_message=""
+			read -r -e -p "Do you want to add a tag message? (y/N): " add_tag_msg
+			if [[ "${add_tag_msg,,}" == "y" ]]; then
+				echo "Enter tag message (Press Enter then Ctrl+D on a new line when finished):"
+				tag_message=$(cat)
+			fi
+			
 			[[ -z "$tag_message" ]] && tag_message="$tag_name"
 			
 			# Check if GPG signing key is configured in git.
@@ -155,7 +160,7 @@ git switch "$target_branch" || { echo "[ERROR]:Failed to switch branch!"; echo; 
 # No changes logic.
 if [ -z "$(git status --porcelain)" ]; then
 	echo -e "No local changes detected.\n"
-	read -r -e -p "Try to force a commit? (Y/n): " force_commit
+	read -r -e -p "Try to force a commit? (y/N): " force_commit
 	if [[ ! "${force_commit,,}" == "y" ]]; then
 		echo "Checking for online updates..."
 		git pull --rebase || {

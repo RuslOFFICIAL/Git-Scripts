@@ -8,12 +8,17 @@ VARIABLES_FILE="../Configs/$VARIABLES_FILE_NAME"
 # Functions.
 prompt_and_create_tag() {
 	echo
-	read -r -e -p "Do you want to create a Git tag? (Y/n): " create_tag
+	read -r -e -p "Do you want to create a Git tag? (y/N): " create_tag
 	if [[ "${create_tag,,}" == "y" ]]; then
 		read -r -e -p "Enter tag name (e.g., v1.0.0): " tag_name
 		if [ -n "$tag_name" ]; then
-			echo "Enter tag message (Press Ctrl+D on a new line when finished):"
-			tag_message=$(cat)
+			tag_message=""
+			read -r -e -p "Do you want to add a tag message? (y/N): " add_tag_msg
+			if [[ "${add_tag_msg,,}" == "y" ]]; then
+				echo "Enter tag message (Press Enter then Ctrl+D on a new line when finished):"
+				tag_message=$(cat)
+			fi
+			
 			[[ -z "$tag_message" ]] && tag_message="$tag_name"
 			
 			# Check if GPG signing key is configured in git.
@@ -110,7 +115,7 @@ if [ -z "$source_branch" ]; then
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
-read -r -e -p "Allow unrelated histories? (Y/n) [Default: n]: " allow_unrelated
+read -r -e -p "Allow unrelated histories? (y/N) [Default: n]: " allow_unrelated
 
 # Merge.
 echo -e "\nFetching latest branches from Git..."

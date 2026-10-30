@@ -27,7 +27,7 @@ echo "Git-Login $Git_Login_Version" && echo
 
 # Confirmation.
 while true; do
-	read -r -e -p "Run this script? (Y/n) " confirmation
+	read -r -e -p "Run this script? (Y/N) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
 		[Nn]* ) echo -e "\nOperation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;

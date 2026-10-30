@@ -10,12 +10,17 @@ COMMANDS_FILE="../Configs/$COMMANDS_FILE_NAME"
 # Functions.
 prompt_and_create_tag() {
 	echo
-	read -r -e -p "Do you want to create a Git tag? (Y/n): " create_tag
+	read -r -e -p "Do you want to create a Git tag? (y/N): " create_tag
 	if [[ "${create_tag,,}" == "y" ]]; then
 		read -r -e -p "Enter tag name (e.g., v1.0.0): " tag_name
 		if [ -n "$tag_name" ]; then
-			echo "Enter tag message (Press Ctrl+D on a new line when finished):"
-			tag_message=$(cat)
+			tag_message=""
+			read -r -e -p "Do you want to add a tag message? (y/N): " add_tag_msg
+			if [[ "${add_tag_msg,,}" == "y" ]]; then
+				echo "Enter tag message (Press Enter then Ctrl+D on a new line when finished):"
+				tag_message=$(cat)
+			fi
+			
 			[[ -z "$tag_message" ]] && tag_message="$tag_name"
 			
 			# Check if GPG signing key is configured in git.
@@ -51,7 +56,9 @@ echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
 # User input.
 read -r -e -p "Enter the local repository directory: " repo_dir
 read -r -e -p "Enter the commit message [Default: Initial commit.]: " commit_message
-read -r -e -p "Enter the commit description (Optional): " commit_description
+echo "Enter the commit description (Optional):" commit_description
+commit_description=$(cat)
+
 while true; do
 	read -r -e -p "Enter the Git repository link: " repo_link
 	if [ -z "$repo_link" ]; then
@@ -94,7 +101,7 @@ cd "$repo_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter]
 # Confirmation.
 while true; do
 	echo -e "Repository Directory: '$repo_dir'\nRepository Link: '$repo_link'\nBranch: '$target_branch'\nCommit Message: '$commit_message;'\nCommit Description: '$commit_description'\n"
-	read -r -e -p "Run this script? (Y/n) " confirmation
+	read -r -e -p "Run this script? (Y/N) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
 		[Nn]* ) echo -e "\nOperation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
@@ -134,7 +141,7 @@ prompt_and_create_tag
 
 # Option to add to "$COMMANDS_FILE_NAME".
 echo
-read -r -e -p "Add this repository to '$COMMANDS_FILE_NAME'? (Y/n): " add_to_conf
+read -r -e -p "Add this repository to '$COMMANDS_FILE_NAME'? (y/N): " add_to_conf
 if [[ "${add_to_conf,,}" == "y" ]]; then
 	cd "$(dirname "$0")" || exit
 	if [ ! -f "$COMMANDS_FILE" ]; then
