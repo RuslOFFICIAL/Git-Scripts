@@ -21,7 +21,7 @@ else
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo \n "Check if there is that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!\n"
+	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo -e "Check if there is that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!\n"
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
