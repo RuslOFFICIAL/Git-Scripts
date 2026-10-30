@@ -18,7 +18,7 @@ prompt_and_create_tag() {
 			read -r -e -p "Do you want to add a tag message? (y/N): " add_tag_msg
 			if [[ "${add_tag_msg,,}" == "y" ]]; then
 				echo "Enter tag message (Press Enter then Ctrl+D on a new line when finished):"
-				tag_message=$(cat)
+				tag_message=$(cat | sed 's/"/\\"/g')
 			fi
 			
 			[[ -z "$tag_message" ]] && tag_message="$tag_name"
