@@ -1,4 +1,5 @@
 #!/bin/bash
+set +H
 cd "$(dirname "$0")" || exit
 
 # Variables.
@@ -47,10 +48,10 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo -e "Check if there is that file or download it from the repository!\n"
 fi
 
-echo "Git-Merge $Git_Merge_Version" && echo
+echo -e "Git-Merge $Git_Merge_Version\n"
 
 # User insert directory path.
 read -r -e -p "Enter the path of the Git repository folder: " dir_path
@@ -61,11 +62,11 @@ if [[ "$dir_path" == [a-zA-Z]:\\* ]] || [[ "$dir_path" == [a-zA-Z]:/* ]]; then
 	dir_path=$(cygpath -u "$dir_path")
 fi
 
-cd "$dir_path" || { echo "Directory not found!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$dir_path" || { echo -e "\nDirectory not found!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Check if it is Git folder.
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-	echo -e "\n[FATAL]: This directory is not a Git repository."
+	echo -e "\n[FATAL]: This directory is not a Git repository.\n"
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -91,14 +92,14 @@ fi
 # Show current status and branches.
 echo -e "\nCurrent location: $(pwd)"
 echo -e "\nAvailable branches (Local and Remote):"
-git branch -a && echo
+git branch -a
 
 # Switch branch.
-read -r -e -p "Enter a branch to switch to (or press [ENTER] to stay on current): " switch_branch
+read -r -e -p $'\nEnter a branch to switch to (or press [ENTER] to stay on current): ' switch_branch
 if [ -n "$switch_branch" ]; then
 	echo -e "\nSwitching branch..."
 	if ! git checkout "$switch_branch"; then
-		echo -e "\n[ERROR]: Git checkout failed. Script stopped to prevent breaking things." && echo
+		echo -e "\n[ERROR]: Git checkout failed. Script stopped to prevent breaking things.\n"
 		read -s -p "Press [Enter] to continue..." && exit 1
 	fi
 fi
@@ -107,12 +108,12 @@ echo "======================================="
 
 # Current branch info.
 current_branch=$(git branch --show-current)
-echo "Current branch: [ $current_branch ]" && echo
+echo "Current branch: [ $current_branch ]"
 
 # Merge branch selection.
-read -r -e -p "Enter the branch to merge FROM: " source_branch
+read -r -e -p $'\nEnter the branch to merge FROM: ' source_branch
 if [ -z "$source_branch" ]; then
-	echo "[ERROR]: A source branch must be specifed." && echo
+	echo -e "\n[ERROR]: A source branch must be specifed.\n"
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -131,7 +132,7 @@ fi
 # Conflicts and Error handling.
 if [ $? -ne 0 ]; then
 	echo -e "\nMerge stopped or failed."
-	echo "Hint: If Git says 'unmerged files', run 'git merge --abort' in a terminal to reset." && echo "Hint: If it is an actual conflict, resolve the file markers and use Git-Sync."
+	echo "Hint: If Git says 'unmerged files', run 'git merge --abort' in a terminal to reset." && echo "Hint: If it is an actual conflict, resolve the file markers and use 'Git-Sync'."
 else
 	echo -e "\nMerge completed successfully!"
 	

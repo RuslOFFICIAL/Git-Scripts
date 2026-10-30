@@ -1,4 +1,5 @@
 #!/bin/bash
+set +H
 cd "$(dirname "$0")" || exit
 
 # Variables.
@@ -15,16 +16,16 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo -e "Check if there is that file or download it from the repository!\n"
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo "Check if there is that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
+	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo -e "Check if there is that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!\n"
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 while true; do
-	echo "Git-Launcher $Git_Launcher_Version" && echo
+	echo -e "Git-Launcher $Git_Launcher_Version\n"
 	
 	# Display options and build selection array.
 	declare -A script_map
@@ -68,7 +69,7 @@ while true; do
 	# Execute the selected script.
 	SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 	TARGET_SCRIPT="$SCRIPT_DIR/$selected_script"
-	echo "Running \"$selected_script\"..." && echo
+	echo -e "Running \"$selected_script\"...\n"
 	
 	if [ -f "$TARGET_SCRIPT" ]; then
 		bash "$TARGET_SCRIPT"

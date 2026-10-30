@@ -1,15 +1,16 @@
 #!/bin/bash
+set +H
 cd "$(dirname "$0")" || exit
 
 # Define the file path.
 FILE_PATH="./Git-Launcher.sh"
 DIRECTORY_NAME="Scripts"
 
-cd "$DIRECTORY_NAME" || { echo "Directory '$DIRECTORY_NAME' not found."; echo; read -s -n 1 -p "Press any key to continue..."; exit 1; }
+cd "$DIRECTORY_NAME" || { echo -e "Directory '$DIRECTORY_NAME' not found.\n"; read -s -n 1 -p "Press any key to continue..."; exit 1; }
 
 # Unblock file.
 if [ -f "$FILE_PATH" ]; then
-	echo "Processing file: $(basename "$FILE_PATH")..."
+	echo "Processing file: '$(basename "$FILE_PATH")'..."
 	if xattr -p com.apple.metadata:kMDItemWhereFroms "$FILE_PATH" >/dev/null 2>&1 || \
 	xattr -p com.apple.quarantine "$FILE_PATH" >/dev/null 2>&1; then
 		xattr -d com.apple.quarantine "$FILE_PATH" 2>/dev/null
@@ -19,6 +20,6 @@ if [ -f "$FILE_PATH" ]; then
 	fi
 	echo && "$FILE_PATH"
 else
-	echo "File not found: $FILE_PATH"
+	echo "File not found: '$FILE_PATH'"
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi

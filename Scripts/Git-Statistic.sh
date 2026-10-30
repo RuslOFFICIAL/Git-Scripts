@@ -1,4 +1,5 @@
 #!/bin/bash
+set +H
 cd "$(dirname "$0")" || exit
 
 # Variables.
@@ -13,10 +14,10 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo -e "Check if there is that file or download it from the repository!\n"
 fi
 
-echo "Git-Statistic $Git_Statistic_Version" && echo
+echo -e "Git-Statistic $Git_Statistic_Version\n"
 
 # Variables.
 git_name=$(git config user.name)
@@ -35,9 +36,9 @@ if [[ "$target_dir" == [a-zA-Z]:\\* ]] || [[ "$target_dir" == [a-zA-Z]:/* ]]; th
 	target_dir=$(cygpath -u "$target_dir")
 fi
 
-echo "Checking path: $target_dir" && echo
+echo -e "Checking path: '$target_dir'...\n"
 if [ ! -d "$target_dir" ]; then
-	echo "Directory not found!" && echo
+	echo -e "Directory not found!\n"
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 cd "$target_dir" || exit
@@ -81,7 +82,7 @@ for d in */; do
 done
 
 if [ "$found_any" = false ]; then
-	echo "No git repositories found." && echo
+	echo -e "No git repositories found.\n"
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 

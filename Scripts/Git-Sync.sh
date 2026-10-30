@@ -1,4 +1,5 @@
 #!/bin/bash
+set +H
 cd "$(dirname "$0")" || exit
 
 # Variables.
@@ -48,11 +49,11 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo -e "Check if there is that file or download it from the repository!\n"
 fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
-	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo "Check if there is that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!" && echo
+	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo -e "Check if there is that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!\n"
 	read -s -p "Press [Enter] to continue..." && exit 1
 fi
 
@@ -133,7 +134,7 @@ if [[ "$target_dir" == [a-zA-Z]:\\* ]] || [[ "$target_dir" == [a-zA-Z]:/* ]]; th
 	target_dir=$(cygpath -u "$target_dir")
 fi
 
-cd "$target_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$target_dir" || { echo -e "\nDirectory not found!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Ensure .git suffix is present for links if missing.
 repo_link=$(git remote get-url origin 2>/dev/null || git remote -v | awk '/^origin.*\(fetch\)$/{print $2}')
@@ -156,7 +157,7 @@ fi
 
 # Switch to the target branch.
 echo "Switching to the branch '$target_branch'..."
-git switch "$target_branch" || { echo "[ERROR]:Failed to switch branch!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+git switch "$target_branch" || { echo -e "\n[ERROR]:Failed to switch branch!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # No changes logic.
 if [ -z "$(git status --porcelain)" ]; then
@@ -222,12 +223,12 @@ echo "Pulling any changes..."
 git pull --rebase || {
 	echo "[INFO] No tracking branch found. Setting upstream and retrying..."
 	git branch --set-upstream-to="origin/$target_branch" "$target_branch" 2>/dev/null || git push -u origin "$target_branch"
-	git pull --rebase || { echo "[ERROR]: Pull failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+	git pull --rebase || { echo -e "\n[ERROR]: Pull failed!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
 }
 
 # Push logic.
 echo "Pushing the changes..."
-git push origin "$target_branch" || { echo "[ERROR]: Push failed!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+git push origin "$target_branch" || { echo -e "\n[ERROR]: Push failed!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 prompt_and_create_tag
 

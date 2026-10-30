@@ -1,4 +1,5 @@
 #!/bin/bash
+set +H
 cd "$(dirname "$0")" || exit
 
 # Variables.
@@ -15,18 +16,18 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo -e "Check if there is that file or download it from the repository!\n"
 fi
 
-echo "Git-Release $Git_Release_Version" && echo
+echo -e "Git-Release $Git_Release_Version\n"
 
 # Confirmation.
 while true; do
 	read -r -e -p "Run this script? (Y/N) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
-		[Nn]* ) echo -e "\nOperation cancelled by user."; echo; read -s -p "Press [Enter] to continue..."; exit 0 ;;
-		* ) echo "Please answer Y or n."; echo ;;
+		[Nn]* ) echo -e "\nOperation cancelled by user.\n"; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		* ) echo -e "Please answer Y or n.\n" ;;
 	esac
 done
 

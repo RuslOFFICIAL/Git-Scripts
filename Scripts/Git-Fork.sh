@@ -1,4 +1,5 @@
 #!/bin/bash
+set +H
 cd "$(dirname "$0")" || exit
 
 # Variables.
@@ -47,10 +48,10 @@ if [ -f "$VARIABLES_FILE" ]; then
 		export "$key=$clean_value"
 	done < "$VARIABLES_FILE"
 else
-	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo "Check if there is that file or download it from GitHub repository!" && echo
+	echo "[WARNING]: File not found at '$VARIABLES_FILE'!" && echo -e "Check if there is that file or download it from the repository!\n"
 fi
 
-echo "Git-Fork $Git_Fork_Version" && echo
+echo -e "Git-Fork $Git_Fork_Version\n"
 
 # User input.
 read -r -e -p "Enter the local directory for the fork directory: " repo_dir
@@ -93,7 +94,7 @@ fi
 # Check if path exists.
 if [ ! -d "$repo_dir" ]; then
 	echo "Directory '$repo_dir' does not exist. Creating it..."
-	mkdir -p "$repo_dir" || { echo "Failed to create directory!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+	mkdir -p "$repo_dir" || { echo -e "\nFailed to create directory!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
 fi
 
 # Find the cloned directory.
@@ -101,13 +102,13 @@ repo_folder="${repo_link##*/}"
 repo_folder="${repo_folder%.git}"
 
 # Navigate to the main directory.
-cd "$repo_dir" || { echo "Directory not found!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$repo_dir" || { echo -e "\nDirectory not found!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Initialize and fork.
 cd "$repo_dir"
 echo "Cloning Git repository..."
 git clone "$repo_link"
-cd "$repo_folder" || { echo "Failed to enter directory '$repo_folder'!"; echo; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$repo_folder" || { echo -e "\nFailed to enter directory '$repo_folder'!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Conditional logic based on choice.
 if [ "$repo_type" = "1" ]; then
