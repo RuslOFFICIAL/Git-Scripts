@@ -20,6 +20,7 @@ prompt_and_create_tag() {
 			fi
 			
 			[[ -z "$tag_message" ]] && tag_message="$tag_name"
+			echo
 			
 			# Check if GPG signing key is configured in git.
 			if [ -n "$(git config --get user.signingkey)" ]; then
