@@ -57,8 +57,8 @@ echo "Git-Link-Repo $Git_LinkRepo_Version" && echo
 # User input.
 read -r -e -p "Enter the local repository directory: " repo_dir
 read -r -e -p "Enter the commit message [Default: Initial commit.]: " commit_message
-echo "Enter the commit description (Optional):" commit_description
-commit_description=$(cat)
+echo "Enter the commit description (Optional) (Press Enter then Ctrl+D on a new line when finished):"
+commit_description=$(cat | sed 's/"/\\"/g')
 
 while true; do
 	read -r -e -p "Enter the Git repository link: " repo_link

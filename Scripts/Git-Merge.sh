@@ -138,6 +138,11 @@ else
 	read -r -e -p "Should the merged changes be commited? (Y/n) [Default: y]: " commit_now
 	if [[ ! "${commit_now,,}" == "n" ]]; then
 		read -r -e -p "Enter commit message: " commit_msg
+		commit_msg="${commit_msg:-Merge $source_branch into $current_branch}"
+		
+		echo "Enter the commit description (Optional) (Press Enter then Ctrl+D on a new line when finished):"
+		commit_description=$(cat | sed 's/"/\\"/g')
+		
 		git add .
 		if [ -n "$Executable" ]; then
 			echo "Applying executable permissions..."
@@ -152,8 +157,9 @@ else
 				done
 			done
 		fi
+		
 		echo "It may ask now for the keyphrase of a GPG key if there is one."
-		git commit -m "${commit_msg:-Merge $source_branch into $current_branch}"
+		git commit -m "$commit_msg" -m "$commit_description"
 	fi
 	
 	read -r -e -p "Should the merged changes be pushed to Git right now? (Y/n) [Default: y]: " push_now

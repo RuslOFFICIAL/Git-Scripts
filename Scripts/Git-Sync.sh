@@ -189,7 +189,9 @@ while true; do
 		echo "[ERROR]: Commit message (title) cannot be empty!"
 	fi
 done
-read -r -e -p "Enter the commit description (Optional): " commit_description
+
+echo "Enter the commit description (Optional) (Press Enter then Ctrl+D on a new line when finished):"
+commit_description=$(cat | sed 's/"/\\"/g')
 
 # Adding files and commit. Applying executable permissions.
 echo "Adding all local files..."
