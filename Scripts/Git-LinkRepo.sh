@@ -12,34 +12,42 @@ COMMANDS_FILE="../Configs/$COMMANDS_FILE_NAME"
 prompt_and_create_tag() {
 	echo
 	read -r -e -p "Create a Git tag? (y/N): " create_tag
-	if [[ "${create_tag,,}" == "y" ]]; then
-		read -r -e -p "Enter tag name (e.g., v1.0.0): " tag_name
-		if [ -n "$tag_name" ]; then
-			local tag_message=""
-			read -r -e -p "Add a tag message? (y/N): " add_tag_msg
-			if [[ "${add_tag_msg,,}" == "y" ]]; then
-				echo "Enter tag message (Press Enter then Ctrl+D on a new line when finished):"
-				tag_message="$(cat)"
-			fi
-			
-			[[ -z "$tag_message" ]] && tag_message="$tag_name"
-			echo
-			
-			# Check if GPG signing key is configured in git.
-			if [ -n "$(git config --get user.signingkey)" ]; then
-				echo "It may ask now for the keyphrase of a GPG key if there is one."
-				echo "[INFO] GPG key detected. Creating signed tag ('-s')..."
-				git tag -s "$tag_name" -m "$tag_message"
-			else
-				echo "[INFO] No GPG key detected. Creating annotated tag ('-a')..."
-				git tag -a "$tag_name" -m "$tag_message"
-			fi
-			
-			git push origin "$tag_name" && echo "[INFO] Tag '$tag_name' pushed successfully." || echo "[ERROR]: Failed to push tag!"
-		fi
-	else
+	if [[ "${create_tag,,}" != "y" ]]; then
 		echo -e "\nOperation cancelled by user."
+		return 0
 	fi
+
+	read -r -e -p "Enter tag name (e.g., v1.0.0): " tag_name
+	[ -z "$tag_name" ] && return 0
+
+	local use_editor=""
+	read -r -e -p "Add a tag message? (y/N): " add_tag_msg
+	[[ "${add_tag_msg,,}" == "y" ]] && use_editor=1
+	echo
+
+	local tag_type
+	if [ -n "$(git config --get user.signingkey)" ]; then
+		tag_type="-s"
+		echo "It may ask now for the keyphrase of a GPG key if there is one."
+		echo "[INFO] GPG key detected. Creating signed tag ('-s')..."
+	else
+		tag_type="-a"
+		echo "[INFO] No GPG key detected. Creating annotated tag ('-a')..."
+	fi
+
+	local tag_ok=0
+	if [ -n "$use_editor" ]; then
+		git tag "$tag_type" "$tag_name" && tag_ok=1
+	else
+		git tag "$tag_type" "$tag_name" -m "$tag_name" && tag_ok=1
+	fi
+
+	if [ "$tag_ok" -ne 1 ]; then
+		echo "[ERROR]: Tag creation failed or was aborted (empty message, existing tag, or GPG error). Nothing was pushed."
+		return 1
+	fi
+
+	git push origin "$tag_name" && echo "[INFO] Tag '$tag_name' pushed successfully." || echo "[ERROR]: Failed to push tag!"
 }
 
 # Configs.
