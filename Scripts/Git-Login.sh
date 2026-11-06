@@ -1,5 +1,5 @@
 #!/bin/bash
-set +H
+[ -n "$BASH_VERSION" ] && set +H
 cd "$(dirname "$0")" || exit
 
 # Variables.
