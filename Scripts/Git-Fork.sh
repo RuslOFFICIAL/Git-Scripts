@@ -140,8 +140,17 @@ if [ "$repo_type" = "1" ]; then
 			done
 		done
 	fi
-	echo "It may ask now for the keyphrase of a GPG key if there is one."
-	git commit -m "Initial commit"
+	
+	commit_flags=()
+	if [ -n "$(git config --get user.signingkey)" ]; then
+		commit_flags+=("-S")
+		echo "It may ask now for the keyphrase of a GPG key if there is one."
+		echo "[INFO] GPG key detected. Adding signed commit ('-S')..."
+	else
+		echo "[INFO] No GPG key detected. Making standard commit..."
+	fi
+	git commit "${commit_flags[@]}" -m "$commit_message" -m "$commit_description"
+	
 	echo "Linking the local files to the Git repository..."
 	if git remote get-url origin >/dev/null 2>&1; then
 		git remote set-url origin "$fork_link"

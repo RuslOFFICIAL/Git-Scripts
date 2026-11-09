@@ -142,9 +142,17 @@ if [ -n "$Executable" ]; then
 		done
 	done
 fi
-echo "It may ask now for the keyphrase of a GPG key if there is one."
-echo "Adding commit..."
-git commit -m "$commit_message" -m "$commit_description"
+
+commit_flags=()
+if [ -n "$(git config --get user.signingkey)" ]; then
+	commit_flags+=("-S")
+	echo "It may ask now for the keyphrase of a GPG key if there is one."
+	echo "[INFO] GPG key detected. Adding signed commit ('-S')..."
+else
+	echo "[INFO] No GPG key detected. Making standard commit..."
+fi
+git commit "${commit_flags[@]}" -m "$commit_message" -m "$commit_description"
+
 echo "Renaming the default branch to '$target_branch'..."
 git branch -M "$target_branch"
 echo "Linking the local files to the Git repository..."

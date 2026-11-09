@@ -186,6 +186,7 @@ if [ -z "$(git status --porcelain)" ]; then
 		read -s -p "Press [Enter] to continue..." && exit 0
 	fi
 fi
+echo
 
 # Commit logic.
 while true; do
@@ -223,9 +224,16 @@ if [ -n "$Executable" ]; then
 		done
 	done
 fi
-echo "It may ask now for the keyphrase of a GPG key if there is one."
-echo "Adding commit..."
-git commit -m "$commit_message" -m "$commit_description"
+
+commit_flags=()
+if [ -n "$(git config --get user.signingkey)" ]; then
+	commit_flags+=("-S")
+	echo "It may ask now for the keyphrase of a GPG key if there is one."
+	echo "[INFO] GPG key detected. Adding signed commit ('-S')..."
+else
+	echo "[INFO] No GPG key detected. Making standard commit..."
+fi
+git commit "${commit_flags[@]}" -m "$commit_message" -m "$commit_description"
 
 # Pull logic.
 echo "Pulling any changes..."

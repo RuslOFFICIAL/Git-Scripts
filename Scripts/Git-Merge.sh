@@ -171,8 +171,15 @@ else
 			done
 		fi
 		
-		echo "It may ask now for the keyphrase of a GPG key if there is one."
-		git commit -m "$commit_msg" -m "$commit_description"
+		commit_flags=()
+		if [ -n "$(git config --get user.signingkey)" ]; then
+			commit_flags+=("-S")
+			echo "It may ask now for the keyphrase of a GPG key if there is one."
+			echo "[INFO] GPG key detected. Adding signed commit ('-S')..."
+		else
+			echo "[INFO] No GPG key detected. Making standard commit..."
+		fi
+		git commit "${commit_flags[@]}" -m "$commit_message" -m "$commit_description"
 	fi
 	
 	read -r -e -p "Should the merged changes be pushed to Git right now? (Y/n) [Default: y]: " push_now
