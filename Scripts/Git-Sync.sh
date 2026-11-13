@@ -104,8 +104,15 @@ declare -A project_branches
 options=()
 
 while IFS='=' read -r key rest || [[ -n "$key" ]]; do
+	# Skip comments or empty lines, clean and trim whitespace from key.
 	[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
 	key=$(echo "$key" | tr -d '[:space:]')
+	
+	# Check for duplicate keys
+	if [[ -n "${project_paths["$key"]}" ]]; then
+		echo "[WARNING]: Duplicate key '$key' detected in '$COMMANDS_FILE_NAME'. Skipping duplicate."
+		continue
+	fi
 	
 	# Split by "|".
 	IFS='|' read -r label path branch <<< "${rest%$'\r'}"

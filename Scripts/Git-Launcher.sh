@@ -34,8 +34,15 @@ while true; do
 	while IFS='|' read -r key label script || [[ -n "$key" ]]; do
 		script="${script%$'\r'}"
 		
-		# Skip comments or empty lines.
+		# Skip comments or empty lines, clean and trim whitespace from key.
 		[[ "$key" =~ ^#.* ]] || [[ -z "$key" ]] && continue
+		key=$(echo "$key" | tr -d '[:space:]')
+		
+		# Check for duplicate keys
+		if [[ -n "${script_map["$key"]}" ]]; then
+			echo "[WARNING]: Duplicate key '$key' detected in '$COMMANDS_FILE_NAME'. Skipping duplicate."
+			continue
+		fi
 		
 		echo "[$key] $label"
 		options+=("$key")
