@@ -2,11 +2,14 @@
 Releases/
 TempRelease/
 
-# Files.
-*.conf
-!Variables.conf
-!Git-Launcher_Info.conf
+Configs/
+!Configs/*
 
+# Files.
 *.lnk
 
 !*.example
+
+*.conf
+!Variables.conf
+!Git-Launcher_Info.conf
