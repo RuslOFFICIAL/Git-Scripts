@@ -99,6 +99,8 @@ fi
 echo "Git-Sync $Git_Sync_Version" && echo
 
 # Build project map.
+unset project_paths
+unset project_branches
 declare -A project_paths
 declare -A project_branches
 options=()
