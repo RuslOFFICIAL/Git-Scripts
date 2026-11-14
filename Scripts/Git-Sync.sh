@@ -234,9 +234,9 @@ fi
 
 commit_flags=()
 if [ -n "$(git config --get user.signingkey)" ]; then
-	commit_flags+=("-S")
+	commit_flags+=("-s" "-S")
 	echo "It may ask now for the keyphrase of a GPG key if there is one."
-	echo "[INFO] GPG key detected. Adding signed commit ('-S')..."
+	echo "[INFO] GPG key detected. Adding signed commit ('-s -S')..."
 else
 	echo "[INFO] No GPG key detected. Making standard commit..."
 fi
