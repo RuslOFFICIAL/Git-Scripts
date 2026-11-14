@@ -1,11 +1,12 @@
-# Ignore folders.
+# Directories.
 Releases/
 TempRelease/
 
-# Ignore files.
-*.lnk
-
-# Ignore real "*.conf" due to privacy reasons.
+# Files.
 *.conf
 !Variables.conf
 !Git-Launcher_Info.conf
+
+*.lnk
+
+!*.example
