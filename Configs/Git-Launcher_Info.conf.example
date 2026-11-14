@@ -3,7 +3,7 @@
 
 # Example:
 # 0|Exit|Exit
-# 1|Git-Aliases|Git-Aliases.sh
+# 1|Git-Bashrc|Git-Bashrx.sh
 
 # Note:
 # Files of the scripts included in "Git-Launcher_Info.conf" have to be in "Scripts" directory.

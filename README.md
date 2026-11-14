@@ -9,7 +9,6 @@ Scripts:
 - Git-LinkRepo is a script to link a local repository files to a GitHub repository.
 - Git-Login is a script to set username and email for Git.
 - Git-Merge is a script to merge two branches.
-- Git-Release is a script to make the files of Git-Script to the archive file without most of .conf files.
 - Git-Statistic is a script to show the amount of commits, adds, removes on repository.
 - Git-Sync is a script to sync a GitHub repository by pushing and pulling, adding commits.
 
