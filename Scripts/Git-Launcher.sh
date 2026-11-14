@@ -28,6 +28,7 @@ while true; do
 	echo -e "Git-Launcher $Git_Launcher_Version\n"
 	
 	# Display options and build selection array.
+	unset script_map
 	declare -A script_map
 	options=()
 	
