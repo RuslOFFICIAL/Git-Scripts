@@ -1,9 +1,7 @@
 # Directories.
 Releases/
 TempRelease/
-
-Configs/
-!Configs/*
+Configs/*
 
 # Files.
 *.lnk
