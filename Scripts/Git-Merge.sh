@@ -97,8 +97,16 @@ else
 	fi
 fi
 
-# Show current status and branches.
+# Fetch from Upstream and Origin if they exist.
 echo -e "\nCurrent location: $(pwd)"
+if git remote get-url upstream >/dev/null 2>&1; then
+	echo "Fetching latest updates from upstream and origin..."
+	git fetch upstream
+else
+	echo "Fetching latest updates from origin..."
+fi
+git fetch origin
+
 echo -e "\nAvailable branches (Local and Remote):"
 git branch -a
 

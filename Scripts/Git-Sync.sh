@@ -101,8 +101,10 @@ echo "Git-Sync $Git_Sync_Version" && echo
 # Build project map.
 unset project_paths
 unset project_branches
+unset project_upstreams
 declare -A project_paths
 declare -A project_branches
+declare -A project_upstreams
 options=()
 
 while IFS='=' read -r key rest || [[ -n "$key" ]]; do
@@ -117,11 +119,13 @@ while IFS='=' read -r key rest || [[ -n "$key" ]]; do
 	fi
 	
 	# Split by "|".
-	IFS='|' read -r label path branch <<< "${rest%$'\r'}"
+	IFS='|' read -r label path branch upstream <<< "${rest%$'\r'}"
 	
 	# Clean quotes and carriage returns
 	path="${path//\"/}"
 	path="${path%$'\r'}"
+	upstream="${upstream//\"/}"
+	upstream="${upstream%$'\r'}"
 	
 	# Convert any Windows-style path to Unix path.
 	if [[ "$path" =~ ^[a-zA-Z]:[/\\] ]]; then
@@ -132,6 +136,7 @@ while IFS='=' read -r key rest || [[ -n "$key" ]]; do
 	options+=("$key")
 	project_paths["$key"]="$path"
 	project_branches["$key"]="${branch:-main}"
+	project_upstreams["$key"]="$upstream"
 done < "$COMMANDS_FILE"
 
 echo
@@ -244,8 +249,37 @@ else
 fi
 git commit "${commit_flags[@]}" -m "$commit_message" -m "$commit_description"
 
-# Pull logic.
-echo "Pulling any changes..."
+# Upstream pull logic.
+target_upstream="${project_upstreams[$user_choice]}"
+if [ -n "$target_upstream" ]; then
+	upstream_remote="${target_upstream%%/*}"
+	upstream_branch="${target_upstream#*/}"
+	
+	if ! git remote get-url "$upstream_remote" >/dev/null 2>&1; then
+		echo "[INFO] Remote '$upstream_remote' is defined in config but not configured locally."
+		read -r -e -p "Enter repository URL for '$upstream_remote': " auto_upstream_url
+		if [ -n "$auto_upstream_url" ]; then
+			[[ "$auto_upstream_url" != *.git ]] && auto_upstream_url="${auto_upstream_url}.git"
+			git remote add "$upstream_remote" "$auto_upstream_url"
+		fi
+	fi
+
+	if git remote get-url "$upstream_remote" >/dev/null 2>&1; then
+		read -r -e -p "Pull latest changes from $target_upstream? (y/N): " pull_upstream
+		if [[ "${pull_upstream,,}" == "y" ]]; then
+			echo "Fetching from $upstream_remote..."
+			git fetch "$upstream_remote"
+			echo "Merging changes from $target_upstream..."
+			if ! git merge "$target_upstream"; then
+				echo -e "\n[ERROR]: Merge conflicts detected from upstream! Please resolve them, finish the commit, and re-run the script.\n"
+				read -s -p "Press [Enter] to continue..." && exit 1
+			fi
+		fi
+	fi
+fi
+
+# Pull logic from Origin.
+echo "Pulling any changes from Origin..."
 git pull --rebase || {
 	echo "[INFO] No tracking branch found. Setting upstream and retrying..."
 	git branch --set-upstream-to="origin/$target_branch" "$target_branch" 2>/dev/null || git push -u origin "$target_branch"

@@ -165,6 +165,17 @@ else
 	else
 		git remote add origin "$fork_link"
 	fi
+
+	# Add original repository as upstream if it's different from the fork link.
+	if [ -n "$repo_link" ] && [ "$repo_link" != "$fork_link" ]; then
+		echo "Configuring 'upstream' remote..."
+		if git remote get-url upstream >/dev/null 2>&1; then
+			git remote set-url upstream "$repo_link"
+		else
+			git remote add upstream "$repo_link"
+		fi
+	fi
+
 	echo "Creating target branch '$target_branch'..."
 	git checkout -b "$target_branch"
 fi

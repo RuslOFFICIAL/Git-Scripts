@@ -160,6 +160,17 @@ git remote add origin "$repo_link"
 echo "Pushing it to Git..."
 git push -u origin "$target_branch"
 
+# Optional Upstream configuration for.
+read -r -e -p "Add an upstream repository link for this project? (y/N): " add_upstream
+if [[ "${add_upstream,,}" == "y" ]]; then
+	read -r -e -p "Enter the upstream repository link: " upstream_link
+	if [ -n "$upstream_link" ]; then
+		[[ "$upstream_link" != *.git ]] && upstream_link="${upstream_link}.git"
+		git remote add upstream "$upstream_link"
+		echo "[INFO] Upstream remote added successfully: '$upstream_link'"
+	fi
+fi
+
 prompt_and_create_tag
 
 # Option to add to "$COMMANDS_FILE_NAME".
@@ -197,8 +208,11 @@ if [[ "${add_to_conf,,}" == "y" ]]; then
 		fi
 	done
 	
+	# Prompt for optional upstream path.
+	read -r -e -p "Enter optional upstream path (e.g., upstream/main) [Leave blank if none]: " proj_upstream
+	
 	# Append config line.
-	printf "\n%s=%s|%s|%s\n" "$proj_num" "$proj_label" "$repo_dir" "$target_branch" >> "$COMMANDS_FILE"
+	printf "\n%s=%s|%s|%s|%s\n" "$proj_num" "$proj_label" "$repo_dir" "$target_branch" "$proj_upstream" >> "$COMMANDS_FILE"
 	sed -i '/^[[:space:]]*$/d' "$COMMANDS_FILE"
 	sed -i 's/\r$//' "$COMMANDS_FILE"
 	
