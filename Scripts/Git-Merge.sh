@@ -26,7 +26,7 @@ prompt_and_create_tag() {
 	local tag_type
 	if [ -n "$(git config --get user.signingkey)" ]; then
 		tag_type="-s"
-		echo "It may ask now for the keyphrase of a GPG key if there is one."
+		echo "[INFO] It may ask now for the keyphrase of a GPG key if there is one."
 		echo "[INFO] GPG key detected. Creating signed tag ('-s')..."
 	else
 		tag_type="-a"
@@ -174,7 +174,7 @@ else
 		commit_flags=()
 		if [ -n "$(git config --get user.signingkey)" ]; then
 			commit_flags+=("-s" "-S")
-			echo "It may ask now for the keyphrase of a GPG key if there is one."
+			echo "[INFO] It may ask now for the keyphrase of a GPG key if there is one."
 			echo "[INFO] GPG key detected. Adding signed commit ('-s -S')..."
 		else
 			echo "[INFO] No GPG key detected. Making standard commit..."
