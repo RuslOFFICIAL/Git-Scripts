@@ -5,6 +5,7 @@ Configs/*
 
 # Files.
 *.lnk
+tempCodeRunnerFile.*
 
 !*.example
 
