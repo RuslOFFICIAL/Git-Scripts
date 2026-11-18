@@ -21,7 +21,7 @@ fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
 	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo -e "Check if there is that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!\n"
-	read -s -p "Press [Enter] to continue..." && exit 1
+	read -r -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 while true; do
@@ -53,7 +53,7 @@ while true; do
 	# Prompt for selection.
 	if [ ${#options[@]} -eq 0 ]; then
 		echo "[ERROR]: No options found in '$COMMANDS_FILE_NAME'." && echo
-		read -s -p "Press [Enter] to continue..." && exit 1
+		read -r -s -p "Press [Enter] to continue..." && exit 1
 	fi
 	
 	echo
@@ -85,6 +85,6 @@ while true; do
 		echo "[ERROR]: Could not find script at $TARGET_SCRIPT"
 	fi
 	
-	echo -e "\n" && read -s -p "Press [Enter] to return to the menu..."
+	echo -e "\n" && read -r -s -p "Press [Enter] to return to the menu..."
 	clear
 done

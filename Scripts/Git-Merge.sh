@@ -70,12 +70,12 @@ if [[ "$dir_path" == [a-zA-Z]:\\* ]] || [[ "$dir_path" == [a-zA-Z]:/* ]]; then
 	dir_path=$(cygpath -u "$dir_path")
 fi
 
-cd "$dir_path" || { echo -e "\nDirectory not found!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$dir_path" || { echo -e "\nDirectory not found!\n"; read -r -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Check if it is Git folder.
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 	echo -e "\n[FATAL]: This directory is not a Git repository.\n"
-	read -s -p "Press [Enter] to continue..." && exit 1
+	read -r -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 # Ensure .git suffix is present for links if missing.
@@ -116,7 +116,7 @@ if [ -n "$switch_branch" ]; then
 	echo -e "\nSwitching branch..."
 	if ! git checkout "$switch_branch"; then
 		echo -e "\n[ERROR]: Git checkout failed. Script stopped to prevent breaking things.\n"
-		read -s -p "Press [Enter] to continue..." && exit 1
+		read -r -s -p "Press [Enter] to continue..." && exit 1
 	fi
 fi
 
@@ -130,7 +130,7 @@ echo "Current branch: [ $current_branch ]"
 read -r -e -p $'\nEnter the branch to merge FROM: ' source_branch
 if [ -z "$source_branch" ]; then
 	echo -e "\n[ERROR]: A source branch must be specifed.\n"
-	read -s -p "Press [Enter] to continue..." && exit 1
+	read -r -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 read -r -e -p "Allow unrelated histories? (y/N) [Default: n]: " allow_unrelated
@@ -202,4 +202,4 @@ fi
 
 # End.
 echo -e "\nDone!"
-read -s -p "Press [Enter] to continue..." && exit 0
+read -r -s -p "Press [Enter] to continue..." && exit 0

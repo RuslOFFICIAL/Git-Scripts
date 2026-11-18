@@ -39,7 +39,7 @@ fi
 echo -e "Checking path: '$target_dir'...\n"
 if [ ! -d "$target_dir" ]; then
 	echo -e "Directory not found!\n"
-	read -s -p "Press [Enter] to continue..." && exit 1
+	read -r -s -p "Press [Enter] to continue..." && exit 1
 fi
 cd "$target_dir" || exit
 
@@ -83,7 +83,7 @@ done
 
 if [ "$found_any" = false ]; then
 	echo -e "No git repositories found.\n"
-	read -s -p "Press [Enter] to continue..." && exit 1
+	read -r -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 # Summary.
@@ -98,4 +98,4 @@ echo "Grand Total Added: $total_added"
 echo "Grand Total Removed: $total_removed"
 
 echo -e "\nDone!"
-read -s -p "Press [Enter] to continue..." && exit 0
+read -r -s -p "Press [Enter] to continue..." && exit 0

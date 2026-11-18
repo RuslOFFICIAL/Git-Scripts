@@ -22,7 +22,7 @@ fi
 
 if [ ! -f "$COMMANDS_FILE" ]; then
 	echo "[ERROR]: File not found at '$COMMANDS_FILE'!" && echo -e "Check if there is that file or follow the instruction in '$COMMANDS_FILE_NAME.example'!\n"
-	read -s -p "Press [Enter] to continue..." && exit 1
+	read -r -s -p "Press [Enter] to continue..." && exit 1
 fi
 
 echo -e "Git-Bashrc $Git_Bashrc_Version\n"
@@ -32,7 +32,7 @@ while true; do
 	read -r -e -p "Run this script? (Y/N) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
-		[Nn]* ) echo -e "\nOperation cancelled by user.\n"; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		[Nn]* ) echo -e "\nOperation cancelled by user.\n"; read -r -s -p "Press [Enter] to continue..."; exit 0 ;;
 		* ) echo -e "Please answer Y or n.\n" ;;
 	esac
 done
@@ -42,7 +42,7 @@ if [ ! -f "$BASHRC" ]; then
 	echo "'.bashrc' not found. Creating a new one..."
 	cat "$COMMANDS_FILE" > "$BASHRC"
 	echo "All aliases successfully initialized in a new '.bashrc' file." && echo -e "\nDone!"
-	read -s -p "Press [Enter] to continue..." && exit 0
+	read -r -s -p "Press [Enter] to continue..." && exit 0
 fi
 
 echo -e "Checking and updating aliases in .bashrc...\n"
@@ -157,9 +157,9 @@ echo
 
 # Reload '.bashrc'.
 echo -n "Reloading '.bashrc' file... "
-source $BASHRC
+source "$BASHRC"
 echo "Success!"
 
 # End.
 echo -e "\nDone!"
-read -s -p "Press [Enter] to continue..." && exit 0
+read -r -s -p "Press [Enter] to continue..." && exit 0

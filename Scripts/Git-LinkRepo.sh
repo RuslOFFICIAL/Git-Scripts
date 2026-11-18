@@ -111,7 +111,7 @@ if [[ "$repo_dir" == [a-zA-Z]:\\* ]] || [[ "$repo_dir" == [a-zA-Z]:/* ]]; then
 fi
 
 # Navigate to directory.
-cd "$repo_dir" || { echo -e "\nDirectory not found!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$repo_dir" || { echo -e "\nDirectory not found!\n"; read -r -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Confirmation.
 while true; do
@@ -119,7 +119,7 @@ while true; do
 	read -r -e -p "Run this script? (Y/N) " confirmation
 	case "$confirmation" in
 		[Yy]* ) echo; break ;;
-		[Nn]* ) echo -e "\nOperation cancelled by user.\n"; read -s -p "Press [Enter] to continue..."; exit 0 ;;
+		[Nn]* ) echo -e "\nOperation cancelled by user.\n"; read -r -s -p "Press [Enter] to continue..."; exit 0 ;;
 		* ) echo -e "Please answer Y or n.\n" ;;
 	esac
 done
@@ -223,4 +223,4 @@ fi
 
 # End.
 echo -e "\nDone!"
-read -s -p "Press [Enter] to continue..." && exit 0
+read -r -s -p "Press [Enter] to continue..." && exit 0

@@ -102,7 +102,7 @@ fi
 # Check if path exists.
 if [ ! -d "$repo_dir" ]; then
 	echo "Directory '$repo_dir' does not exist. Creating it..."
-	mkdir -p "$repo_dir" || { echo -e "\nFailed to create directory!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
+	mkdir -p "$repo_dir" || { echo -e "\nFailed to create directory!\n"; read -r -s -p "Press [Enter] to continue..."; exit 1; }
 fi
 
 # Find the cloned directory.
@@ -110,13 +110,13 @@ repo_folder="${repo_link##*/}"
 repo_folder="${repo_folder%.git}"
 
 # Navigate to the main directory.
-cd "$repo_dir" || { echo -e "\nDirectory not found!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$repo_dir" || { echo -e "\nDirectory not found!\n"; read -r -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Initialize and fork.
 cd "$repo_dir"
 echo "Cloning Git repository..."
 git clone "$repo_link"
-cd "$repo_folder" || { echo -e "\nFailed to enter directory '$repo_folder'!\n"; read -s -p "Press [Enter] to continue..."; exit 1; }
+cd "$repo_folder" || { echo -e "\nFailed to enter directory '$repo_folder'!\n"; read -r -s -p "Press [Enter] to continue..."; exit 1; }
 
 # Conditional logic based on choice.
 if [ "$repo_type" = "1" ]; then
@@ -187,4 +187,4 @@ prompt_and_create_tag
 
 # End.
 echo -e "\nDone!"
-read -s -p "Press [Enter] to continue..." && exit 0
+read -r -s -p "Press [Enter] to continue..." && exit 0
