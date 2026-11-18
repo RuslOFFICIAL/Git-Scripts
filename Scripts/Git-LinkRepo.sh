@@ -70,7 +70,7 @@ read -r -e -p "Enter the commit message [Default: Initial commit.]: " commit_mes
 commit_description=""
 read -r -e -p "Add a commit description? (y/N): " add_commit_desc
 if [[ "${add_commit_desc,,}" == "y" ]]; then
-	echo "Enter commit description (Optional) (Press Enter then Ctrl+D on a new line when finished):"
+	echo "Enter commit description (Optional) (Press [ENTER] then [Ctrl+D] on a new line when finished):"
 	commit_description=$(cat | sed 's/"/\\"/g')
 fi
 
