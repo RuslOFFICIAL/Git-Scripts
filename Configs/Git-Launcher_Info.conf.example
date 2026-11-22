@@ -1,13 +1,18 @@
 # Format:
-# Number|ScriptName|FileName
+#Number|ScriptName|FileName
+
+
 
 # Example:
-# 0|Exit|Exit
-# 1|Git-Bashrc|Git-Bashrx.sh
+#0|Exit|Exit
+#1|Git-Bashrc|Git-Bashrx.sh
+
+
 
 # Note:
 # Files of the scripts included in "Git-Launcher_Info.conf" have to be in "Scripts" directory.
 # Exit option name should be either "Exit" or "exit" to make it work without changing code.
+
 
 
 # To make it work:

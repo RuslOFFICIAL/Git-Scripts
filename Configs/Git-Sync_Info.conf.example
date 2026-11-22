@@ -1,10 +1,14 @@
 # Format:
-# Number=ProjectName|ProjectPath|BranchName
-# Number=ProjectName|ProjectPath|BranchName|OptionalUpstreamPath
+#Number=ProjectName|ProjectPath|BranchName
+#Number=ProjectName|ProjectPath|BranchName|OptionalUpstreamPath
+
+
 
 # Example:
-# 1=MyProject|/home/user/projects/mycoolproject|first
-# 2=MyProjectButSecond|/d/Path/To/Project|second|upstream/first
+#1=MyProject|/home/user/projects/mycoolproject|first
+#2=MyProjectButSecond|/d/Path/To/Project|second|upstream/first
+
+
 
 # To make it work:
 # 1. Create or rename this file with the name "Git-Sync_Info.conf" in "Configs" directory.

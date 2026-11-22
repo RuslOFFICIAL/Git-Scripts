@@ -1,15 +1,18 @@
 # Format:
-# alias [COMMAND]=[ACTION]
-# [FUNCTION]() {
+#alias [COMMAND]=[ACTION]
+#[FUNCTION]() {
 #	[ACTION]
-# }
+#}
+
+
 
 # Example:
-# alias git-hello='echo "Hello, World!"'
-# hello-world() {
-# 	echo -n "Hello, "
+#alias git-hello='echo "Hello, World!"'
+#hello-world() {
+#	echo -n "Hello, "
 #	echo "World!"
-# }
+#}
+
 
 
 # To make it work:
